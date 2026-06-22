@@ -70,40 +70,7 @@ export const SUPPORTED_PRODUCT_LANGUAGE_CODES: ProductLanguageCode[] = SUPPORTED
 
 export const AGENT_REQUIRED_I18N_COUNT = AGENT_REQUIRED_LANGUAGE_CODES.length;
 
-export const OPTIONAL_PRODUCT_I18N_COUNT = OPTIONAL_PRODUCT_LANGUAGE_CODES.length;
-
-export const SUPPORTED_PRODUCT_I18N_COUNT = SUPPORTED_PRODUCT_LANGUAGE_CODES.length;
-
-/** @deprecated 使用 AGENT_REQUIRED_I18N_COUNT */
-export const AGENT_MIN_I18N_COUNT = AGENT_REQUIRED_I18N_COUNT;
-
-export const AGENT_SUBMIT_ORDER_TYPE = 'SUBMIT_AGENT';
-
-/** Agent 更新已收录产品（与 SUBMIT_AGENT 共用同一套 bundle 格式） */
-export const AGENT_UPDATE_ORDER_TYPE = 'UPDATE_AGENT';
-
-export function isAgentOrderType(type: string | null | undefined): boolean {
-	if (!type) return false;
-	const normalized = type.toUpperCase();
-	return normalized === AGENT_SUBMIT_ORDER_TYPE || normalized === AGENT_UPDATE_ORDER_TYPE;
-}
-
-export function isAgentRequiredProductLanguage(lang: string): lang is ProductLanguageCode {
-	return AGENT_REQUIRED_LANGUAGE_CODES.includes(lang as ProductLanguageCode);
-}
-
-export function isOptionalProductLanguage(lang: string): lang is ProductLanguageCode {
-	return OPTIONAL_PRODUCT_LANGUAGE_CODES.includes(lang as ProductLanguageCode);
-}
-
 export function isSupportedProductLanguage(lang: string): lang is ProductLanguageCode {
 	return SUPPORTED_PRODUCT_LANGUAGE_CODES.includes(lang as ProductLanguageCode);
 }
 
-/** 站点语言切换器等 UI 使用的 { code, name } 列表 */
-export function getSiteLanguageOptions(): Array<{ code: string; name: string }> {
-	return SUPPORTED_PRODUCT_LANGUAGES.map((language) => ({
-		code: language.code,
-		name: language.nativeName,
-	}));
-}
