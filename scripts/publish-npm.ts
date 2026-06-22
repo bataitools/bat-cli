@@ -65,12 +65,14 @@ function parseArgs() {
 	const args = process.argv.slice(2);
 	const bump = args.includes('--minor') ? 'minor' : args.includes('--patch') ? 'patch' : null;
 	const dryRun = args.includes('--dry-run');
-	return { bump, dryRun };
+	const otpArg = args.find((a) => a.startsWith('--otp='));
+	const otp = otpArg ? otpArg.split('=')[1] : null;
+	return { bump, dryRun, otp };
 }
 
 async function main() {
 	const started = performance.now();
-	const { bump, dryRun } = parseArgs();
+	const { bump, dryRun, otp } = parseArgs();
 	const originalText = readFileSync(PKG_PATH, 'utf8');
 	const source = readPkg();
 
@@ -101,14 +103,18 @@ async function main() {
 				throw new Error(`npm pack --dry-run failed with exit code ${proc.exitCode ?? 1}`);
 			}
 		} else {
-			console.log('\x1b[36m[Publish]\x1b[0m Running: bun publish --access public');
-			const proc = spawnSync(['bun', 'publish', '--access', 'public'], {
+			console.log('\x1b[36m[Publish]\x1b[0m Running: npm publish --access public');
+			const cmdArgs = ['publish', '--access', 'public'];
+			if (otp) {
+				cmdArgs.push('--otp', otp);
+			}
+			const proc = spawnSync(['npm', ...cmdArgs], {
 				cwd: ROOT,
 				stdout: 'inherit',
 				stderr: 'inherit',
 			});
 			if (proc.exitCode !== 0) {
-				throw new Error(`bun publish failed with exit code ${proc.exitCode ?? 1}`);
+				throw new Error(`npm publish failed with exit code ${proc.exitCode ?? 1}`);
 			}
 		}
 

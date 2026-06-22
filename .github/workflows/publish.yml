@@ -1,0 +1,47 @@
+name: Publish Package to npmjs
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Verify Version Alignment
+        run: |
+          # 获取推送的 Tag（如 v1.0.25）并去除开头的 'v'
+          TAG_VERSION=${GITHUB_REF#refs/tags/v}
+          # 从 package.json 中提取版本号
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          
+          echo "Git Tag Version: $TAG_VERSION"
+          echo "Package.json Version: $PKG_VERSION"
+          
+          if [ "$TAG_VERSION" != "$PKG_VERSION" ]; then
+            echo "::error::Version mismatch! Git Tag ($TAG_VERSION) does not match package.json version ($PKG_VERSION)."
+            exit 1
+          fi
+
+      - name: Configure npm credentials
+        run: |
+          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Run Publish Script
+        run: bun run publish:npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
