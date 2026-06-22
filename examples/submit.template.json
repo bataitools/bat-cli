@@ -1,0 +1,72 @@
+{
+  "website": "https://example.com",
+  "logo": "https://example.com/logo.png",
+  "websiteScreenshot": "https://example.com/og.png",
+  "developerName": "Example Inc",
+  "developerType": "team",
+  "developerCountry": "US",
+  "developerProvince": "CA",
+  "pricingUrl": "https://example.com/pricing",
+  "docsUrl": "https://example.com/about",
+  "categorys": ["productivity"],
+  "tags": ["ai-writing"],
+  "audiences": ["developers"],
+  "social": {
+    "email": "hello@example.com",
+    "twitter": "",
+    "facebook": "",
+    "linkedin": "",
+    "instagram": "",
+    "youtube": "",
+    "tiktok": "",
+    "github": "https://github.com/example"
+  },
+  "productMedia": [
+    {
+      "type": "video",
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+      "type": "image",
+      "url": "https://example.com/assets/feature-editor-ui.png"
+    }
+  ],
+  "i18n": {
+    "en": {
+      "name": "Example Tool",
+      "tagline": "The best example tool for developers building AI apps",
+      "description": "Example Tool helps developers ship faster with a complete toolkit for building, testing, and deploying AI-powered applications at scale.",
+      "instruction": "Sign up, connect your API key, and start building in minutes.",
+      "coreFeatures": [
+        { "title": "Fast setup", "description": "Get started in under five minutes with guided onboarding." },
+        { "title": "Multi-model", "description": "Switch between leading LLM providers from one dashboard." },
+        { "title": "Team collab", "description": "Share prompts and workflows across your organization." }
+      ],
+      "useCases": ["Prototype AI features", "Internal knowledge bots", "Customer support automation"],
+      "pricing": [
+        {
+          "name": "Free",
+          "chargeType": "free",
+          "priceNote": "Free",
+          "features": ["Up to 1000 requests/month", "Community support"]
+        },
+        {
+          "name": "Pro",
+          "chargeType": "recurring",
+          "priceNote": "$29 /month",
+          "recommend": true,
+          "features": ["Unlimited requests", "Priority support", "Team collaboration"]
+        }
+      ],
+      "faqs": [
+        { "question": "Is there a free plan?", "answer": "Yes, the free tier includes 1000 requests per month." },
+        { "question": "Which models are supported?", "answer": "We support all major commercial and open models." },
+        { "question": "Can I self-host?", "answer": "Enterprise plans include self-hosted deployment options." }
+      ],
+      "seo": {
+        "title": "Example Tool — AI Developer Toolkit",
+        "description": "Build and ship AI apps faster with Example Tool."
+      }
+    }
+  }
+}
