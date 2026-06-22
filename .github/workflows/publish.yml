@@ -8,6 +8,9 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,13 +38,5 @@ jobs:
             exit 1
           fi
 
-      - name: Configure npm credentials
-        run: |
-          echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
       - name: Run Publish Script
         run: bun run publish:npm
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
