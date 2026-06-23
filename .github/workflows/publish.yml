@@ -55,3 +55,39 @@ jobs:
         run: |
           cd pkg
           npx --package=npm@latest npm publish --provenance --access public
+
+  package-skills:
+    runs-on: ubuntu-latest
+    needs: publish
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Package skills as zip files
+        run: |
+          mkdir -p dist/skills
+          for skill_dir in skills/*/; do
+            skill_name=$(basename "$skill_dir")
+            # Validate SKILL.md exists
+            if [ ! -f "$skill_dir/SKILL.md" ]; then
+              echo "⚠️  Skipping $skill_name — no SKILL.md found"
+              continue
+            fi
+            zip_path="dist/skills/${skill_name}.zip"
+            # Create zip with skill-name/ as root folder inside the archive
+            (cd skills && zip -r "../$zip_path" "$skill_name/")
+            echo "✅ Packaged: $zip_path"
+          done
+
+      - name: Upload skill zips to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG=${GITHUB_REF#refs/tags/}
+          for zip_file in dist/skills/*.zip; do
+            [ -f "$zip_file" ] || continue
+            echo "Uploading $zip_file to release $TAG"
+            gh release upload "$TAG" "$zip_file" --clobber
+          done
