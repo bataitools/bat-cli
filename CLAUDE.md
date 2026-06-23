@@ -49,23 +49,19 @@
     bun run typecheck
     ```
 
-### 2. 自动化发包与本地发布 (Release & NPM Publish)
+### 2. 版本发布与 OIDC 自动发包 (Release & OIDC Publish)
 
 - **版本提升与生成 Changelog** (基于 `release-it`)：
     ```bash
     bun run release
     ```
-- **本地干跑测试发包 (Dry Run)**：
+- **本地构建与打包校验 (Dry Run)**：
     ```bash
-    bun run publish:npm:dry-run
+    bun run build:pkg
+    cd pkg && npm pack --dry-run
     ```
-- **本地手动执行发布** (必须带上 2FA OTP 验证码)：
-    ```bash
-    bun run publish:npm -- --otp <你的2FA验证码>
-    ```
-    _(注：该脚本会自动执行构建，校验包版本与 git tag，并通过 npm 发包)_
-- **自动化发布 (GitHub Actions + npmjs OIDC / Trusted Publisher)**：
-  推送 `v*` 前缀的 Git Tag 会自动触发 GitHub Actions 里的 `publish.yml` 工作流。得益于 `id-token: write` 权限和 npmjs.com 的 Trusted Publisher 绑定，发布脚本会自动加上 `--provenance` 选项，完成免 Token 的 OIDC 自动安全发布。
+- **自动化发布 (GitHub Actions + OIDC / Trusted Publisher)**：
+  推送 `v*` 前缀的 Git Tag 会自动触发 GitHub Actions 中的 `publish.yml` 工作流。该工作流 100% 托管于 OIDC 免密校验流程，在 `pkg/` 目录下原生调用 `npm publish --provenance` 完成包的安全发布。**本项目已废除本地手动发包机制，以消除认证降级隐患。**
 
 ---
 

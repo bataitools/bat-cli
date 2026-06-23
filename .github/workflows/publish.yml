@@ -43,10 +43,15 @@ jobs:
             exit 1
           fi
 
+      - name: Build and Prepare Package
+        run: bun run build:pkg
+
       - name: Verify npm version
         run: |
           which npm
           npm --version
 
-      - name: Run Publish Script
-        run: bun run publish:npm
+      - name: Publish to npm
+        run: |
+          cd pkg
+          npm publish --provenance --access public

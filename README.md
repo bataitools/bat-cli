@@ -138,15 +138,16 @@ We use OIDC (Trusted Publisher) for publishing new versions via GitHub Actions a
     ```
 3. The GitHub Actions workflow will trigger automatically and publish the package to npmjs.com using OIDC (Trusted Publisher).
 
-### Manual Publish (Fallback)
+### Local Verification (Dry Run)
 
-If you need to publish manually from your local machine:
+If you need to inspect the compiled release package locally without publishing:
 
-1. Dry-run first to verify the packaged bundle:
+1. Build the project and assemble the release assets into the temporary `./pkg` folder:
     ```bash
-    bun run publish:npm:dry-run
+    bun run build:pkg
     ```
-2. Publish the current version to npm (requires OTP/2FA code):
+2. Verify the package output structure locally:
     ```bash
-    bun run publish:npm -- --otp <YOUR_2FA_CODE>
+    cd pkg
+    npm pack --dry-run
     ```

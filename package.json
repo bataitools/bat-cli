@@ -22,8 +22,8 @@
 		"dev": "bun run src/cli.ts",
 		"typecheck": "tsc --noEmit",
 		"release": "release-it",
-		"publish:npm": "bun run scripts/publish-npm.ts",
-		"publish:npm:dry-run": "bun run scripts/publish-npm.ts --dry-run",
+		"prepare:pkg": "bun run scripts/prepare-package.ts",
+		"build:pkg": "bun run build && bun run prepare:pkg",
 		"prepare": "husky"
 	},
 	"dependencies": {
