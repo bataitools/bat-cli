@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/bataitools/bat-cli/compare/v1.2.8...v1.3.0) (2026-06-23)
+
+
+### Features
+
+* add package-skills job to auto-zip and upload skills on release ([42c7524](https://github.com/bataitools/bat-cli/commit/42c7524ce3ea11e927c9b49593e60ee81d0ad31e))
+
 ## [1.2.8](https://github.com/bataitools/bat-cli/compare/v1.2.7...v1.2.8) (2026-06-23)
 
 ## [1.2.7](https://github.com/bataitools/bat-cli/compare/v1.2.6...v1.2.7) (2026-06-23)
