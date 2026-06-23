@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.4.0](https://github.com/bataitools/bat-cli/compare/v1.3.1...v1.4.0) (2026-06-23)
+
+
+### Bug Fixes
+
+* auto-create release in CI if not exists before uploading skill assets ([7e53f21](https://github.com/bataitools/bat-cli/commit/7e53f219961df27f9fe24148baaa3d702756be01))
+
+
+### Features
+
+* pack both individual skills and a versioned bat-skills bundle ([d84c692](https://github.com/bataitools/bat-cli/commit/d84c692e48aacecffb0fb2968e3f49fdbb422d9e))
+
 ## [1.3.1](https://github.com/bataitools/bat-cli/compare/v1.3.0...v1.3.1) (2026-06-23)
 
 
