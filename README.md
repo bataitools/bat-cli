@@ -105,25 +105,23 @@ bat-cli submit -f <submit-dir>/submit.bundle.json
 bat-cli submit --dir <submit-dir>
 ```
 
-**Multiple sites:** repeat the same steps per URL, one site at a time, each in its own `<submit-dir>`. See `skills/bat-submit/SKILL.md`.
+**Multiple sites:** repeat the same steps per URL, one site at a time, each in its own `<submit-dir>`.
 
-See `skills/bat-submit/references/01-generate-en.md` and `skills/bat-submit/references/02-translate-i18n.md` for the **English → Translate → Submit** workflow.
+For detailed guidelines on the **English → Translate → Submit** workflow, refer to the [bat-skills](https://github.com/bataitools/bat-skills) repository.
 
-## Cursor Skills
+## AI Agent Skills
 
-Each skill lives in its own subdirectory under `skills/`:
+We maintain a collection of Agent Skills (instructions and workflows) for AI coding agents (such as Cursor, Claude Code, etc.) in a dedicated repository: [bataitools/bat-skills](https://github.com/bataitools/bat-skills).
 
-| Skill          | Path                         | Use when                            |
-| -------------- | ---------------------------- | ----------------------------------- |
-| Product submit | `skills/bat-submit/SKILL.md` | Submit or update an AI tool listing |
+### Installation via `npx skills`
 
-Reference in Cursor via `@bat-cli/skills/bat-submit/SKILL.md`, or symlink into your project:
+You can automatically install the `bat-submit` skill into your local project environment by running:
 
-```text
-.cursor/skills/bat-submit/SKILL.md  →  bat-cli/skills/bat-submit/SKILL.md
+```bash
+npx skills add https://github.com/bataitools/bat-skills --skill bat-submit
 ```
 
-Add future skills as `skills/<skill-name>/SKILL.md` (e.g. `skills/bat-traffic/SKILL.md`).
+This will download and configure the skill in your local AI directories (such as `.cursor/skills/`), allowing your AI assistant to assist you with the submission workflow.
 
 ## Publishing (for maintainers)
 

@@ -13,7 +13,6 @@
 	"main": "./dist/cli.js",
 	"files": [
 		"dist",
-		"skills",
 		"examples"
 	],
 	"scripts": {
