@@ -108,6 +108,12 @@ async function main() {
 			if (otp) {
 				cmdArgs.push('--otp', otp);
 			}
+			if (process.env.GITHUB_ACTIONS === 'true') {
+				console.log(
+					'\x1b[36m[Publish]\x1b[0m GitHub Actions detected. Adding --provenance for OIDC / Trusted Publisher.',
+				);
+				cmdArgs.push('--provenance');
+			}
 			const proc = spawnSync(['npm', ...cmdArgs], {
 				cwd: ROOT,
 				stdout: 'inherit',
