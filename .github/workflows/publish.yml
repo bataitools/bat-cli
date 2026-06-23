@@ -86,6 +86,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           TAG=${GITHUB_REF#refs/tags/}
+          
+          # Ensure the release exists
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG not found. Creating a new release..."
+            gh release create "$TAG" --generate-notes
+          fi
+          
+          # Upload files to the release
           for zip_file in dist/skills/*.zip; do
             [ -f "$zip_file" ] || continue
             echo "Uploading $zip_file to release $TAG"
