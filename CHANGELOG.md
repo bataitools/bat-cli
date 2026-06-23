@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.7](https://github.com/bataitools/bat-cli/compare/v1.2.6...v1.2.7) (2026-06-23)
+
+
+### Bug Fixes
+
+* **release:** enforce latest npm client in publish step via npx ([23c344e](https://github.com/bataitools/bat-cli/commit/23c344ebf8644c6ba93c0780613d213733896c4a))
+
 ## [1.2.6](https://github.com/bataitools/bat-cli/compare/v1.2.5...v1.2.6) (2026-06-23)
 
 
