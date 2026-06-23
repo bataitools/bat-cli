@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Chuyển ảnh sang STL để in 3D — thả một bức ảnh, nhận mô hình có thể in trong vài phút",
+	"description": "Tải lên ảnh JPG hoặc PNG và nhận mô hình STL có thể in 3D trong vài phút. Hỗ trợ đầu vào một ảnh và đa góc nhìn (2–4 góc), tùy chọn kết cấu màu cho xem trước và xuất GLB, cùng kiểm tra 3D trong trình duyệt trước khi tải xuống. Không cần kỹ năng CAD hay cài đặt. Các gói trả phí bao gồm quyền thương mại.",
+	"instruction": "1. Tải lên một ảnh JPG/PNG (hoặc 2–4 góc cho đa góc nhìn). 2. Tùy chọn Không, Tiêu chuẩn, hoặc kết cấu HD cho xem trước và GLB. 3. Xem trước mô hình 3D trong trình xem trình duyệt — xoay, phóng to, kiểm tra. 4. Tải xuống STL cho phần mềm cắt của bạn hoặc GLB cho công cụ game.",
+	"coreFeatures": [
+		{
+			"title": "Ảnh sang 3D trong vài phút",
+			"description": "Thả ảnh JPG hoặc PNG và nhận mô hình 3D. Không cần kỹ năng CAD, không cần cài đặt. Tốt nhất cho chủ đề đối xứng hoặc hướng mặt với ánh sáng đều."
+		},
+		{
+			"title": "Kết hợp đa góc nhìn",
+			"description": "Tải lên 2 đến 4 góc của cùng một vật thể. Bộ chuyển đổi kết hợp chúng thành một mô hình, điền phía sau và hai bên để độ chính xác cao hơn."
+		},
+		{
+			"title": "Chế độ văn bản sang 3D",
+			"description": "Mô tả những gì bạn muốn bằng văn bản thay vì tải ảnh lên. AI xây dựng mô hình 3D từ mô tả của bạn."
+		},
+		{
+			"title": "Đầy đủ chi tiết theo mặc định",
+			"description": "Mọi lần chuyển đổi đều chạy ở đầy đủ chi tiết — đường nét và bề mặt được giữ nguyên trong lưới. Không có kết quả khối vuông đơn giản hóa."
+		},
+		{
+			"title": "Xem trước 3D trong trình duyệt",
+			"description": "Kiểm tra mọi góc trong trình xem 3D tích hợp trước khi tải xuống. Xoay, phóng to, và điều chỉnh kết cấu hoặc chạy lại."
+		},
+		{
+			"title": "Xuất STL + GLB",
+			"description": "Tải xuống STL để in 3D (nạp vào bất kỳ phần mềm cắt nào) hoặc GLB cho công cụ game, AR/VR, và phần mềm mô hình 3D."
+		}
+	],
+	"useCases": [
+		"Người thích in 3D: tải ảnh chụp điện thoại và in tối nay",
+		"Nhà thiết kế sản phẩm: chuyển ảnh tham chiếu thành nguyên mẫu vật lý",
+		"Nhà phát triển game và AR/VR: xuất tranh ý tưởng thành GLB cho nguyên mẫu nhanh",
+		"Giáo viên: chuyển sơ đồ thành vật thể học sinh có thể cầm",
+		"Quà tặng và kỷ niệm: chuyển chân dung hoặc tranh vẽ của trẻ thành bản in 3D",
+		"Người chơi trò chơi bàn: tạo mô hình thu nhỏ có thể in từ tranh ý tưởng"
+	],
+	"pricing": [
+		{
+			"name": "Miễn phí",
+			"chargeType": "free",
+			"priceNote": "Miễn phí",
+			"features": [
+				"65 tín dụng mỗi lần tạo",
+				"Tải lên JPG/PNG (256–6000 px, tối đa 5MB)",
+				"Tải xuống STL",
+				"Xem trước 3D trong trình duyệt"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /tháng",
+			"features": [
+				"600 tín dụng mỗi tháng",
+				"Chuyển đổi GLB và STL chất lượng cao",
+				"Xem trước mô hình 3D trong trình duyệt",
+				"Xử lý ưu tiên",
+				"Tệp riêng tư và thuộc về bạn",
+				"Hỗ trợ email",
+				"Quyền thương mại"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /tháng",
+			"recommend": true,
+			"features": [
+				"1000 tín dụng mỗi tháng",
+				"Chuyển đổi GLB và STL chất lượng cao",
+				"Xem trước mô hình 3D trong trình duyệt",
+				"Xử lý nhanh nhất",
+				"Tệp riêng tư và thuộc về bạn",
+				"Hỗ trợ email ưu tiên",
+				"Quyền thương mại"
+			]
+		},
+		{
+			"name": "1,750 Tín dụng",
+			"chargeType": "flat",
+			"priceNote": "$59 một lần",
+			"recommend": true,
+			"features": ["1,750 tín dụng", "Thanh toán một lần", "Tín dụng không bao giờ hết hạn", "Không có đăng ký"]
+		},
+		{
+			"name": "3,000 Tín dụng",
+			"chargeType": "flat",
+			"priceNote": "$99 một lần",
+			"features": ["3,000 tín dụng", "Thanh toán một lần", "Tín dụng không bao giờ hết hạn", "Không có đăng ký"]
+		},
+		{
+			"name": "4,500 Tín dụng",
+			"chargeType": "flat",
+			"priceNote": "$149 một lần",
+			"features": ["4,500 tín dụng", "Thanh toán một lần", "Tín dụng không bao giờ hết hạn", "Không có đăng ký"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Bộ chuyển đổi ảnh sang STL là gì?",
+			"answer": "Bộ chuyển đổi ảnh sang STL biến ảnh 2D thành mô hình 3D được lưu dưới dạng tệp STL. AI đọc độ sâu từ ảnh và xuất ra lưới có thể in."
+		},
+		{
+			"question": "Định dạng ảnh nào được hỗ trợ?",
+			"answer": "JPG và PNG. Để có kết quả tốt nhất, hãy sử dụng ảnh rõ ràng với ánh sáng đều và nền sạch."
+		},
+		{
+			"question": "Tôi có thể tải xuống những định dạng nào khác ngoài STL?",
+			"answer": "Mỗi lần chuyển đổi đều có thể xuất thành GLB, hoạt động trong công cụ game, dự án AR/VR, và hầu hết phần mềm mô hình 3D."
+		},
+		{
+			"question": "Tôi nên dùng một ảnh hay nhiều ảnh?",
+			"answer": "Một ảnh phù hợp cho hầu hết dự án. Đối với chủ đề không đối xứng hoặc chi tiết, đa góc nhìn với 2 đến 4 góc cho độ bao phủ tốt hơn ở phía sau và hai bên."
+		},
+		{
+			"question": "Các tùy chọn kết cấu Tiêu chuẩn và HD thay đổi điều gì?",
+			"answer": "Chúng chỉ ảnh hưởng đến kết cấu màu cho xem trước và xuất GLB. Chi tiết lưới giống nhau bất kể lựa chọn kết cấu."
+		},
+		{
+			"question": "Tôi có thể sử dụng tệp STL của mình cho mục đích thương mại không?",
+			"answer": "Có, với các gói trả phí. Mọi tệp được tạo trên Pro hoặc Max đều bao gồm quyền thương mại đầy đủ."
+		},
+		{
+			"question": "Tôi có thể hủy đăng ký bất cứ lúc nào không?",
+			"answer": "Có. Hủy trên trang thanh toán của bạn trong một cú nhấp. Tín dụng vẫn hoạt động đến hết kỳ thanh toán hiện tại."
+		},
+		{
+			"question": "Các bạn có hoàn tiền không?",
+			"answer": "Xét từng trường hợp. Email support@imagetostl.me trong vòng 7 ngày. Tín dụng và quyền truy cập vẫn hoạt động đến hết kỳ thanh toán sau khi hủy."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Trình tạo mô hình 3D AI trực tuyến",
+		"description": "Chuyển ảnh JPG/PNG thành tệp STL để in 3D. Tải lên một ảnh hoặc nhiều góc, xem trước 3D, tải xuống STL hoặc GLB."
+	}
+}

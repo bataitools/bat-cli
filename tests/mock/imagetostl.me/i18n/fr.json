@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Convertir une image en STL pour l'impression 3D — déposez une photo, obtenez un modèle imprimable en quelques minutes",
+	"description": "Téléchargez une photo JPG ou PNG et recevez un mesh STL imprimable en 3D en quelques minutes. Prend en charge l'entrée à image unique et multi-vues (2–4 angles), une texture couleur facultative pour l'aperçu et l'export GLB, et l'inspection 3D dans le navigateur avant le téléchargement. Aucune compétence en CAO ni configuration requise. Les plans payants incluent des droits commerciaux.",
+	"instruction": "1. Téléchargez une photo JPG/PNG (ou 2–4 angles pour multi-vues). 2. Choisissez facultativement Aucune, Standard ou texture HD pour l'aperçu et le GLB. 3. Prévisualisez le modèle 3D dans la visionneuse du navigateur — rotation, zoom, inspection. 4. Téléchargez le STL pour votre trancheur ou le GLB pour les moteurs de jeu.",
+	"coreFeatures": [
+		{
+			"title": "Photo en 3D en quelques minutes",
+			"description": "Déposez un JPG ou PNG et obtenez un modèle 3D. Aucune compétence en CAO, aucune configuration. Idéal pour les sujets symétriques ou de face avec un éclairage uniforme."
+		},
+		{
+			"title": "Fusion multi-vues",
+			"description": "Téléchargez 2 à 4 angles du même objet. Le convertisseur les combine en un seul modèle, en remplissant l'arrière et les côtés pour une meilleure précision."
+		},
+		{
+			"title": "Mode Texte vers 3D",
+			"description": "Décrivez ce que vous voulez en texte au lieu de télécharger une photo. L'IA crée un modèle 3D à partir de votre description."
+		},
+		{
+			"title": "Détail complet par défaut",
+			"description": "Chaque conversion s'exécute en détail complet — les contours et les lignes de surface survivent dans le mesh. Pas de sortie simplifiée et grossière."
+		},
+		{
+			"title": "Aperçu 3D dans le navigateur",
+			"description": "Inspectez chaque angle dans la visionneuse 3D intégrée avant le téléchargement. Rotation, zoom et ajustement de la texture ou relance."
+		},
+		{
+			"title": "Export STL + GLB",
+			"description": "Téléchargez le STL pour l'impression 3D (chargez dans n'importe quel trancheur) ou le GLB pour les moteurs de jeu, AR/VR et outils de modélisation 3D."
+		}
+	],
+	"useCases": [
+		"Passionnés d'impression 3D : téléchargez une photo de téléphone et imprimez-la ce soir",
+		"Designers produit : transformez une photo de référence en prototype physique",
+		"Développeurs de jeux et AR/VR : exportez un concept art en GLB pour un prototypage rapide",
+		"Enseignants : transformez des diagrammes en objets que les élèves peuvent tenir",
+		"Cadeaux et souvenirs : convertissez un portrait ou un dessin d'enfant en impression 3D",
+		"Passionnés de jeux de plateau : générez des figurines imprimables à partir de concept art"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Gratuit",
+			"features": [
+				"65 crédits par génération",
+				"Upload JPG/PNG (256–6000 px, max 5 Mo)",
+				"Téléchargement STL",
+				"Aperçu 3D dans le navigateur"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19/mois",
+			"features": [
+				"600 crédits par mois",
+				"Conversion GLB et STL de haute qualité",
+				"Aperçu du modèle 3D dans le navigateur",
+				"Traitement prioritaire",
+				"Fichiers privés et vous appartenant",
+				"Support par e-mail",
+				"Droits commerciaux"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29/mois",
+			"recommend": true,
+			"features": [
+				"1000 crédits par mois",
+				"Conversion GLB et STL de haute qualité",
+				"Aperçu du modèle 3D dans le navigateur",
+				"Traitement le plus rapide",
+				"Fichiers privés et vous appartenant",
+				"Support e-mail prioritaire",
+				"Droits commerciaux"
+			]
+		},
+		{
+			"name": "1,750 crédits",
+			"chargeType": "flat",
+			"priceNote": "$59 unique",
+			"recommend": true,
+			"features": ["1,750 crédits", "Paiement unique", "Les crédits n'expirent jamais", "Sans abonnement"]
+		},
+		{
+			"name": "3,000 crédits",
+			"chargeType": "flat",
+			"priceNote": "$99 unique",
+			"features": ["3,000 crédits", "Paiement unique", "Les crédits n'expirent jamais", "Sans abonnement"]
+		},
+		{
+			"name": "4,500 crédits",
+			"chargeType": "flat",
+			"priceNote": "$149 unique",
+			"features": ["4,500 crédits", "Paiement unique", "Les crédits n'expirent jamais", "Sans abonnement"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Qu'est-ce qu'un convertisseur image en STL ?",
+			"answer": "Un convertisseur image en STL transforme une photo 2D en modèle 3D enregistré sous forme de fichier STL. L'IA lit la profondeur de la photo et produit un mesh imprimable."
+		},
+		{
+			"question": "Quels formats d'image sont pris en charge ?",
+			"answer": "JPG et PNG. Pour de meilleurs résultats, utilisez une photo nette avec un éclairage uniforme et un arrière-plan propre."
+		},
+		{
+			"question": "Quels autres formats puis-je télécharger outre le STL ?",
+			"answer": "Chaque conversion peut être exportée en GLB, qui fonctionne dans les moteurs de jeu, les projets AR/VR et la plupart des logiciels de modélisation 3D."
+		},
+		{
+			"question": "Dois-je utiliser une ou plusieurs photos ?",
+			"answer": "Une photo suffit pour la plupart des projets. Pour les sujets asymétriques ou détaillés, le multi-vues avec 2 à 4 angles offre une meilleure couverture de l'arrière et des côtés."
+		},
+		{
+			"question": "Que changent les options de texture Standard et HD ?",
+			"answer": "Elles n'affectent que la texture couleur pour les aperçus et l'export GLB. Le détail du mesh est le même quel que soit le choix de texture."
+		},
+		{
+			"question": "Puis-je utiliser mes fichiers STL commercialement ?",
+			"answer": "Oui, avec les plans payants. Chaque fichier généré avec Pro ou Max inclut tous les droits commerciaux."
+		},
+		{
+			"question": "Puis-je annuler mon abonnement à tout moment ?",
+			"answer": "Oui. Annulez sur votre page de facturation en un clic. Les crédits restent actifs jusqu'à la fin de la période de facturation en cours."
+		},
+		{
+			"question": "Proposez-vous des remboursements ?",
+			"answer": "Au cas par cas. Envoyez un e-mail à support@imagetostl.me dans les 7 jours. Les crédits et l'accès restent actifs jusqu'à la fin de la période de facturation après l'annulation."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Générateur de modèles 3D IA en ligne",
+		"description": "Convertissez des photos JPG/PNG en fichiers STL pour l'impression 3D. Téléchargez une ou plusieurs images, prévisualisez en 3D, téléchargez STL ou GLB."
+	}
+}

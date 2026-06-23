@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Ubah gambar menjadi STL untuk pencetakan 3D — jatuhkan foto, dapatkan model yang dapat dicetak dalam hitungan menit",
+	"description": "Unggah foto JPG atau PNG dan terima mesh STL yang dapat dicetak 3D dalam hitungan menit. Mendukung input gambar tunggal dan multi-sudut (2–4 sudut), tekstur warna opsional untuk pratinjau dan ekspor GLB, serta inspeksi 3D di dalam browser sebelum mengunduh. Tidak diperlukan keterampilan CAD atau pengaturan. Paket berbayar mencakup hak komersial.",
+	"instruction": "1. Unggah satu foto JPG/PNG (atau 2–4 sudut untuk multi-sudut). 2. Opsional pilih Tidak Ada, Standar, atau tekstur HD untuk pratinjau dan GLB. 3. Pratinjau model 3D di penampil browser — putar, perbesar, periksa. 4. Unduh STL untuk slicer Anda atau GLB untuk mesin game.",
+	"coreFeatures": [
+		{
+			"title": "Foto ke 3D dalam Hitungan Menit",
+			"description": "Jatuhkan JPG atau PNG dan dapatkan model 3D. Tidak perlu keterampilan CAD, tidak perlu pengaturan. Terbaik untuk subjek simetris atau menghadap depan dengan pencahayaan merata."
+		},
+		{
+			"title": "Fusi Multi-Sudut",
+			"description": "Unggah 2 hingga 4 sudut objek yang sama. Pengonversi menggabungkannya menjadi satu model, mengisi bagian belakang dan samping untuk akurasi yang lebih baik."
+		},
+		{
+			"title": "Mode Teks ke 3D",
+			"description": "Deskripsikan apa yang Anda inginkan dalam teks alih-alih mengunggah foto. AI membangun model 3D dari deskripsi Anda."
+		},
+		{
+			"title": "Detail Penuh secara Default",
+			"description": "Setiap konversi berjalan dengan detail penuh — kontur dan garis permukaan bertahan ke dalam mesh. Tidak ada keluaran berblok yang disederhanakan."
+		},
+		{
+			"title": "Pratinjau 3D di Browser",
+			"description": "Periksa setiap sudut di penampil 3D bawaan sebelum mengunduh. Putar, perbesar, dan sesuaikan tekstur atau jalankan ulang."
+		},
+		{
+			"title": "Ekspor STL + GLB",
+			"description": "Unduh STL untuk pencetakan 3D (muat ke slicer apa pun) atau GLB untuk mesin game, AR/VR, dan alat pemodelan 3D."
+		}
+	],
+	"useCases": [
+		"Penghobi cetak 3D: unggah foto ponsel dan cetak malam ini",
+		"Perancang produk: jalankan foto referensi menjadi prototipe fisik",
+		"Pengembang game dan AR/VR: ekspor seni konsep sebagai GLB untuk prototipe cepat",
+		"Guru: ubah diagram menjadi objek yang dapat dipegang siswa",
+		"Hadiah dan kenang-kenangan: ubah potret atau gambar anak menjadi cetakan 3D",
+		"Penghobi permainan meja: hasilkan miniatur yang dapat dicetak dari seni konsep"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"65 kredit per pembuatan",
+				"Unggah JPG/PNG (256–6000 px, maks 5MB)",
+				"Unduh STL",
+				"Pratinjau 3D di browser"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /bulan",
+			"features": [
+				"600 kredit per bulan",
+				"Konversi GLB dan STL berkualitas tinggi",
+				"Pratinjau model 3D di browser",
+				"Pemrosesan prioritas",
+				"File pribadi dan milik Anda",
+				"Dukungan email",
+				"Hak komersial"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /bulan",
+			"recommend": true,
+			"features": [
+				"1000 kredit per bulan",
+				"Konversi GLB dan STL berkualitas tinggi",
+				"Pratinjau model 3D di browser",
+				"Pemrosesan tercepat",
+				"File pribadi dan milik Anda",
+				"Dukungan email prioritas",
+				"Hak komersial"
+			]
+		},
+		{
+			"name": "1,750 Kredit",
+			"chargeType": "flat",
+			"priceNote": "$59 sekali bayar",
+			"recommend": true,
+			"features": ["1,750 kredit", "Pembayaran sekali", "Kredit tidak pernah kedaluwarsa", "Tanpa langganan"]
+		},
+		{
+			"name": "3,000 Kredit",
+			"chargeType": "flat",
+			"priceNote": "$99 sekali bayar",
+			"features": ["3,000 kredit", "Pembayaran sekali", "Kredit tidak pernah kedaluwarsa", "Tanpa langganan"]
+		},
+		{
+			"name": "4,500 Kredit",
+			"chargeType": "flat",
+			"priceNote": "$149 sekali bayar",
+			"features": ["4,500 kredit", "Pembayaran sekali", "Kredit tidak pernah kedaluwarsa", "Tanpa langganan"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Apa itu pengonversi gambar ke STL?",
+			"answer": "Pengonversi gambar ke STL mengubah foto 2D menjadi model 3D yang disimpan sebagai file STL. AI membaca kedalaman dari foto dan mengeluarkan mesh yang dapat dicetak."
+		},
+		{
+			"question": "Format gambar apa yang didukung?",
+			"answer": "JPG dan PNG. Untuk hasil terbaik, gunakan foto yang jelas dengan pencahayaan merata dan latar belakang bersih."
+		},
+		{
+			"question": "Format apa lagi yang dapat saya unduh selain STL?",
+			"answer": "Setiap konversi dapat diekspor sebagai GLB, yang berfungsi di mesin game, proyek AR/VR, dan sebagian besar perangkat lunak pemodelan 3D."
+		},
+		{
+			"question": "Haruskah saya menggunakan satu foto atau beberapa?",
+			"answer": "Satu foto cukup untuk sebagian besar proyek. Untuk subjek asimetris atau mendetail, multi-sudut dengan 2 hingga 4 sudut memberikan cakupan yang lebih baik di bagian belakang dan samping."
+		},
+		{
+			"question": "Apa yang diubah oleh opsi tekstur Standar dan HD?",
+			"answer": "Mereka hanya memengaruhi tekstur warna untuk pratinjau dan ekspor GLB. Detail mesh sama terlepas dari pilihan tekstur."
+		},
+		{
+			"question": "Bisakah saya menggunakan file STL saya secara komersial?",
+			"answer": "Ya, pada paket berbayar. Setiap file yang dihasilkan pada Pro atau Max mencakup hak komersial penuh."
+		},
+		{
+			"question": "Bisakah saya membatalkan langganan kapan saja?",
+			"answer": "Ya. Batalkan di halaman penagihan Anda dalam satu klik. Kredit tetap aktif hingga periode penagihan saat ini berakhir."
+		},
+		{
+			"question": "Apakah Anda menawarkan pengembalian dana?",
+			"answer": "Ditangani kasus per kasus. Email support@imagetostl.me dalam 7 hari. Kredit dan akses tetap aktif hingga periode penagihan berakhir setelah pembatalan."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Generator Model 3D AI Online",
+		"description": "Ubah foto JPG/PNG menjadi file STL untuk pencetakan 3D. Unggah satu gambar atau beberapa sudut, pratinjau dalam 3D, unduh STL atau GLB."
+	}
+}

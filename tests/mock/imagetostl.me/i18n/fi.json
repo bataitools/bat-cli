@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Muunna kuva STL-muotoon 3D-tulostusta varten — pudota valokuva ja saat tulostettavan mallin minuuteissa",
+	"description": "Lataa JPG- tai PNG-valokuva ja vastaanota 3D-tulostettava STL-verkko minuuteissa. Tukee yksittäiskuvaa ja moninäkymää (2–4 kulmaa), valinnaista väritekstuuria esikatseluun ja GLB-vientiin sekä selaimessa tapahtuvaa 3D-tarkastelua ennen latausta. CAD-taitoja tai asennusta ei tarvita. Maksullisiin paketteihin sisältyvät kaupalliset oikeudet.",
+	"instruction": "1. Lataa yksi JPG/PNG-valokuva (tai 2–4 kulmaa moninäkymään). 2. Valitse valinnaisesti Ei mitään, Vakio tai HD-tekstuuri esikatselua ja GLB:tä varten. 3. Esikatsele 3D-mallia selaimen katselimessa — kierrä, zoomaa, tarkastele. 4. Lataa STL viipalointiohjelmaasi varten tai GLB pelimoottoreita varten.",
+	"coreFeatures": [
+		{
+			"title": "Valokuvasta 3D:ksi minuuteissa",
+			"description": "Pudota JPG tai PNG ja saat 3D-mallin. Ei CAD-taitoja, ei asennusta. Paras symmetrisille tai etupuolelta kuvatuille kohteille tasaisessa valaistuksessa."
+		},
+		{
+			"title": "Moninäkymäfuusio",
+			"description": "Lataa 2–4 kulmaa samasta kohteesta. Muunnin yhdistää ne yhdeksi malliksi täydentäen takaosan ja sivut paremman tarkkuuden saavuttamiseksi."
+		},
+		{
+			"title": "Tekstistä 3D:ksi -tila",
+			"description": "Kuvaile mitä haluat tekstinä valokuvan lataamisen sijaan. Tekoäly rakentaa 3D-mallin kuvauksesi perusteella."
+		},
+		{
+			"title": "Täysi yksityiskohtaisuus oletuksena",
+			"description": "Jokainen muunnos suoritetaan täydellä yksityiskohtaisuudella — ääriviivat ja pintalinjat säilyvät verkossa. Ei kulmikkaita, yksinkertaistettuja tuloksia."
+		},
+		{
+			"title": "3D-esikatselu selaimessa",
+			"description": "Tarkastele jokaista kulmaa sisäänrakennetussa 3D-katselimessa ennen lataamista. Kierrä, zoomaa ja säädä tekstuuria tai suorita uudelleen."
+		},
+		{
+			"title": "STL + GLB -vienti",
+			"description": "Lataa STL 3D-tulostusta varten (lataa mihin tahansa viipalointiohjelmaan) tai GLB pelimoottoreita, AR/VR:ää ja 3D-mallinnustyökaluja varten."
+		}
+	],
+	"useCases": [
+		"3D-tulostusharrastajat: lataa puhelimella otettu kuva ja tulosta se tänä iltana",
+		"Tuotesuunnittelijat: tee referenssikuvasta fyysinen prototyyppi",
+		"Peli- ja AR/VR-kehittäjät: vie konseptitaide GLB-muodossa nopeaa prototypointia varten",
+		"Opettajat: muuta kaaviot esineiksi, joita oppilaat voivat pidellä",
+		"Lahjat ja muistoesineet: muunna muotokuva tai lapsen piirustus 3D-tulosteeksi",
+		"Lautapeliharrastajat: luo tulostettavia miniatyyrejä konseptitaiteesta"
+	],
+	"pricing": [
+		{
+			"name": "Ilmainen",
+			"chargeType": "free",
+			"priceNote": "Ilmainen",
+			"features": [
+				"65 krediittiä per luonti",
+				"JPG/PNG-lataus (256–6000 px, maks. 5 Mt)",
+				"STL-lataus",
+				"3D-esikatselu selaimessa"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /kuukausi",
+			"features": [
+				"600 krediittiä kuukaudessa",
+				"Korkealaatuinen GLB- ja STL-muunnos",
+				"3D-mallin esikatselu selaimessa",
+				"Priorisoitu käsittely",
+				"Tiedostot ovat yksityisiä ja omistuksessasi",
+				"Sähköpostituki",
+				"Kaupalliset oikeudet"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /kuukausi",
+			"recommend": true,
+			"features": [
+				"1000 krediittiä kuukaudessa",
+				"Korkealaatuinen GLB- ja STL-muunnos",
+				"3D-mallin esikatselu selaimessa",
+				"Nopein käsittely",
+				"Tiedostot ovat yksityisiä ja omistuksessasi",
+				"Priorisoitu sähköpostituki",
+				"Kaupalliset oikeudet"
+			]
+		},
+		{
+			"name": "1 750 krediittiä",
+			"chargeType": "flat",
+			"priceNote": "$59 kertamaksu",
+			"recommend": true,
+			"features": ["1 750 krediittiä", "Kertamaksu", "Krediitit eivät vanhene koskaan", "Ei tilausta"]
+		},
+		{
+			"name": "3 000 krediittiä",
+			"chargeType": "flat",
+			"priceNote": "$99 kertamaksu",
+			"features": ["3 000 krediittiä", "Kertamaksu", "Krediitit eivät vanhene koskaan", "Ei tilausta"]
+		},
+		{
+			"name": "4 500 krediittiä",
+			"chargeType": "flat",
+			"priceNote": "$149 kertamaksu",
+			"features": ["4 500 krediittiä", "Kertamaksu", "Krediitit eivät vanhene koskaan", "Ei tilausta"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Mikä on kuva STL-muuntimeksi?",
+			"answer": "Kuva STL-muuntimeksi muuntaa 2D-valokuvan 3D-malliksi, joka tallennetaan STL-tiedostona. Tekoäly lukee syvyyden valokuvasta ja tuottaa tulostettavan verkon."
+		},
+		{
+			"question": "Mitkä kuvamuodot ovat tuettuja?",
+			"answer": "JPG ja PNG. Parhaan tuloksen saat käyttämällä selkeää valokuvaa, jossa on tasainen valaistus ja puhdas tausta."
+		},
+		{
+			"question": "Mitä muita muotoja voin ladata STL:n lisäksi?",
+			"answer": "Jokainen muunnos voidaan viedä GLB-muodossa, joka toimii pelimoottoreissa, AR/VR-projekteissa ja useimmissa 3D-mallinnusohjelmistoissa."
+		},
+		{
+			"question": "Kannattaako käyttää yhtä vai useampaa kuvaa?",
+			"answer": "Yksi kuva toimii useimpiin projekteihin. Epäsymmetrisille tai yksityiskohtaisille kohteille moninäkymä 2–4 kulmalla antaa paremman peiton takaa ja sivuilta."
+		},
+		{
+			"question": "Mitä Vakio- ja HD-tekstuurivaihtoehdot muuttavat?",
+			"answer": "Ne vaikuttavat vain väritekstuuriin esikatseluja ja GLB-vientiä varten. Verkon yksityiskohtaisuus on sama tekstuurivalinnasta riippumatta."
+		},
+		{
+			"question": "Voinko käyttää STL-tiedostojani kaupallisesti?",
+			"answer": "Kyllä, maksullisissa paketeissa. Jokainen Pro- tai Max-paketilla luotu tiedosto sisältää täydet kaupalliset oikeudet."
+		},
+		{
+			"question": "Voinko peruuttaa tilaukseni milloin tahansa?",
+			"answer": "Kyllä. Peruuta laskutussivullasi yhdellä napsautuksella. Krediitit pysyvät aktiivisina nykyisen laskutuskauden loppuun asti."
+		},
+		{
+			"question": "Tarjoatteko hyvityksiä?",
+			"answer": "Tapauskohtaisesti. Lähetä sähköpostia osoitteeseen support@imagetostl.me 7 päivän kuluessa. Krediitit ja käyttöoikeus pysyvät aktiivisina, kunnes laskutuskausi päättyy peruutuksen jälkeen."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Tekoälypohjainen 3D-malligeneraattori verkossa",
+		"description": "Muunna JPG/PNG-valokuvat STL-tiedostoiksi 3D-tulostusta varten. Lataa yksi kuva tai useita kulmia, esikatsele 3D:nä, lataa STL tai GLB."
+	}
+}

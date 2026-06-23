@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Konwertuj obraz na STL do druku 3D — wrzuć zdjęcie, otrzymaj model do wydruku w kilka minut",
+	"description": "Wgraj zdjęcie JPG lub PNG i otrzymaj siatkę STL gotową do druku 3D w kilka minut. Obsługuje jedno zdjęcie oraz wielokątowe (2–4 perspektywy) wejście, opcjonalną teksturę kolorową do podglądu i eksportu GLB oraz wbudowany podgląd 3D w przeglądarce przed pobraniem. Nie wymaga umiejętności CAD ani instalacji. Planom płatnym przysługuje licencja komercyjna.",
+	"instruction": "1. Wgraj jedno zdjęcie JPG/PNG (lub 2–4 perspektywy dla wielokątowego trybu). 2. Opcjonalnie wybierz teksturę: Brak, Standardowa lub HD do podglądu i eksportu GLB. 3. Podgląd modelu 3D w przeglądarce — obracaj, powiększaj, sprawdzaj. 4. Pobierz STL do slicera lub GLB do silników gry.",
+	"coreFeatures": [
+		{
+			"title": "Zdjęcie do 3D w kilka minut",
+			"description": "Wrzuć JPG lub PNG i otrzymaj model 3D. Bez umiejętności CAD, bez instalacji. Najlepsze dla symetrycznych lub frontalnych obiektów z równym oświetleniem."
+		},
+		{
+			"title": "Fuzja wieloperspektywowa",
+			"description": "Wgraj 2 do 4 perspektyw tego samego obiektu. Konwerter łączy je w jeden model, uzupełniając tył i boki dla lepszej dokładności."
+		},
+		{
+			"title": "Tryb tekst do 3D",
+			"description": "Opisz, co chcesz, tekstem zamiast wgrywać zdjęcie. AI tworzy model 3D na podstawie Twojego opisu."
+		},
+		{
+			"title": "Pełna szczegółowość domyślnie",
+			"description": "Każda konwersja działa przy pełnym poziomie szczegółów — kontury i linie powierzchni zachowują się w siatce. Bez blokowych, uproszczonych wyników."
+		},
+		{
+			"title": "Podgląd 3D w przeglądarce",
+			"description": "Sprawdzaj każdy kąt w wbudowanym podglądzie 3D przed pobraniem. Obracaj, powiększaj, modyfikuj teksturę lub ponownie generuj."
+		},
+		{
+			"title": "Eksport STL + GLB",
+			"description": "Pobierz STL do druku 3D (wgraj do dowolnego slicera) lub GLB do silników gry, AR/VR i narzędzi modelowania 3D."
+		}
+	],
+	"useCases": [
+		"Pasjonaci druku 3D: wgraj zdjęcie z telefonu i drukuj już dziś wieczorem",
+		"Projektanci produktów: zamień zdjęcie referencyjne w fizyczny prototyp",
+		"Twórcy gier i AR/VR: eksportuj concept art jako GLB do szybkiego prototypowania",
+		"Nauczyciele: zamień diagramy w obiekty, które uczniowie mogą potrzymać",
+		"Prezenty i pamiątki: konwertuj portret lub rysunek dziecka na wydruk 3D",
+		"Pasjonaci gier bitewnych: generuj wydrukowe miniatury z concept art"
+	],
+	"pricing": [
+		{
+			"name": "Darmowy",
+			"chargeType": "free",
+			"priceNote": "Darmowy",
+			"features": [
+				"65 kredytów na generację",
+				"Wgranie JPG/PNG (256–6000 px, max 5 MB)",
+				"Pobranie STL",
+				"Podgląd 3D w przeglądarce"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /miesiąc",
+			"features": [
+				"600 kredytów na miesiąc",
+				"Konwersja GLB i STL w wysokiej jakości",
+				"Podgląd modelu 3D w przeglądarce",
+				"Priorytetowe przetwarzanie",
+				"Pliki prywatne i należące do Ciebie",
+				"Wsparcie e-mail",
+				"Licencja komercyjna"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /miesiąc",
+			"recommend": true,
+			"features": [
+				"1000 kredytów na miesiąc",
+				"Konwersja GLB i STL w wysokiej jakości",
+				"Podgląd modelu 3D w przeglądarce",
+				"Najszybsze przetwarzanie",
+				"Pliki prywatne i należące do Ciebie",
+				"Priorytetowe wsparcie e-mail",
+				"Licencja komercyjna"
+			]
+		},
+		{
+			"name": "1 750 kredytów",
+			"chargeType": "flat",
+			"priceNote": "$59 jednorazowo",
+			"recommend": true,
+			"features": ["1 750 kredytów", "Płatność jednorazowa", "Kredyty nigdy nie wygasają", "Brak subskrypcji"]
+		},
+		{
+			"name": "3 000 kredytów",
+			"chargeType": "flat",
+			"priceNote": "$99 jednorazowo",
+			"features": ["3 000 kredytów", "Płatność jednorazowa", "Kredyty nigdy nie wygasają", "Brak subskrypcji"]
+		},
+		{
+			"name": "4 500 kredytów",
+			"chargeType": "flat",
+			"priceNote": "$149 jednorazowo",
+			"features": ["4 500 kredytów", "Płatność jednorazowa", "Kredyty nigdy nie wygasają", "Brak subskrypcji"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Czym jest konwerter obrazu na STL?",
+			"answer": "Konwerter obrazu na STL zamienia zdjęcie 2D na model 3D zapisany jako plik STL. AI odczytuje głębię z zdjęcia i tworzy siatkę gotową do druku."
+		},
+		{
+			"question": "Jakie formaty obrazów są obsługiwane?",
+			"answer": "JPG i PNG. Najlepsze rezultaty osiągniesz przy wyraźnym zdjęciu z równym oświetleniem i czystym tłem."
+		},
+		{
+			"question": "Jakie inne formaty można pobrać oprócz STL?",
+			"answer": "Każdą konwersję można wyeksportować jako GLB, który działa w silnikach gry, projektach AR/VR i większości programów do modelowania 3D."
+		},
+		{
+			"question": "Użyć jedno zdjęcie czy wiele?",
+			"answer": "Jedno zdjęcie działa w większości projektów. Dla asymetrycznych lub szczegółowych obiektów wieloperspektywowy tryb (2 do 4 perspektyw) daje lepsze pokrycie tyłu i boków."
+		},
+		{
+			"question": "Co zmieniają opcje tekstury Standardowa i HD?",
+			"answer": "Wpływają tylko na teksturę kolorową w podglądach i eksportie GLB. Poziom szczegółów siatki jest taki sam niezależnie od wybranej tekstury."
+		},
+		{
+			"question": "Czy mogę używać plików STL komercyjnie?",
+			"answer": "Tak, w planach płatnych. Każdy plik wygenerowany w planie Pro lub Max zawiera pełną licencję komercyjną."
+		},
+		{
+			"question": "Czy mogę anulować subskrypcję w dowolnym momencie?",
+			"answer": "Tak. Anuluj na stronie billing jednym kliknięciem. Kredyty pozostają aktywne do końca bieżącego okresu rozliczeniowego."
+		},
+		{
+			"question": "Czy oferujecie zwroty?",
+			"answer": "Indywidualnie. Napisz na support@imagetostl.me w ciągu 7 dni. Kredyty i dostęp pozostają aktywne do końca okresu rozliczeniowego po anulowaniu."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Generator modeli 3D AI online",
+		"description": "Konwertuj zdjęcia JPG/PNG na pliki STL do druku 3D. Wgraj jedno zdjęcie lub wiele perspektyw, podglądaj w 3D, pobierz STL lub GLB."
+	}
+}

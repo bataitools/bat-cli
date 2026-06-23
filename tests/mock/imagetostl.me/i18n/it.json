@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Converti immagini in STL per la stampa 3D — carica una foto, ottieni un modello stampabile in pochi minuti",
+	"description": "Carica una foto JPG o PNG e ricevi una mesh STL stampabile in 3D in pochi minuti. Supporta input a immagine singola e multi-vista (2–4 angolazioni), texture colore opzionale per anteprima ed export GLB, e ispezione 3D nel browser prima del download. Nessuna competenza CAD o configurazione richiesta. I piani a pagamento includono diritti commerciali.",
+	"instruction": "1. Carica una foto JPG/PNG (o 2–4 angolazioni per multi-vista). 2. Scegli opzionalmente Nessuna, Standard o texture HD per anteprima e GLB. 3. Anteprima del modello 3D nel visualizzatore del browser — ruota, zoom, ispeziona. 4. Scarica STL per il tuo slicer o GLB per motori di gioco.",
+	"coreFeatures": [
+		{
+			"title": "Foto in 3D in pochi minuti",
+			"description": "Carica un JPG o PNG e ottieni un modello 3D. Nessuna competenza CAD, nessuna configurazione. Ideale per soggetti simmetrici o frontali con illuminazione uniforme."
+		},
+		{
+			"title": "Fusione multi-vista",
+			"description": "Carica da 2 a 4 angolazioni dello stesso oggetto. Il convertitore le combina in un unico modello, riempiendo il retro e i lati per una maggiore precisione."
+		},
+		{
+			"title": "Modalità Testo in 3D",
+			"description": "Descrivi cosa vuoi tramite testo invece di caricare una foto. L'IA crea un modello 3D dalla tua descrizione."
+		},
+		{
+			"title": "Dettaglio completo per impostazione predefinita",
+			"description": "Ogni conversione viene eseguita a dettaglio completo — contorni e linee di superficie sopravvivono nella mesh. Nessun output squadrato e semplificato."
+		},
+		{
+			"title": "Anteprima 3D nel browser",
+			"description": "Ispeziona ogni angolo nel visualizzatore 3D integrato prima del download. Ruota, zoom e regola la texture o riesegui."
+		},
+		{
+			"title": "Export STL + GLB",
+			"description": "Scarica STL per la stampa 3D (carica in qualsiasi slicer) o GLB per motori di gioco, AR/VR e strumenti di modellazione 3D."
+		}
+	],
+	"useCases": [
+		"Hobbisti della stampa 3D: carica una foto dal telefono e stampala stasera",
+		"Designer di prodotto: trasforma uno scatto di riferimento in un prototipo fisico",
+		"Sviluppatori di giochi e AR/VR: esporta concept art come GLB per prototipazione rapida",
+		"Insegnanti: trasforma diagrammi in oggetti che gli studenti possono tenere in mano",
+		"Regali e ricordi: converti un ritratto o un disegno di un bambino in una stampa 3D",
+		"Hobbisti di giochi da tavolo: genera miniature stampabili da concept art"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Gratuito",
+			"features": [
+				"65 crediti per generazione",
+				"Upload JPG/PNG (256–6000 px, max 5 MB)",
+				"Download STL",
+				"Anteprima 3D nel browser"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19/mese",
+			"features": [
+				"600 crediti al mese",
+				"Conversione GLB e STL di alta qualità",
+				"Anteprima del modello 3D nel browser",
+				"Elaborazione prioritaria",
+				"File privati e di tua proprietà",
+				"Supporto via email",
+				"Diritti commerciali"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29/mese",
+			"recommend": true,
+			"features": [
+				"1000 crediti al mese",
+				"Conversione GLB e STL di alta qualità",
+				"Anteprima del modello 3D nel browser",
+				"Elaborazione più veloce",
+				"File privati e di tua proprietà",
+				"Supporto email prioritario",
+				"Diritti commerciali"
+			]
+		},
+		{
+			"name": "1,750 crediti",
+			"chargeType": "flat",
+			"priceNote": "$59 una tantum",
+			"recommend": true,
+			"features": ["1,750 crediti", "Pagamento unico", "I crediti non scadono mai", "Nessun abbonamento"]
+		},
+		{
+			"name": "3,000 crediti",
+			"chargeType": "flat",
+			"priceNote": "$99 una tantum",
+			"features": ["3,000 crediti", "Pagamento unico", "I crediti non scadono mai", "Nessun abbonamento"]
+		},
+		{
+			"name": "4,500 crediti",
+			"chargeType": "flat",
+			"priceNote": "$149 una tantum",
+			"features": ["4,500 crediti", "Pagamento unico", "I crediti non scadono mai", "Nessun abbonamento"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Cos'è un convertitore da immagine a STL?",
+			"answer": "Un convertitore da immagine a STL trasforma una foto 2D in un modello 3D salvato come file STL. L'IA legge la profondità dalla foto e produce una mesh stampabile."
+		},
+		{
+			"question": "Quali formati immagine sono supportati?",
+			"answer": "JPG e PNG. Per risultati ottimali, usa una foto nitida con illuminazione uniforme e uno sfondo pulito."
+		},
+		{
+			"question": "Quali altri formati posso scaricare oltre allo STL?",
+			"answer": "Ogni conversione può essere esportata in GLB, che funziona nei motori di gioco, nei progetti AR/VR e nella maggior parte dei software di modellazione 3D."
+		},
+		{
+			"question": "Devo usare una o più foto?",
+			"answer": "Una foto è sufficiente per la maggior parte dei progetti. Per soggetti asimmetrici o dettagliati, la multi-vista con 2-4 angolazioni offre una migliore copertura del retro e dei lati."
+		},
+		{
+			"question": "Cosa cambiano le opzioni texture Standard e HD?",
+			"answer": "Influenzano solo la texture colore per le anteprime e l'export GLB. Il dettaglio della mesh è lo stesso indipendentemente dalla scelta della texture."
+		},
+		{
+			"question": "Posso usare commercialmente i miei file STL?",
+			"answer": "Sì, con i piani a pagamento. Ogni file generato con Pro o Max include pieni diritti commerciali."
+		},
+		{
+			"question": "Posso annullare il mio abbonamento in qualsiasi momento?",
+			"answer": "Sì. Annulla dalla tua pagina di fatturazione con un clic. I crediti rimangono attivi fino al termine del periodo di fatturazione corrente."
+		},
+		{
+			"question": "Offrite rimborsi?",
+			"answer": "Valutazione caso per caso. Invia un'email a support@imagetostl.me entro 7 giorni. I crediti e l'accesso rimangono attivi fino al termine del periodo di fatturazione dopo l'annullamento."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Generatore di modelli 3D IA online",
+		"description": "Converti foto JPG/PNG in file STL per la stampa 3D. Carica una o più immagini, anteprima in 3D, scarica STL o GLB."
+	}
+}

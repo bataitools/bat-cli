@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "3D baskı için görüntüyü STL'ye dönüştürün: bir fotoğraf yükleyin, dakikalar içinde basılabilir bir model alın",
+	"description": "Bir JPG veya PNG fotoğraf yükleyin ve dakikalar içinde 3D baskıya hazır bir STL ağ modeli alın. Tek görüntü ve çoklu görünüm (2–4 açı) girişini, önizleme ve GLB dışa aktarımı için isteğe bağlı renk dokusunu ve indirmeden önce tarayıcıda 3D incelemeyi destekler. CAD bilgisi veya kurulum gerekmez. Ücretli planlar ticari hakları içerir.",
+	"instruction": "1. Bir JPG/PNG fotoğraf (veya çoklu görünüm için 2–4 açı) yükleyin. 2. İsteğe bağlı olarak önizleme ve GLB için Hiçbiri, Standart veya HD doku seçin. 3. 3D modeli tarayıcı görüntüleyicide önizleyin: döndürün, yakınlaştırın, inceleyin. 4. Dilimleyiciniz için STL veya oyun motorları için GLB olarak indirin.",
+	"coreFeatures": [
+		{
+			"title": "Dakikalar içinde fotoğraftan 3D'ye",
+			"description": "Bir JPG veya PNG bırakın ve bir 3D model alın. CAD becerisi veya kurulum gerekmez. Eşit aydınlatmalı simetrik veya ön cepheli konular için idealdir."
+		},
+		{
+			"title": "Çoklu görünüm birleştirme",
+			"description": "Aynı nesnenin 2 ila 4 açıdan fotoğrafını yükleyin. Dönüştürücü bunları tek bir modelde birleştirir ve daha iyi doğruluk için arka ve yan kısımları doldurur."
+		},
+		{
+			"title": "Metinden 3D'ye modu",
+			"description": "Fotoğraf yüklemek yerine istediğinizi metinle tarif edin. Yapay zeka, açıklamanızdan bir 3D model oluşturur."
+		},
+		{
+			"title": "Varsayılan olarak tam detay",
+			"description": "Her dönüşüm tam detayda çalışır: konturlar ve yüzey çizgileri ağ yapısında korunur. Bloklu, basitleştirilmiş çıktı yok."
+		},
+		{
+			"title": "Tarayıcıda 3D önizleme",
+			"description": "İndirmeden önce yerleşik 3D görüntüleyicide her açıyı inceleyin. Döndürün, yakınlaştırın, dokuyu ayarlayın veya yeniden çalıştırın."
+		},
+		{
+			"title": "STL + GLB dışa aktarımı",
+			"description": "3D baskı için STL (herhangi bir dilimleyiciye yükleyin) veya oyun motorları, AR/VR ve 3D modelleme araçları için GLB indirin."
+		}
+	],
+	"useCases": [
+		"3D baskı meraklıları: telefon fotoğrafı yükleyin ve aynı gece bastırın",
+		"Ürün tasarımcıları: bir referans çekimini fiziksel prototipe dönüştürün",
+		"Oyun ve AR/VR geliştiricileri: hızlı prototipleme için konsept çizimlerini GLB olarak dışa aktarın",
+		"Öğretmenler: diyagramları öğrencilerin tutabileceği nesnelere dönüştürün",
+		"Hediyeler ve hatıralar: bir portreyi veya çocuk çizimini 3D baskıya dönüştürün",
+		"Masa oyunu meraklıları: konsept çizimlerinden basılabilir minyatürler oluşturun"
+	],
+	"pricing": [
+		{
+			"name": "Ücretsiz",
+			"chargeType": "free",
+			"priceNote": "Ücretsiz",
+			"features": [
+				"Oluşturma başına 65 kredi",
+				"JPG/PNG yükleme (256–6000 piksel, maks. 5 MB)",
+				"STL indirme",
+				"Tarayıcıda 3D önizleme"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /ay",
+			"features": [
+				"Ayda 600 kredi",
+				"Yüksek kaliteli GLB ve STL dönüşümü",
+				"Tarayıcıda 3D model önizleme",
+				"Öncelikli işleme",
+				"Dosyalar gizli ve size aittir",
+				"E-posta desteği",
+				"Ticari haklar"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /ay",
+			"recommend": true,
+			"features": [
+				"Ayda 1000 kredi",
+				"Yüksek kaliteli GLB ve STL dönüşümü",
+				"Tarayıcıda 3D model önizleme",
+				"En hızlı işleme",
+				"Dosyalar gizli ve size aittir",
+				"Öncelikli e-posta desteği",
+				"Ticari haklar"
+			]
+		},
+		{
+			"name": "1.750 Kredi",
+			"chargeType": "flat",
+			"priceNote": "$59 tek seferlik",
+			"recommend": true,
+			"features": ["1.750 kredi", "Tek seferlik ödeme", "Krediler asla sona ermez", "Abonelik yok"]
+		},
+		{
+			"name": "3.000 Kredi",
+			"chargeType": "flat",
+			"priceNote": "$99 tek seferlik",
+			"features": ["3.000 kredi", "Tek seferlik ödeme", "Krediler asla sona ermez", "Abonelik yok"]
+		},
+		{
+			"name": "4.500 Kredi",
+			"chargeType": "flat",
+			"priceNote": "$149 tek seferlik",
+			"features": ["4.500 kredi", "Tek seferlik ödeme", "Krediler asla sona ermez", "Abonelik yok"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Görüntüden STL'ye dönüştürücü nedir?",
+			"answer": "Görüntüden STL'ye dönüştürücü, 2D bir fotoğrafı STL dosyası olarak kaydedilmiş bir 3D modele dönüştürür. Yapay zeka, fotoğraftan derinliği okur ve basılabilir bir ağ modeli oluşturur."
+		},
+		{
+			"question": "Hangi görüntü formatları destekleniyor?",
+			"answer": "JPG ve PNG. En iyi sonuçlar için eşit aydınlatmalı ve temiz arka planlı net bir fotoğraf kullanın."
+		},
+		{
+			"question": "STL dışında hangi formatları indirebilirim?",
+			"answer": "Her dönüşüm, oyun motorlarında, AR/VR projelerinde ve çoğu 3D modelleme yazılımında çalışan GLB olarak dışa aktarılabilir."
+		},
+		{
+			"question": "Tek fotoğraf mı yoksa birden fazla mı kullanmalıyım?",
+			"answer": "Çoğu proje için tek bir fotoğraf yeterlidir. Asimetrik veya detaylı konular için 2 ila 4 açılı çoklu görünüm, arka ve yan kısımlarda daha iyi kapsama sağlar."
+		},
+		{
+			"question": "Standart ve HD doku seçenekleri neyi değiştirir?",
+			"answer": "Yalnızca önizlemeler ve GLB dışa aktarımı için renk dokusunu etkilerler. Ağ detayı, doku seçiminden bağımsız olarak aynıdır."
+		},
+		{
+			"question": "STL dosyalarımı ticari olarak kullanabilir miyim?",
+			"answer": "Evet, ücretli planlarda. Pro veya Max'te oluşturulan her dosya tam ticari hakları içerir."
+		},
+		{
+			"question": "Aboneliğimi istediğim zaman iptal edebilir miyim?",
+			"answer": "Evet. Fatura sayfanızdan tek tıkla iptal edin. Krediler, mevcut fatura dönemi bitene kadar aktif kalır."
+		},
+		{
+			"question": "Para iadesi sunuyor musunuz?",
+			"answer": "Duruma göre değerlendirilir. 7 gün içinde support@imagetostl.me adresine e-posta gönderin. Krediler ve erişim, iptalden sonra fatura dönemi sona erene kadar aktif kalır."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Yapay Zeka 3D Model Oluşturucu Çevrimiçi",
+		"description": "3D baskı için JPG/PNG fotoğrafları STL dosyalarına dönüştürün. Tek bir görüntü veya birden fazla açı yükleyin, 3D olarak önizleyin, STL veya GLB olarak indirin."
+	}
+}

@@ -18,8 +18,9 @@
 	],
 	"scripts": {
 		"build": "bun build ./src/cli.ts --outdir ./dist --target node --external playwright",
-		"dev": "bun run src/cli.ts",
+		"dev": "bun run src/cli.ts --dev",
 		"typecheck": "tsc --noEmit",
+		"test": "bun test",
 		"release": "release-it",
 		"prepare:pkg": "bun run scripts/prepare-package.ts",
 		"build:pkg": "bun run build && bun run prepare:pkg",

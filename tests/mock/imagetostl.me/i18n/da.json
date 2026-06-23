@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Konverter billede til STL til 3D-print — slip et foto og få en printbar model på minutter",
+	"description": "Upload et JPG- eller PNG-foto og modtag et 3D-printbart STL-mesh på minutter. Understøtter enkeltbillede og multivisning (2–4 vinkler), valgfri farvetekstur til forhåndsvisning og GLB-eksport samt 3D-inspektion i browseren før download. Ingen CAD-færdigheder eller opsætning påkrævet. Betalte abonnementer inkluderer kommercielle rettigheder.",
+	"instruction": "1. Upload ét JPG/PNG-foto (eller 2–4 vinkler til multivisning). 2. Vælg eventuelt Ingen, Standard eller HD-tekstur til forhåndsvisning og GLB. 3. Forhåndsvis 3D-modellen i browserens fremviser — roter, zoom, inspicer. 4. Download STL til din slicer eller GLB til spilmotorer.",
+	"coreFeatures": [
+		{
+			"title": "Foto til 3D på minutter",
+			"description": "Slip en JPG eller PNG og få en 3D-model. Ingen CAD-færdigheder, ingen opsætning. Bedst til symmetriske eller frontvendte motiver med jævn belysning."
+		},
+		{
+			"title": "Multivisningsfusion",
+			"description": "Upload 2 til 4 vinkler af det samme objekt. Konverteren kombinerer dem til én model og udfylder bagsiden og siderne for bedre nøjagtighed."
+		},
+		{
+			"title": "Tekst til 3D-tilstand",
+			"description": "Beskriv hvad du ønsker i tekst i stedet for at uploade et foto. AI'en bygger en 3D-model ud fra din beskrivelse."
+		},
+		{
+			"title": "Fuld detaljering som standard",
+			"description": "Hver konvertering kører med fuld detaljering — konturer og overfladelinjer bevares i meshet. Ingen blokerede, forenklede resultater."
+		},
+		{
+			"title": "3D-forhåndsvisning i browseren",
+			"description": "Inspicer alle vinkler i den indbyggede 3D-fremviser før download. Roter, zoom og finjuster tekstur eller kør igen."
+		},
+		{
+			"title": "Eksport af STL + GLB",
+			"description": "Download STL til 3D-print (indlæs i enhver slicer) eller GLB til spilmotorer, AR/VR og 3D-modelleringsværktøjer."
+		}
+	],
+	"useCases": [
+		"3D-printentusiaster: upload et mobilfoto og print det i aften",
+		"Produktdesignere: lav et referencebillede om til en fysisk prototype",
+		"Spil- og AR/VR-udviklere: eksporter konceptkunst som GLB til hurtig prototyping",
+		"Lærere: omdan diagrammer til objekter, eleverne kan holde",
+		"Gaver og minder: konverter et portræt eller et barns tegning til et 3D-print",
+		"Brætspilsentusiaster: generer printbare miniaturer fra konceptkunst"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"65 credits pr. generering",
+				"JPG/PNG-upload (256–6000 px, maks 5 MB)",
+				"STL-download",
+				"3D-forhåndsvisning i browseren"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /måned",
+			"features": [
+				"600 credits pr. måned",
+				"Højkvalitets GLB- og STL-konvertering",
+				"3D-modelforhåndsvisning i browseren",
+				"Prioriteret behandling",
+				"Filer er private og ejet af dig",
+				"E-mailsupport",
+				"Kommercielle rettigheder"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /måned",
+			"recommend": true,
+			"features": [
+				"1000 credits pr. måned",
+				"Højkvalitets GLB- og STL-konvertering",
+				"3D-modelforhåndsvisning i browseren",
+				"Hurtigste behandling",
+				"Filer er private og ejet af dig",
+				"Prioriteret e-mailsupport",
+				"Kommercielle rettigheder"
+			]
+		},
+		{
+			"name": "1.750 credits",
+			"chargeType": "flat",
+			"priceNote": "$59 engangsbeløb",
+			"recommend": true,
+			"features": ["1.750 credits", "Engangsbetaling", "Credits udløber aldrig", "Intet abonnement"]
+		},
+		{
+			"name": "3.000 credits",
+			"chargeType": "flat",
+			"priceNote": "$99 engangsbeløb",
+			"features": ["3.000 credits", "Engangsbetaling", "Credits udløber aldrig", "Intet abonnement"]
+		},
+		{
+			"name": "4.500 credits",
+			"chargeType": "flat",
+			"priceNote": "$149 engangsbeløb",
+			"features": ["4.500 credits", "Engangsbetaling", "Credits udløber aldrig", "Intet abonnement"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Hvad er en billede til STL-konverter?",
+			"answer": "En billede til STL-konverter omdanner et 2D-foto til en 3D-model gemt som en STL-fil. AI aflæser dybde fra fotoet og producerer et printbart mesh."
+		},
+		{
+			"question": "Hvilke billedformater understøttes?",
+			"answer": "JPG og PNG. For de bedste resultater skal du bruge et klart foto med jævn belysning og en ren baggrund."
+		},
+		{
+			"question": "Hvilke andre formater kan jeg downloade udover STL?",
+			"answer": "Hver konvertering kan eksporteres som GLB, som fungerer i spilmotorer, AR/VR-projekter og de fleste 3D-modelleringsprogrammer."
+		},
+		{
+			"question": "Skal jeg bruge ét foto eller flere?",
+			"answer": "Ét foto fungerer til de fleste projekter. Til asymmetriske eller detaljerede motiver giver multivisning med 2 til 4 vinkler bedre dækning på bagsiden og siderne."
+		},
+		{
+			"question": "Hvad ændrer teksturmulighederne Standard og HD?",
+			"answer": "De påvirker kun farveteksturen til forhåndsvisninger og GLB-eksport. Mesh-detaljen er den samme uanset teksturvalg."
+		},
+		{
+			"question": "Kan jeg bruge mine STL-filer kommercielt?",
+			"answer": "Ja, på betalte abonnementer. Hver fil genereret på Pro eller Max inkluderer fulde kommercielle rettigheder."
+		},
+		{
+			"question": "Kan jeg opsige mit abonnement når som helst?",
+			"answer": "Ja. Opsig på din faktureringsside med ét klik. Credits forbliver aktive indtil den aktuelle faktureringsperiode slutter."
+		},
+		{
+			"question": "Tilbyder I refundering?",
+			"answer": "Fra sag til sag. Send e-mail til support@imagetostl.me inden for 7 dage. Credits og adgang forbliver aktive indtil faktureringsperioden slutter efter opsigelse."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — AI 3D-modelgenerator online",
+		"description": "Konverter JPG/PNG-fotos til STL-filer til 3D-print. Upload ét billede eller flere vinkler, forhåndsvis i 3D, download STL eller GLB."
+	}
+}

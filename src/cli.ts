@@ -14,6 +14,15 @@ import { AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, ensureSubmitAssetsUploaded, lo
 import { downloadAndProcessLogo } from './logo-process';
 
 async function main() {
+	// 如果命令行中带有 --dev 标志，则自动将其剔除并切换 API 基址为本地开发服务器
+	const devIdx = process.argv.indexOf('--dev');
+	if (devIdx >= 0) {
+		process.argv.splice(devIdx, 1);
+		if (!process.env.BAT_API_URL) {
+			process.env.BAT_API_URL = 'http://dev-api.bataitools.com';
+		}
+	}
+
 	const [command, ...args] = process.argv.slice(2);
 
 	if (!command || command === 'help' || command === '--help') {

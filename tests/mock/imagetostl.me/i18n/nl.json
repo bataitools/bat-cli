@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Converteer afbeeldingen naar STL voor 3D-printen — upload een foto, krijg een printbaar model in enkele minuten",
+	"description": "Upload een JPG- of PNG-foto en ontvang in enkele minuten een 3D-printbaar STL-mesh. Ondersteunt invoer met één afbeelding en meerdere weergaven (2–4 hoeken), optionele kleurtextuur voor voorbeeld en GLB-export, en 3D-inspectie in de browser voor download. Geen CAD-vaardigheden of installatie vereist. Betaalde abonnementen omvatten commerciële rechten.",
+	"instruction": "1. Upload één JPG/PNG-foto (of 2–4 hoeken voor meerdere weergaven). 2. Kies optioneel Geen, Standaard of HD-textuur voor voorbeeld en GLB. 3. Bekijk het 3D-model in de browser-viewer — roteren, zoomen, inspecteren. 4. Download STL voor je slicer of GLB voor game-engines.",
+	"coreFeatures": [
+		{
+			"title": "Foto naar 3D in enkele minuten",
+			"description": "Upload een JPG of PNG en krijg een 3D-model. Geen CAD-vaardigheden, geen installatie. Het beste voor symmetrische of frontale onderwerpen met gelijkmatige belichting."
+		},
+		{
+			"title": "Multi-weergave fusie",
+			"description": "Upload 2 tot 4 hoeken van hetzelfde object. De converter combineert ze tot één model en vult de achter- en zijkanten aan voor betere nauwkeurigheid."
+		},
+		{
+			"title": "Tekst-naar-3D modus",
+			"description": "Beschrijf wat je wilt in tekst in plaats van een foto te uploaden. De AI bouwt een 3D-model op basis van je beschrijving."
+		},
+		{
+			"title": "Volledig detail standaard",
+			"description": "Elke conversie wordt uitgevoerd met volledig detail — contouren en oppervaktelijnen blijven behouden in de mesh. Geen blokachtige, vereenvoudigde uitvoer."
+		},
+		{
+			"title": "3D-voorbeeld in browser",
+			"description": "Inspecteer elke hoek in de ingebouwde 3D-viewer voor download. Roteer, zoom en pas textuur aan of voer opnieuw uit."
+		},
+		{
+			"title": "STL + GLB export",
+			"description": "Download STL voor 3D-printen (laad in elke slicer) of GLB voor game-engines, AR/VR en 3D-modelleringstools."
+		}
+	],
+	"useCases": [
+		"3D-print hobbyisten: upload een telefoonfoto en print hem vanavond",
+		"Productontwerpers: zet een referentiefoto om in een fysiek prototype",
+		"Game- en AR/VR-ontwikkelaars: exporteer conceptart als GLB voor snelle prototyping",
+		"Docenten: zet diagrammen om in objecten die studenten kunnen vasthouden",
+		"Cadeaus en aandenkens: converteer een portret of kindertekening naar een 3D-print",
+		"Tabletop hobbyisten: genereer printbare miniaturen vanuit conceptart"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"65 credits per generatie",
+				"JPG/PNG-upload (256–6000 px, max 5 MB)",
+				"STL-download",
+				"3D-voorbeeld in browser"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19/maand",
+			"features": [
+				"600 credits per maand",
+				"Hoogwaardige GLB- en STL-conversie",
+				"3D-modelvoorbeeld in browser",
+				"Prioritaire verwerking",
+				"Bestanden privé en van jou",
+				"E-mailondersteuning",
+				"Commerciële rechten"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29/maand",
+			"recommend": true,
+			"features": [
+				"1000 credits per maand",
+				"Hoogwaardige GLB- en STL-conversie",
+				"3D-modelvoorbeeld in browser",
+				"Snelste verwerking",
+				"Bestanden privé en van jou",
+				"Prioritaire e-mailondersteuning",
+				"Commerciële rechten"
+			]
+		},
+		{
+			"name": "1,750 credits",
+			"chargeType": "flat",
+			"priceNote": "$59 eenmalig",
+			"recommend": true,
+			"features": ["1,750 credits", "Eenmalige betaling", "Credits verlopen nooit", "Geen abonnement"]
+		},
+		{
+			"name": "3,000 credits",
+			"chargeType": "flat",
+			"priceNote": "$99 eenmalig",
+			"features": ["3,000 credits", "Eenmalige betaling", "Credits verlopen nooit", "Geen abonnement"]
+		},
+		{
+			"name": "4,500 credits",
+			"chargeType": "flat",
+			"priceNote": "$149 eenmalig",
+			"features": ["4,500 credits", "Eenmalige betaling", "Credits verlopen nooit", "Geen abonnement"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Wat is een afbeelding-naar-STL-converter?",
+			"answer": "Een afbeelding-naar-STL-converter zet een 2D-foto om in een 3D-model dat wordt opgeslagen als STL-bestand. AI leest diepte uit de foto en produceert een printbaar mesh."
+		},
+		{
+			"question": "Welke afbeeldingsformaten worden ondersteund?",
+			"answer": "JPG en PNG. Voor de beste resultaten gebruik je een heldere foto met gelijkmatige belichting en een schone achtergrond."
+		},
+		{
+			"question": "Welke andere formaten kan ik naast STL downloaden?",
+			"answer": "Elke conversie kan worden geëxporteerd als GLB, dat werkt in game-engines, AR/VR-projecten en de meeste 3D-modelleringssoftware."
+		},
+		{
+			"question": "Moet ik één foto of meerdere gebruiken?",
+			"answer": "Eén foto volstaat voor de meeste projecten. Voor asymmetrische of gedetailleerde onderwerpen geven meerdere weergaven met 2 tot 4 hoeken een betere dekking van achter- en zijkanten."
+		},
+		{
+			"question": "Wat veranderen de Standaard- en HD-textuuropties?",
+			"answer": "Ze beïnvloeden alleen de kleurtextuur voor voorbeelden en GLB-export. De mesh-detailnauwkeurigheid is hetzelfde, ongeacht de textuurkeuze."
+		},
+		{
+			"question": "Kan ik mijn STL-bestanden commercieel gebruiken?",
+			"answer": "Ja, bij betaalde abonnementen. Elk bestand dat is gegenereerd met Pro of Max omvat volledige commerciële rechten."
+		},
+		{
+			"question": "Kan ik mijn abonnement op elk moment opzeggen?",
+			"answer": "Ja. Opzeggen op je facturatiepagina met één klik. Credits blijven actief tot het einde van de huidige facturatieperiode."
+		},
+		{
+			"question": "Bieden jullie terugbetalingen aan?",
+			"answer": "Geval per geval. Stuur een e-mail naar support@imagetostl.me binnen 7 dagen. Credits en toegang blijven actief tot het einde van de facturatieperiode na opzegging."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — AI 3D-modelgenerator online",
+		"description": "Converteer JPG/PNG-foto's naar STL-bestanden voor 3D-printen. Upload één afbeelding of meerdere hoeken, bekijk in 3D, download STL of GLB."
+	}
+}

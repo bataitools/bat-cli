@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Konvertera bild till STL för 3D-utskrift — ladda upp ett foto och få en utskrivbar modell på minuter",
+	"description": "Ladda upp ett JPG- eller PNG-foto och få ett 3D-utskrivbart STL-nät på minuter. Stöder enkelbild och flervy (2–4 vinklar), valfri färgtextur för förhandsvisning och GLB-export samt 3D-inspektion i webbläsaren före nedladdning. Inga CAD-kunskaper eller installation krävs. Betalda planer inkluderar kommersiella rättigheter.",
+	"instruction": "1. Ladda upp ett JPG/PNG-foto (eller 2–4 vinklar för flervy). 2. Välj eventuellt Ingen, Standard eller HD-textur för förhandsvisning och GLB. 3. Förhandsgranska 3D-modellen i webbläsarens visare — rotera, zooma, inspektera. 4. Ladda ner STL för din slicer eller GLB för spelmotorer.",
+	"coreFeatures": [
+		{
+			"title": "Foto till 3D på minuter",
+			"description": "Släpp en JPG eller PNG och få en 3D-modell. Inga CAD-kunskaper, ingen installation. Bäst för symmetriska eller framåtvända motiv med jämn belysning."
+		},
+		{
+			"title": "Flervyfusion",
+			"description": "Ladda upp 2 till 4 vinklar av samma objekt. Konverteraren kombinerar dem till en modell och fyller i baksidan och sidorna för bättre noggrannhet."
+		},
+		{
+			"title": "Text till 3D-läge",
+			"description": "Beskriv vad du vill ha i text istället för att ladda upp ett foto. AI:n bygger en 3D-modell från din beskrivning."
+		},
+		{
+			"title": "Full detaljrikedom som standard",
+			"description": "Varje konvertering körs med full detaljrikedom — konturer och ytlinjer bevaras i nätet. Inga blockiga, förenklade resultat."
+		},
+		{
+			"title": "3D-förhandsvisning i webbläsaren",
+			"description": "Inspektera varje vinkel i den inbyggda 3D-visaren innan nedladdning. Rotera, zooma och justera textur eller kör om."
+		},
+		{
+			"title": "Export av STL + GLB",
+			"description": "Ladda ner STL för 3D-utskrift (ladda in i valfri slicer) eller GLB för spelmotorer, AR/VR och 3D-modelleringsverktyg."
+		}
+	],
+	"useCases": [
+		"3D-utskriftshobbyister: ladda upp ett mobilfoto och skriv ut det ikväll",
+		"Produktdesigners: gör en referensbild till en fysisk prototyp",
+		"Spel- och AR/VR-utvecklare: exportera konceptkonst som GLB för snabb prototypframtagning",
+		"Lärare: omvandla diagram till objekt som elever kan hålla i",
+		"Presenter och minnessaker: konvertera ett porträtt eller ett barns teckning till en 3D-utskrift",
+		"Brädspelshobbyister: generera utskrivbara miniatyrer från konceptkonst"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"65 krediter per generering",
+				"JPG/PNG-uppladdning (256–6000 px, max 5 MB)",
+				"STL-nedladdning",
+				"3D-förhandsvisning i webbläsaren"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /månad",
+			"features": [
+				"600 krediter per månad",
+				"Högkvalitativ GLB- och STL-konvertering",
+				"3D-modellförhandsvisning i webbläsaren",
+				"Prioriterad bearbetning",
+				"Filer är privata och ägs av dig",
+				"E-postsupport",
+				"Kommersiella rättigheter"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /månad",
+			"recommend": true,
+			"features": [
+				"1000 krediter per månad",
+				"Högkvalitativ GLB- och STL-konvertering",
+				"3D-modellförhandsvisning i webbläsaren",
+				"Snabbaste bearbetningen",
+				"Filer är privata och ägs av dig",
+				"Prioriterad e-postsupport",
+				"Kommersiella rättigheter"
+			]
+		},
+		{
+			"name": "1 750 krediter",
+			"chargeType": "flat",
+			"priceNote": "$59 engångsbelopp",
+			"recommend": true,
+			"features": ["1 750 krediter", "Engångsbetalning", "Krediter förfaller aldrig", "Ingen prenumeration"]
+		},
+		{
+			"name": "3 000 krediter",
+			"chargeType": "flat",
+			"priceNote": "$99 engångsbelopp",
+			"features": ["3 000 krediter", "Engångsbetalning", "Krediter förfaller aldrig", "Ingen prenumeration"]
+		},
+		{
+			"name": "4 500 krediter",
+			"chargeType": "flat",
+			"priceNote": "$149 engångsbelopp",
+			"features": ["4 500 krediter", "Engångsbetalning", "Krediter förfaller aldrig", "Ingen prenumeration"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Vad är en bild till STL-konverterare?",
+			"answer": "En bild till STL-konverterare omvandlar ett 2D-foto till en 3D-modell som sparas som en STL-fil. AI läser av djupet från fotot och skapar ett utskrivbart nät."
+		},
+		{
+			"question": "Vilka bildformat stöds?",
+			"answer": "JPG och PNG. För bästa resultat, använd ett tydligt foto med jämn belysning och en ren bakgrund."
+		},
+		{
+			"question": "Vilka andra format kan jag ladda ner förutom STL?",
+			"answer": "Varje konvertering kan exporteras som GLB, vilket fungerar i spelmotorer, AR/VR-projekt och de flesta 3D-modelleringsprogram."
+		},
+		{
+			"question": "Ska jag använda ett foto eller flera?",
+			"answer": "Ett foto fungerar för de flesta projekt. För asymmetriska eller detaljerade motiv ger flervy med 2 till 4 vinklar bättre täckning på baksidan och sidorna."
+		},
+		{
+			"question": "Vad ändrar texturalternativen Standard och HD?",
+			"answer": "De påverkar endast färgtexturen för förhandsvisningar och GLB-export. Nätdetaljen är densamma oavsett texturval."
+		},
+		{
+			"question": "Kan jag använda mina STL-filer kommersiellt?",
+			"answer": "Ja, på betalda planer. Varje fil som genereras på Pro eller Max inkluderar fullständiga kommersiella rättigheter."
+		},
+		{
+			"question": "Kan jag avsluta min prenumeration när som helst?",
+			"answer": "Ja. Avsluta på din faktureringssida med ett klick. Krediter förblir aktiva tills den aktuella faktureringsperioden slutar."
+		},
+		{
+			"question": "Erbjuder ni återbetalning?",
+			"answer": "Från fall till fall. Mejla support@imagetostl.me inom 7 dagar. Krediter och åtkomst förblir aktiva tills faktureringsperioden slutar efter avslut."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — AI 3D-modellgenerator online",
+		"description": "Konvertera JPG/PNG-foton till STL-filer för 3D-utskrift. Ladda upp en bild eller flera vinklar, förhandsgranska i 3D, ladda ner STL eller GLB."
+	}
+}

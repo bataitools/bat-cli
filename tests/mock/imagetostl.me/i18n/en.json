@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Convert image to STL for 3D printing — drop a photo, get a printable model in minutes",
+	"description": "Upload a JPG or PNG photo and receive a 3D-printable STL mesh in minutes. Supports single-image and multi-view (2–4 angles) input, optional color texture for preview and GLB export, and in-browser 3D inspection before download. No CAD skills or setup required. Paid plans include commercial rights.",
+	"instruction": "1. Upload one JPG/PNG photo (or 2–4 angles for multi-view). 2. Optionally pick None, Standard, or HD texture for preview and GLB. 3. Preview the 3D model in the browser viewer — rotate, zoom, inspect. 4. Download STL for your slicer or GLB for game engines.",
+	"coreFeatures": [
+		{
+			"title": "Photo to 3D in Minutes",
+			"description": "Drop a JPG or PNG and get a 3D model. No CAD skills, no setup. Best for symmetric or front-facing subjects with even lighting."
+		},
+		{
+			"title": "Multi-View Fusion",
+			"description": "Upload 2 to 4 angles of the same object. The converter combines them into one model, filling in the back and sides for better accuracy."
+		},
+		{
+			"title": "Text to 3D Mode",
+			"description": "Describe what you want in text instead of uploading a photo. The AI builds a 3D model from your description."
+		},
+		{
+			"title": "Full Detail by Default",
+			"description": "Every conversion runs at full detail — contours and surface lines survive into the mesh. No blocky, simplified output."
+		},
+		{
+			"title": "In-Browser 3D Preview",
+			"description": "Inspect every angle in the built-in 3D viewer before downloading. Rotate, zoom, and tweak texture or rerun."
+		},
+		{
+			"title": "STL + GLB Export",
+			"description": "Download STL for 3D printing (load into any slicer) or GLB for game engines, AR/VR, and 3D modeling tools."
+		}
+	],
+	"useCases": [
+		"3D printing hobbyists: upload a phone photo and print it tonight",
+		"Product designers: run a reference shot into a physical prototype",
+		"Game and AR/VR developers: export concept art as GLB for rapid prototyping",
+		"Teachers: turn diagrams into objects students can hold",
+		"Gifts and keepsakes: convert a portrait or child's drawing into a 3D print",
+		"Tabletop hobbyists: generate printable miniatures from concept art"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Free",
+			"features": [
+				"65 credits per generation",
+				"JPG/PNG upload (256–6000 px, max 5MB)",
+				"STL download",
+				"3D preview in browser"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /month",
+			"features": [
+				"600 credits per month",
+				"High quality GLB and STL conversion",
+				"3D model preview in browser",
+				"Priority processing",
+				"Files private and owned by you",
+				"Email support",
+				"Commercial rights"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /month",
+			"recommend": true,
+			"features": [
+				"1000 credits per month",
+				"High quality GLB and STL conversion",
+				"3D model preview in browser",
+				"Fastest processing",
+				"Files private and owned by you",
+				"Priority email support",
+				"Commercial rights"
+			]
+		},
+		{
+			"name": "1,750 Credits",
+			"chargeType": "flat",
+			"priceNote": "$59 one-time",
+			"recommend": true,
+			"features": ["1,750 credits", "One-time payment", "Credits never expire", "No subscription"]
+		},
+		{
+			"name": "3,000 Credits",
+			"chargeType": "flat",
+			"priceNote": "$99 one-time",
+			"features": ["3,000 credits", "One-time payment", "Credits never expire", "No subscription"]
+		},
+		{
+			"name": "4,500 Credits",
+			"chargeType": "flat",
+			"priceNote": "$149 one-time",
+			"features": ["4,500 credits", "One-time payment", "Credits never expire", "No subscription"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "What is an image to STL converter?",
+			"answer": "An image to STL converter turns a 2D photo into a 3D model saved as an STL file. AI reads depth from the photo and outputs a printable mesh."
+		},
+		{
+			"question": "What image formats are supported?",
+			"answer": "JPG and PNG. For best results, use a clear photo with even lighting and a clean background."
+		},
+		{
+			"question": "What other formats can I download besides STL?",
+			"answer": "Every conversion can be exported as GLB, which works in game engines, AR/VR projects, and most 3D modeling software."
+		},
+		{
+			"question": "Should I use one photo or multiple?",
+			"answer": "One photo works for most projects. For asymmetric or detailed subjects, multi-view with 2 to 4 angles gives better coverage on the back and sides."
+		},
+		{
+			"question": "What do the Standard and HD texture options change?",
+			"answer": "They only affect the color texture for previews and GLB export. The mesh detail is the same regardless of texture choice."
+		},
+		{
+			"question": "Can I use my STL files commercially?",
+			"answer": "Yes, on paid plans. Every file generated on Pro or Max includes full commercial rights."
+		},
+		{
+			"question": "Can I cancel my subscription anytime?",
+			"answer": "Yes. Cancel on your billing page in one click. Credits stay active until the current billing period ends."
+		},
+		{
+			"question": "Do you offer refunds?",
+			"answer": "Case by case. Email support@imagetostl.me within 7 days. Credits and access remain active until the billing period ends after cancellation."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — AI 3D Model Generator Online",
+		"description": "Convert JPG/PNG photos to STL files for 3D printing. Upload one image or multiple angles, preview in 3D, download STL or GLB."
+	}
+}

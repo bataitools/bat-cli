@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Bild in STL für den 3D-Druck umwandeln — Foto hochladen, druckbares Modell in Minuten erhalten",
+	"description": "Laden Sie ein JPG- oder PNG-Foto hoch und erhalten Sie in Minuten ein 3D-druckbares STL-Mesh. Unterstützt Einzelbild- und Mehransichtseingabe (2–4 Ansichten), optionale Farbtextur für Vorschau und GLB-Export sowie 3D-Inspektion direkt im Browser vor dem Download. Keine CAD-Kenntnisse oder Einrichtung erforderlich. Bezahlte Pläne enthalten kommerzielle Nutzungsrechte.",
+	"instruction": "1. Laden Sie ein JPG/PNG-Foto hoch (oder 2–4 Ansichten für Mehransichten). 2. Wählen Sie optional Keine, Standard- oder HD-Textur für Vorschau und GLB. 3. Vorschau des 3D-Modells im Browser-Viewer anzeigen — drehen, zoomen, prüfen. 4. STL für Ihren Slicer oder GLB für Spielengines herunterladen.",
+	"coreFeatures": [
+		{
+			"title": "Foto zu 3D in Minuten",
+			"description": "Laden Sie ein JPG oder PNG hoch und erhalten Sie ein 3D-Modell. Keine CAD-Kenntnisse, keine Einrichtung. Am besten für symmetrische oder frontal aufgenommene Motive mit gleichmäßiger Beleuchtung."
+		},
+		{
+			"title": "Mehransichten-Fusion",
+			"description": "Laden Sie 2 bis 4 Ansichten desselben Objekts hoch. Der Konverter kombiniert sie zu einem Modell und füllt Rück- und Seitenansichten für bessere Genauigkeit auf."
+		},
+		{
+			"title": "Text-zu-3D-Modus",
+			"description": "Beschreiben Sie textuell, was Sie möchten, anstatt ein Foto hochzuladen. Die KI erstellt ein 3D-Modell aus Ihrer Beschreibung."
+		},
+		{
+			"title": "Volles Detail standardmäßig",
+			"description": "Jede Konvertierung läuft mit vollem Detail — Konturen und Oberflächenlinien bleiben im Mesh erhalten. Keine blockartige, vereinfachte Ausgabe."
+		},
+		{
+			"title": "3D-Vorschau im Browser",
+			"description": "Prüfen Sie jeden Winkel im integrierten 3D-Viewer vor dem Download. Drehen, zoomen und Textur anpassen oder neu ausführen."
+		},
+		{
+			"title": "STL- + GLB-Export",
+			"description": "Laden Sie STL für den 3D-Druck (in jeden Slicer laden) oder GLB für Spielengines, AR/VR und 3D-Modellierungswerkzeuge herunter."
+		}
+	],
+	"useCases": [
+		"3D-Druck-Hobbyisten: Handy-Foto hochladen und heute Abend drucken",
+		"Produktdesigner: Referenzaufnahme in einen physischen Prototyp umwandeln",
+		"Spiele- und AR/VR-Entwickler: Konzeptgrafik als GLB für schnelles Prototyping exportieren",
+		"Lehrer: Diagramme in Objekte umwandeln, die Schüler in die Hand nehmen können",
+		"Geschenke und Erinnerungsstücke: Porträt oder Kinderzeichnung in einen 3D-Druck umwandeln",
+		"Tabletop-Hobbyisten: Druckbare Miniaturen aus Konzeptgrafiken erzeugen"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Kostenlos",
+			"features": [
+				"65 Credits pro Generierung",
+				"JPG/PNG-Upload (256–6000 px, max. 5 MB)",
+				"STL-Download",
+				"3D-Vorschau im Browser"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19/Monat",
+			"features": [
+				"600 Credits pro Monat",
+				"Hochwertige GLB- und STL-Konvertierung",
+				"3D-Modellvorschau im Browser",
+				"Priorisierte Verarbeitung",
+				"Dateien privat und in Ihrem Besitz",
+				"E-Mail-Support",
+				"Kommerzielle Nutzungsrechte"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29/Monat",
+			"recommend": true,
+			"features": [
+				"1000 Credits pro Monat",
+				"Hochwertige GLB- und STL-Konvertierung",
+				"3D-Modellvorschau im Browser",
+				"Schnellste Verarbeitung",
+				"Dateien privat und in Ihrem Besitz",
+				"Priorisierter E-Mail-Support",
+				"Kommerzielle Nutzungsrechte"
+			]
+		},
+		{
+			"name": "1,750 Credits",
+			"chargeType": "flat",
+			"priceNote": "$59 einmalig",
+			"recommend": true,
+			"features": ["1,750 Credits", "Einmalige Zahlung", "Credits verfallen nie", "Kein Abonnement"]
+		},
+		{
+			"name": "3,000 Credits",
+			"chargeType": "flat",
+			"priceNote": "$99 einmalig",
+			"features": ["3,000 Credits", "Einmalige Zahlung", "Credits verfallen nie", "Kein Abonnement"]
+		},
+		{
+			"name": "4,500 Credits",
+			"chargeType": "flat",
+			"priceNote": "$149 einmalig",
+			"features": ["4,500 Credits", "Einmalige Zahlung", "Credits verfallen nie", "Kein Abonnement"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Was ist ein Bild-zu-STL-Konverter?",
+			"answer": "Ein Bild-zu-STL-Konverter wandelt ein 2D-Foto in ein 3D-Modell um, das als STL-Datei gespeichert wird. Die KI liest die Tiefe aus dem Foto und erzeugt ein druckbares Mesh."
+		},
+		{
+			"question": "Welche Bildformate werden unterstützt?",
+			"answer": "JPG und PNG. Für beste Ergebnisse verwenden Sie ein klares Foto mit gleichmäßiger Beleuchtung und einheitlichem Hintergrund."
+		},
+		{
+			"question": "Welche anderen Formate kann ich außer STL herunterladen?",
+			"answer": "Jede Konvertierung kann als GLB exportiert werden, das in Spielengines, AR/VR-Projekten und den meisten 3D-Modellierungsprogrammen funktioniert."
+		},
+		{
+			"question": "Sollte ich ein Foto oder mehrere verwenden?",
+			"answer": "Ein Foto reicht für die meisten Projekte. Bei asymmetrischen oder detaillierten Motiven liefert Mehransichten mit 2 bis 4 Winkeln eine bessere Abdeckung von Rück- und Seitenansichten."
+		},
+		{
+			"question": "Was ändern die Standard- und HD-Texturoptionen?",
+			"answer": "Sie beeinflussen nur die Farbtextur für Vorschauen und GLB-Export. Die Mesh-Detailgenauigkeit ist unabhängig von der Texturwahl gleich."
+		},
+		{
+			"question": "Kann ich meine STL-Dateien kommerziell nutzen?",
+			"answer": "Ja, bei bezahlten Plänen. Jede Datei, die mit Pro oder Max erzeugt wurde, enthält volle kommerzielle Nutzungsrechte."
+		},
+		{
+			"question": "Kann ich mein Abonnement jederzeit kündigen?",
+			"answer": "Ja. Kündigen Sie mit einem Klick auf Ihrer Abrechnungsseite. Credits bleiben bis zum Ende des aktuellen Abrechnungszeitraums aktiv."
+		},
+		{
+			"question": "Bieten Sie Rückerstattungen an?",
+			"answer": "Fallbezogen. Schreiben Sie an support@imagetostl.me innerhalb von 7 Tagen. Credits und Zugriff bleiben bis zum Ende des Abrechnungszeitraums nach Kündigung aktiv."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — KI-3D-Modellgenerator online",
+		"description": "JPG/PNG-Fotos in STL-Dateien für den 3D-Druck umwandeln. Ein Bild oder mehrere Ansichten hochladen, in 3D vorschauen, STL oder GLB herunterladen."
+	}
+}

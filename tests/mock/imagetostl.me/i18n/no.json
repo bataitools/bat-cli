@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Konverter bilde til STL for 3D-utskrift — slipp et bilde og få en utskrivbar modell på minutter",
+	"description": "Last opp et JPG- eller PNG-bilde og motta et 3D-utskrivbart STL-nett på minutter. Støtter enkeltbilde og flervisning (2–4 vinkler), valgfri fargetekstur for forhåndsvisning og GLB-eksport, samt 3D-inspeksjon i nettleseren før nedlasting. Ingen CAD-ferdigheter eller oppsett kreves. Betalte abonnementer inkluderer kommersielle rettigheter.",
+	"instruction": "1. Last opp ett JPG/PNG-bilde (eller 2–4 vinkler for flervisning). 2. Velg eventuelt Ingen, Standard eller HD-tekstur for forhåndsvisning og GLB. 3. Forhåndsvis 3D-modellen i nettleserviseren — roter, zoom, inspiser. 4. Last ned STL for slicer-programvaren din eller GLB for spillmotorer.",
+	"coreFeatures": [
+		{
+			"title": "Bilde til 3D på minutter",
+			"description": "Slipp en JPG eller PNG og få en 3D-modell. Ingen CAD-ferdigheter, ingen oppsett. Best for symmetriske eller frontvendte motiver med jevn belysning."
+		},
+		{
+			"title": "Flervisningsfusjon",
+			"description": "Last opp 2 til 4 vinkler av samme objekt. Konvertereren kombinerer dem til én modell og fyller inn baksiden og sidene for bedre nøyaktighet."
+		},
+		{
+			"title": "Tekst til 3D-modus",
+			"description": "Beskriv hva du ønsker i tekst i stedet for å laste opp et bilde. AI-en bygger en 3D-modell fra beskrivelsen din."
+		},
+		{
+			"title": "Full detaljrikdom som standard",
+			"description": "Hver konvertering kjøres med full detaljrikdom — konturer og overflatelinjer bevares i nettet. Ingen blokkete, forenklede resultater."
+		},
+		{
+			"title": "3D-forhåndsvisning i nettleseren",
+			"description": "Inspiser alle vinkler i den innebygde 3D-viseren før nedlasting. Roter, zoom og juster tekstur eller kjør på nytt."
+		},
+		{
+			"title": "Eksport av STL + GLB",
+			"description": "Last ned STL for 3D-utskrift (last inn i hvilken som helst slicer) eller GLB for spillmotorer, AR/VR og 3D-modelleringsverktøy."
+		}
+	],
+	"useCases": [
+		"3D-utskriftsentusiaster: last opp et mobilbilde og skriv det ut i kveld",
+		"Produktdesignere: gjør et referansebilde om til en fysisk prototype",
+		"Spill- og AR/VR-utviklere: eksporter konseptkunst som GLB for rask prototyping",
+		"Lærere: gjør diagrammer om til objekter elevene kan holde",
+		"Gaver og minner: konverter et portrett eller et barns tegning til et 3D-print",
+		"Brettspillentusiaster: generer utskrivbare miniatyrer fra konseptkunst"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"65 credits per generering",
+				"JPG/PNG-opplasting (256–6000 px, maks 5 MB)",
+				"STL-nedlasting",
+				"3D-forhåndsvisning i nettleseren"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /måned",
+			"features": [
+				"600 credits per måned",
+				"Høykvalitets GLB- og STL-konvertering",
+				"3D-modellforhåndsvisning i nettleseren",
+				"Prioritert behandling",
+				"Filer er private og eid av deg",
+				"E-poststøtte",
+				"Kommersielle rettigheter"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /måned",
+			"recommend": true,
+			"features": [
+				"1000 credits per måned",
+				"Høykvalitets GLB- og STL-konvertering",
+				"3D-modellforhåndsvisning i nettleseren",
+				"Raskeste behandling",
+				"Filer er private og eid av deg",
+				"Prioritert e-poststøtte",
+				"Kommersielle rettigheter"
+			]
+		},
+		{
+			"name": "1 750 credits",
+			"chargeType": "flat",
+			"priceNote": "$59 engangsbeløp",
+			"recommend": true,
+			"features": ["1 750 credits", "Engangsbetaling", "Credits utløper aldri", "Ingen abonnement"]
+		},
+		{
+			"name": "3 000 credits",
+			"chargeType": "flat",
+			"priceNote": "$99 engangsbeløp",
+			"features": ["3 000 credits", "Engangsbetaling", "Credits utløper aldri", "Ingen abonnement"]
+		},
+		{
+			"name": "4 500 credits",
+			"chargeType": "flat",
+			"priceNote": "$149 engangsbeløp",
+			"features": ["4 500 credits", "Engangsbetaling", "Credits utløper aldri", "Ingen abonnement"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Hva er en bilde til STL-konverterer?",
+			"answer": "En bilde til STL-konverterer gjør et 2D-bilde om til en 3D-modell lagret som en STL-fil. AI leser dybde fra bildet og produserer et utskrivbart nett."
+		},
+		{
+			"question": "Hvilke bildeformater støttes?",
+			"answer": "JPG og PNG. For best resultat, bruk et tydelig bilde med jevn belysning og en ren bakgrunn."
+		},
+		{
+			"question": "Hvilke andre formater kan jeg laste ned i tillegg til STL?",
+			"answer": "Hver konvertering kan eksporteres som GLB, som fungerer i spillmotorer, AR/VR-prosjekter og de fleste 3D-modelleringsprogrammer."
+		},
+		{
+			"question": "Bør jeg bruke ett bilde eller flere?",
+			"answer": "Ett bilde fungerer for de fleste prosjekter. For asymmetriske eller detaljerte motiver gir flervisning med 2 til 4 vinkler bedre dekning på baksiden og sidene."
+		},
+		{
+			"question": "Hva endrer teksturalternativene Standard og HD?",
+			"answer": "De påvirker kun fargeteksturen for forhåndsvisninger og GLB-eksport. Nettdetaljen er den samme uavhengig av teksturvalg."
+		},
+		{
+			"question": "Kan jeg bruke STL-filene mine kommersielt?",
+			"answer": "Ja, på betalte abonnementer. Hver fil generert på Pro eller Max inkluderer fulle kommersielle rettigheter."
+		},
+		{
+			"question": "Kan jeg avslutte abonnementet når som helst?",
+			"answer": "Ja. Avslutt på faktureringssiden din med ett klikk. Credits forblir aktive til den gjeldende faktureringsperioden avsluttes."
+		},
+		{
+			"question": "Tilbyr dere refusjon?",
+			"answer": "Fra sak til sak. Send e-post til support@imagetostl.me innen 7 dager. Credits og tilgang forblir aktive til faktureringsperioden avsluttes etter oppsigelse."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — AI 3D-modellgenerator på nett",
+		"description": "Konverter JPG/PNG-bilder til STL-filer for 3D-utskrift. Last opp ett bilde eller flere vinkler, forhåndsvis i 3D, last ned STL eller GLB."
+	}
+}

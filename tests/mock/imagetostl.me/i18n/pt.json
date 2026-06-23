@@ -1,0 +1,139 @@
+{
+	"name": "Image To STL",
+	"tagline": "Converta imagens para STL para impressão 3D: envie uma foto e receba um modelo imprimível em minutos",
+	"description": "Envie uma foto em JPG ou PNG e receba uma malha STL pronta para impressão 3D em minutos. Compatível com entrada de imagem única e múltiplas visualizações (2 a 4 ângulos), textura de cor opcional para pré-visualização e exportação GLB, além de inspeção 3D no navegador antes do download. Sem necessidade de conhecimento em CAD ou configuração. Os planos pagos incluem direitos comerciais.",
+	"instruction": "1. Envie uma foto JPG/PNG (ou de 2 a 4 ângulos para o modo multi-visualização). 2. Opcionalmente, escolha textura Nenhuma, Padrão ou HD para pré-visualização e GLB. 3. Visualize o modelo 3D no visualizador do navegador: gire, amplie e inspecione. 4. Baixe o STL para o seu slicer ou GLB para motores de jogos.",
+	"coreFeatures": [
+		{
+			"title": "De foto para 3D em minutos",
+			"description": "Solte um JPG ou PNG e obtenha um modelo 3D. Sem necessidade de CAD ou configuração. Ideal para objetos simétricos ou frontais com iluminação uniforme."
+		},
+		{
+			"title": "Fusão multi-visualização",
+			"description": "Envie de 2 a 4 ângulos do mesmo objeto. O conversor os combina em um único modelo, preenchendo a parte traseira e as laterais para maior precisão."
+		},
+		{
+			"title": "Modo texto para 3D",
+			"description": "Descreva o que deseja em texto em vez de enviar uma foto. A IA constrói um modelo 3D a partir da sua descrição."
+		},
+		{
+			"title": "Detalhe completo por padrão",
+			"description": "Cada conversão é executada com detalhes completos: contornos e linhas de superfície são preservados na malha. Sem resultados blocados ou simplificados."
+		},
+		{
+			"title": "Pré-visualização 3D no navegador",
+			"description": "Inspecione todos os ângulos no visualizador 3D integrado antes de baixar. Gire, amplie e ajuste a textura ou execute novamente."
+		},
+		{
+			"title": "Exportação STL + GLB",
+			"description": "Baixe STL para impressão 3D (carregue em qualquer slicer) ou GLB para motores de jogos, RA/RV e ferramentas de modelagem 3D."
+		}
+	],
+	"useCases": [
+		"Entusiastas da impressão 3D: envie uma foto do celular e imprima ainda hoje",
+		"Designers de produto: transforme uma foto de referência em um protótipo físico",
+		"Desenvolvedores de jogos e RA/RV: exporte arte conceitual como GLB para prototipagem rápida",
+		"Professores: transforme diagramas em objetos que os alunos possam segurar",
+		"Presentes e lembranças: converta um retrato ou desenho infantil em uma impressão 3D",
+		"Entusiastas de jogos de tabuleiro: gere miniaturas imprimíveis a partir de arte conceitual"
+	],
+	"pricing": [
+		{
+			"name": "Grátis",
+			"chargeType": "free",
+			"priceNote": "Grátis",
+			"features": [
+				"65 créditos por geração",
+				"Upload de JPG/PNG (256–6000 px, máx. 5 MB)",
+				"Download em STL",
+				"Pré-visualização 3D no navegador"
+			]
+		},
+		{
+			"name": "Pro",
+			"chargeType": "recurring",
+			"priceNote": "$19 /mês",
+			"features": [
+				"600 créditos por mês",
+				"Conversão de alta qualidade para GLB e STL",
+				"Pré-visualização 3D no navegador",
+				"Processamento prioritário",
+				"Arquivos privados e de sua propriedade",
+				"Suporte por e-mail",
+				"Direitos comerciais"
+			]
+		},
+		{
+			"name": "Max",
+			"chargeType": "recurring",
+			"priceNote": "$29 /mês",
+			"recommend": true,
+			"features": [
+				"1000 créditos por mês",
+				"Conversão de alta qualidade para GLB e STL",
+				"Pré-visualização 3D no navegador",
+				"Processamento mais rápido",
+				"Arquivos privados e de sua propriedade",
+				"Suporte prioritário por e-mail",
+				"Direitos comerciais"
+			]
+		},
+		{
+			"name": "1.750 créditos",
+			"chargeType": "flat",
+			"priceNote": "$59 pagamento único",
+			"recommend": true,
+			"features": ["1.750 créditos", "Pagamento único", "Créditos nunca expiram", "Sem assinatura"]
+		},
+		{
+			"name": "3.000 créditos",
+			"chargeType": "flat",
+			"priceNote": "$99 pagamento único",
+			"features": ["3.000 créditos", "Pagamento único", "Créditos nunca expiram", "Sem assinatura"]
+		},
+		{
+			"name": "4.500 créditos",
+			"chargeType": "flat",
+			"priceNote": "$149 pagamento único",
+			"features": ["4.500 créditos", "Pagamento único", "Créditos nunca expiram", "Sem assinatura"]
+		}
+	],
+	"faqs": [
+		{
+			"question": "O que é um conversor de imagem para STL?",
+			"answer": "Um conversor de imagem para STL transforma uma foto 2D em um modelo 3D salvo como arquivo STL. A IA interpreta a profundidade da foto e gera uma malha imprimível."
+		},
+		{
+			"question": "Quais formatos de imagem são compatíveis?",
+			"answer": "JPG e PNG. Para obter os melhores resultados, use uma foto nítida com iluminação uniforme e um fundo limpo."
+		},
+		{
+			"question": "Quais outros formatos posso baixar além de STL?",
+			"answer": "Toda conversão pode ser exportada como GLB, compatível com motores de jogos, projetos de RA/RV e a maioria dos softwares de modelagem 3D."
+		},
+		{
+			"question": "Devo usar uma foto ou várias?",
+			"answer": "Uma foto funciona para a maioria dos projetos. Para objetos assimétricos ou detalhados, o modo multi-visualização com 2 a 4 ângulos oferece melhor cobertura na parte traseira e nas laterais."
+		},
+		{
+			"question": "O que muda nas opções de textura Padrão e HD?",
+			"answer": "Elas afetam apenas a textura de cor para pré-visualizações e exportação GLB. O detalhe da malha é o mesmo, independentemente da textura escolhida."
+		},
+		{
+			"question": "Posso usar meus arquivos STL comercialmente?",
+			"answer": "Sim, nos planos pagos. Todos os arquivos gerados no Pro ou Max incluem direitos comerciais completos."
+		},
+		{
+			"question": "Posso cancelar minha assinatura a qualquer momento?",
+			"answer": "Sim. Cancele na sua página de faturamento com um clique. Os créditos permanecem ativos até o fim do período de faturamento atual."
+		},
+		{
+			"question": "Vocês oferecem reembolso?",
+			"answer": "Analisado caso a caso. Envie um e-mail para support@imagetostl.me em até 7 dias. Os créditos e o acesso permanecem ativos até o fim do período de faturamento após o cancelamento."
+		}
+	],
+	"seo": {
+		"title": "Image To STL — Gerador de modelos 3D com IA online",
+		"description": "Converta fotos JPG/PNG em arquivos STL para impressão 3D. Envie uma imagem ou vários ângulos, visualize em 3D e baixe em STL ou GLB."
+	}
+}
