@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.6](https://github.com/bataitools/bat-cli/compare/v1.2.5...v1.2.6) (2026-06-23)
+
+
+### Bug Fixes
+
+* **release:** remove leading dot-slash from bin path and upgrade npm in CI to support OIDC ([8132b65](https://github.com/bataitools/bat-cli/commit/8132b65f1ff8861f919533f3978dfed388ed258a))
+
 ## [1.2.5](https://github.com/bataitools/bat-cli/compare/v1.2.4...v1.2.5) (2026-06-23)
 
 ## [1.2.4](https://github.com/bataitools/bat-cli/compare/v1.2.3...v1.2.4) (2026-06-23)
