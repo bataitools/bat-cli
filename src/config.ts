@@ -12,7 +12,7 @@ const OLD_CONFIG_DIR = join(homedir(), '.bat-agent');
 try {
 	if (!existsSync(CONFIG_DIR) && existsSync(OLD_CONFIG_DIR)) {
 		renameSync(OLD_CONFIG_DIR, CONFIG_DIR);
-		console.log(`[bat-cli] Migrated credentials from ${OLD_CONFIG_DIR} to ${CONFIG_DIR}`);
+		console.error(`[bat-cli] Migrated credentials from ${OLD_CONFIG_DIR} to ${CONFIG_DIR}`);
 	}
 } catch {
 	// 静默失败
@@ -20,10 +20,11 @@ try {
 
 const CREDENTIALS_FILE = join(CONFIG_DIR, 'credentials.json');
 
-interface CredentialsFile {
+export interface CredentialsFile {
 	token?: string;
 	/** 可选：持久化开发/自定义 API 地址，优先级低于 BAT_API_URL 环境变量 */
 	apiUrl?: string;
+	env?: 'production' | 'development' | 'custom';
 }
 
 interface AutoLoginResponse {
@@ -69,14 +70,34 @@ export function getApiUrl(): string {
 }
 
 export function saveToken(token: string, apiUrl?: string) {
-	const existing = readCredentialsFile();
-	writeCredentialsFile({
-		...existing,
+	const normalizedApiUrl = apiUrl?.trim().replace(/\/+$/, '');
+	let finalApiUrl = normalizedApiUrl;
+	let env: 'production' | 'development' | 'custom' = 'production';
+
+	if (finalApiUrl) {
+		if (finalApiUrl === BAT_API_URL_PRODUCTION) {
+			env = 'production';
+		} else if (finalApiUrl === 'http://localhost:6664') {
+			env = 'development';
+		} else {
+			env = 'custom';
+		}
+	} else {
+		finalApiUrl = undefined;
+		env = 'production';
+	}
+
+	const newCreds: CredentialsFile = {
 		token,
-		...(apiUrl?.trim() ? { apiUrl: apiUrl.trim().replace(/\/+$/, '') } : {}),
-	});
-	console.log(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
-	console.log(`[bat-cli] api: ${getApiUrl()}`);
+		env,
+	};
+	if (finalApiUrl) {
+		newCreds.apiUrl = finalApiUrl;
+	}
+
+	writeCredentialsFile(newCreds);
+	console.error(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
+	console.error(`[bat-cli] api: ${getApiUrl()} (${env})`);
 }
 
 export function loadToken(): string | null {
@@ -87,9 +108,7 @@ export function loadToken(): string | null {
 export function requireToken(): string {
 	const token = loadToken();
 	if (!token) {
-		throw new Error(
-			'Not logged in. Run: bat-cli login-guest (device account) or bat-cli login (formal account)',
-		);
+		throw new Error('Not logged in. Run: bat-cli login-guest (device account) or bat-cli login (formal account)');
 	}
 	return token;
 }
@@ -98,7 +117,7 @@ export function requireToken(): string {
 export async function autoLogin(apiUrl?: string): Promise<string> {
 	const started = performance.now();
 	const base = apiUrl?.trim() ? apiUrl.trim().replace(/\/+$/, '') : getApiUrl();
-	console.log(`[bat-cli] auto-login requesting guest account from ${base}`);
+	console.error(`[bat-cli] auto-login requesting guest account from ${base}`);
 
 	const res = await fetch(`${base}/bat/agent/auto-login`, { method: 'POST' });
 	const body = (await res.json()) as ApiEnvelope<AutoLoginResponse>;
@@ -107,10 +126,10 @@ export async function autoLogin(apiUrl?: string): Promise<string> {
 	}
 
 	saveToken(body.data.key, apiUrl);
-	console.log(
+	console.error(
 		`[bat-cli] auto-login guest userId=${body.data.userId} completed in ${(performance.now() - started).toFixed(0)}ms`,
 	);
-	console.log(
+	console.error(
 		'[bat-cli] tip: credentials saved to ~/.bat-cli/credentials.json — use bat-cli login for a formal account on other devices',
 	);
 	return body.data.key;

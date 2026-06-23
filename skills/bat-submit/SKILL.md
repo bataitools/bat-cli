@@ -25,8 +25,14 @@ Submit or update an AI tool listing on [bataitools.com](https://bataitools.com) 
 2. **Authenticate** (pick one):
     - Guest (auto-created on first submit): `bat-cli login-guest`
     - Formal account (OAuth, like `gh auth login`): `bat-cli login`
-    - API key (CI): `bat-cli login <your-api-key>`
-3. API endpoint default: `https://api.bataitools.com` (override via `BAT_API_URL`)
+    - API key (CI): `bat-cli login --key <your-api-key>`
+3. API endpoint default: `https://api.bataitools.com` (override via `BAT_API_URL` env or `--api` flag).
+4. **Environment Requirements (环境准备)**:
+    - **Playwright Chromium**: `bat-cli capture-screenshot` requires the Playwright chromium browser. Prior to running submission tasks, please ensure it is installed:
+        ```bash
+        npx playwright install chromium
+        ```
+        _(While the CLI will attempt to auto-install this browser on the first run of `capture-screenshot`, pre-installing is highly recommended to avoid execution delays or environment-specific timeout issues)._
 
 ---
 
@@ -34,11 +40,11 @@ Submit or update an AI tool listing on [bataitools.com](https://bataitools.com) 
 
 Large single-file JSON causes truncation and validation failures. Always run the 3 phases back-to-back:
 
-| Phase                | What happens                                                           | Output                                                             |
-| -------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------ |
-| **1. English**       | Crawl site, fill `base.json` + `i18n/en.json`, fetch logo + screenshot | `base.json`, `i18n/en.json`, `logo.webp`, `website-screenshot.png` |
-| **2. Translate**     | Translate `en.json` into 27 other languages (batches of 3–4)           | `i18n/zh.json`, `i18n/ja.json`, … (28 total)                       |
-| **3. Pack & Submit** | Merge, validate, upload assets, POST                                   | `submit.bundle.json`, submission confirmed                         |
+| Phase                | What happens                                                           | Output                                                                                                |
+| -------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| **1. English**       | Crawl site, fill `base.json` + `i18n/en.json`, fetch logo + screenshot | `base.json`, `i18n/en.json`, local logo (webp/ico/png/jpg/jpeg), local screenshot (png/webp/jpg/jpeg) |
+| **2. Translate**     | Translate `en.json` into 27 other languages (batches of 3–4)           | `i18n/zh.json`, `i18n/ja.json`, … (28 total)                                                          |
+| **3. Pack & Submit** | Merge, validate, upload assets, POST                                   | `submit.bundle.json`, submission confirmed                                                            |
 
 ---
 
@@ -88,6 +94,8 @@ bat-cli validate-phase1 <submit-dir>
 # → proceed to Phase 2 without waiting
 ```
 
+_(Note for Agent: Capture screenshot and fetch logo are intentionally performed in Phase 1 to enforce Fail-Fast. If asset fetching fails, we exit immediately before Phase 2, saving API costs and avoiding wasteful LLM translation calls)._
+
 **Key rules:**
 
 - Taxonomy codes (`categorys`, `tags`, `audiences`) must come from `bat-cli schema en` — never invent
@@ -104,17 +112,29 @@ See `references/02-translate-i18n.md` for localization rules, priceNote rules, a
 
 All 28 languages required: `en zh tw es ar id pt fr ja ru de ko tr vi it nl pl th hi uk fa bn ur sv no da fi he`
 
-Run `bat-cli schema` to fetch the current list from the API.
+**步骤：**
 
-**Translate in batches of 3–4 languages per LLM call:**
+1. **生成同构翻译模板**：
+   运行以下命令，为除了源语言外的其他 27 种语言自动生成带有占位符的 `i18n/<lang>.json` 模板文件：
 
-1. `zh`, `tw`, `ja`, `ko`
-2. `de`, `fr`, `it`, `nl`
-3. `es`, `pt`, `ru`, `tr`
-4. `ar`, `vi`, `id`, `th`
-5. `hi`, `bn`, `ur`, `fa`
-6. `pl`, `uk`
-7. `sv`, `no`, `da`, `fi`, `he`
+    ```bash
+    bat-cli translate-template <submit-dir> --from en --to all
+    ```
+
+    _该命令将递归读取英文 JSON 结构，如果是新增的翻译项则自动填充为占位符 `[TODO: TRANSLATE] 英文原文`。如果是已有文件，只会自动合并并补齐缺失的字段，绝不覆盖已有翻译。_
+    _同时它还会智能跳过 `chargeType`、`recommend`、`url`、`type` 等无须翻译的核心校验属性。_
+
+2. **调用智能体进行翻译**：
+   智能体读取这 27 个翻译模板文件，将其中包含 `[TODO: TRANSLATE]` 占位符的部分用相应语言的翻译替代并写回原处。
+   建议按以下批次（每次 3–4 个语言）进行 LLM 翻译调用：
+
+    1. `zh`, `tw`, `ja`, `ko`
+    2. `de`, `fr`, `it`, `nl`
+    3. `es`, `pt`, `ru`, `tr`
+    4. `ar`, `vi`, `id`, `th`
+    5. `hi`, `bn`, `ur`, `fa`
+    6. `pl`, `uk`
+    7. `sv`, `no`, `da`, `fi`, `he`
 
 **Key rules:**
 
@@ -141,7 +161,11 @@ bat-cli submit --dir <submit-dir>
 bat-cli status --id <submitId>
 ```
 
-At `pack` / `submit --dir`: if `base.json` has no remote asset URLs, the CLI uploads local `logo.webp` and `website-screenshot.png` to CDN and writes the URLs back to `base.json`. Already-set remote URLs skip the upload.
+At `pack` / `submit --dir`: if `base.json` has no remote asset URLs, the CLI uploads the local logo and website screenshot to CDN and writes the URLs back to `base.json`:
+
+- **Logo auto-conversion**: The CLI automatically converts and compresses the local logo (supporting `webp`, `ico`, `png`, `jpg`, `jpeg`) into a standard `logo.webp` (256×256 WebP, 90% quality) prior to uploading.
+- **Screenshot auto-conversion**: The CLI automatically converts and compresses the local website screenshot (supporting `webp`, `png`, `jpg`, `jpeg`) into a optimized `website-screenshot.webp` (max width 1920px, 80% quality) prior to uploading.
+- Already-set remote URLs skip the upload.
 
 ---
 

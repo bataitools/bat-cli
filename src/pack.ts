@@ -39,7 +39,9 @@ export function validatePhase1Directory(dir: string) {
 		localWebsiteScreenshot: hasLocalWebsiteScreenshot(dir),
 		localLogo: hasLocalLogo(dir),
 	});
-	console.log(`[bat-cli:ValidatePhase1] dir=${dir} ok=${result.ok} in ${(performance.now() - started).toFixed(0)}ms`);
+	console.error(
+		`[bat-cli:ValidatePhase1] dir=${dir} ok=${result.ok} in ${(performance.now() - started).toFixed(0)}ms`,
+	);
 	return result;
 }
 
@@ -52,7 +54,7 @@ export async function packSubmitDirectory(dir: string): Promise<AgentSubmitBundl
 		throw new Error(`Pack validation failed:\n${msg}`);
 	}
 
-	console.log(
+	console.error(
 		`[bat-cli:Pack] dir=${dir} langs=${Object.keys(bundle.i18n).length} in ${(performance.now() - started).toFixed(0)}ms`,
 	);
 	return bundle;

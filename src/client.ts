@@ -1,3 +1,4 @@
+import { existsSync, readFileSync } from 'node:fs';
 import { ensureToken, getApiUrl } from './config';
 
 interface ApiEnvelope<T> {
@@ -74,14 +75,14 @@ export async function uploadScreenshot(options: {
 }): Promise<{ path: string; website: string }> {
 	const base = getApiUrl();
 	const token = await ensureToken();
-	const file = Bun.file(options.filePath);
-	if (!(await file.exists())) {
+	if (!existsSync(options.filePath)) {
 		throw new Error(`File not found: ${options.filePath}`);
 	}
-	const blob = await file.arrayBuffer();
+	const buffer = readFileSync(options.filePath);
+	const blob = new Blob([buffer], { type: 'image/png' });
 
 	const form = new FormData();
-	form.append('file', new Blob([blob], { type: 'image/png' }), 'screenshot.png');
+	form.append('file', blob, 'screenshot.png');
 
 	const qs = new URLSearchParams({ website: options.website });
 	const res = await fetch(`${base}/bat/agent/upload-screenshot?${qs.toString()}`, {
@@ -102,11 +103,10 @@ export async function uploadLogo(options: {
 }): Promise<{ path: string; website: string }> {
 	const base = getApiUrl();
 	const token = await ensureToken();
-	const file = Bun.file(options.filePath);
-	if (!(await file.exists())) {
+	if (!existsSync(options.filePath)) {
 		throw new Error(`File not found: ${options.filePath}`);
 	}
-	const blob = await file.arrayBuffer();
+	const buffer = readFileSync(options.filePath);
 
 	const ext = options.filePath.split('.').pop()?.toLowerCase() || 'webp';
 	let mime = 'image/webp';
@@ -118,8 +118,9 @@ export async function uploadLogo(options: {
 		mime = 'image/jpeg';
 	}
 
+	const blob = new Blob([buffer], { type: mime });
 	const form = new FormData();
-	form.append('file', new Blob([blob], { type: mime }), `logo.${ext}`);
+	form.append('file', blob, `logo.${ext}`);
 
 	const qs = new URLSearchParams({ website: options.website });
 	const res = await fetch(`${base}/bat/agent/upload-logo?${qs.toString()}`, {
@@ -132,4 +133,18 @@ export async function uploadLogo(options: {
 		throw new Error(body.errorMsg ?? `Upload failed: ${res.status}`);
 	}
 	return body.data;
+}
+
+export interface AgentSubmitItem {
+	submitId: number;
+	name: string;
+	website: string;
+	status: number;
+	statusLabel: string;
+	createdAt: string;
+	previewCode?: string;
+}
+
+export async function listSubmits() {
+	return request<AgentSubmitItem[]>('/bat/agent/list');
 }

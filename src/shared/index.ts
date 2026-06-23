@@ -6,4 +6,4 @@ export * from './agent-submit-validation';
 export * from './agent-local-assets';
 export * from './agent-screenshots';
 export * from './agent-submit-pack';
-
+export * from './product-languages';

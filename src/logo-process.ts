@@ -12,23 +12,30 @@ export function isIcoBuffer(buffer: Buffer): boolean {
 
 export async function sharpFromBuffer(buffer: Buffer): Promise<sharp.Sharp> {
 	if (isIcoBuffer(buffer)) {
-		const images = decodeIco(buffer);
-		if (images.length === 0) {
-			throw new Error('ICO file contains no images');
+		try {
+			const images = decodeIco(buffer);
+			if (images.length > 0) {
+				const largest = images.reduce((best, img) =>
+					img.width * img.height > best.width * best.height ? img : best,
+				);
+				return sharp(largest.data, {
+					raw: { width: largest.width, height: largest.height, channels: 4 },
+				});
+			}
+		} catch (icoErr) {
+			console.error(`[bat-cli:Logo] ICO decode failed, falling back to standard sharp:`, icoErr);
 		}
-		const largest = images.reduce((best, img) =>
-			img.width * img.height > best.width * best.height ? img : best,
-		);
-		return sharp(largest.data, {
-			raw: { width: largest.width, height: largest.height, channels: 4 },
-		});
 	}
 
 	return sharp(buffer, { pages: -1 });
 }
 
-/** 下载远程 logo 并处理为 256×256 webp（对齐 bat-crawl/logo.py） */
-export async function downloadAndProcessLogo(logoUrl: string, outPath: string): Promise<void> {
+/** 下载远程 logo 并处理为 256×256 格式（对齐 bat-crawl/logo.py） */
+export async function downloadAndProcessLogo(
+	logoUrl: string,
+	outPath: string,
+	format: 'webp' | 'png' = 'webp',
+): Promise<void> {
 	const started = performance.now();
 	const target = logoUrl.trim();
 	if (!target.startsWith('http://') && !target.startsWith('https://')) {
@@ -49,9 +56,12 @@ export async function downloadAndProcessLogo(logoUrl: string, outPath: string): 
 
 	mkdirSync(dirname(outPath), { recursive: true });
 	const pipeline = await sharpFromBuffer(buffer);
-	await pipeline.resize(256, 256, { fit: 'fill' }).webp({ quality: 90 }).toFile(outPath);
+	const resized = pipeline.resize(256, 256, { fit: 'fill' });
+	if (format === 'png') {
+		await resized.png({ quality: 90 }).toFile(outPath);
+	} else {
+		await resized.webp({ quality: 90 }).toFile(outPath);
+	}
 
-	console.log(
-		`[bat-cli:Logo] processed ${target} → ${outPath} in ${(performance.now() - started).toFixed(0)}ms`,
-	);
+	console.error(`[bat-cli:Logo] processed ${target} → ${outPath} in ${(performance.now() - started).toFixed(0)}ms`);
 }

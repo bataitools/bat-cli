@@ -1,19 +1,16 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { validateAgentSubmitBundle } from './shared';
-import { fetchSchema, getSubmitStatus, publishSubmit, submitBundle, uploadScreenshot } from './client';
-import { BAT_API_URL_PRODUCTION, autoLogin, saveToken } from './config';
-import { formalLogin } from './login-flow';
+import { join, resolve } from 'node:path';
+import readline from 'node:readline';
+import { validateAgentSubmitBundle, AGENT_REQUIRED_LANGUAGE_CODES } from './shared';
+import { fetchSchema, getSubmitStatus, publishSubmit, submitBundle, uploadScreenshot, listSubmits } from './client';
+import { BAT_API_URL_PRODUCTION, autoLogin, saveToken, getApiUrl } from './config';
+import { formalLogin, openBrowser } from './login-flow';
 import { packSubmitDirectory, validatePhase1Directory } from './pack';
 import { captureWebsiteScreenshot } from './screenshot';
 import { submitDirForWebsite } from './site-dir';
-import {
-	AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME,
-	ensureSubmitAssetsUploaded,
-	localLogoPath,
-} from './submit-assets';
+import { AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, ensureSubmitAssetsUploaded, localLogoPath } from './submit-assets';
 import { downloadAndProcessLogo } from './logo-process';
 
 async function main() {
@@ -29,32 +26,88 @@ async function main() {
 	try {
 		switch (command) {
 			case 'login': {
-				const token = args[0];
-				const apiUrl = readFlag(args, '--api');
+				let token = args[0];
+				let apiUrl = readFlag(args, '--api');
+				const env = readFlag(args, '--env');
+				const isDev = args.includes('--dev');
+				const keyFlag = readFlag(args, '--key');
+
+				if (isDev || env === 'dev' || env === 'development') {
+					apiUrl = 'http://localhost:6664';
+				} else if (env === 'prod' || env === 'production') {
+					apiUrl = BAT_API_URL_PRODUCTION;
+				}
+
+				if (keyFlag) {
+					token = keyFlag;
+				}
+
 				if (token === 'guest') {
 					await autoLogin(apiUrl);
 					break;
 				}
-				if (token?.startsWith('bat_')) {
+				if (token?.startsWith('bat_') || token?.startsWith('bat-')) {
 					saveToken(token, apiUrl);
-					console.log('[bat-cli] saved formal account API key');
+					console.error('✅ Saved formal account API key successfully.');
 					break;
 				}
 				if (!token) {
+					console.error('Welcome to BAT AI Tools CLI login!');
+					console.error('You can log in using either your API key or OAuth device flow.');
+					const inputKey = await askQuestion(
+						'👉 Please enter your API key (leave empty to login via browser OAuth): ',
+					);
+					if (inputKey) {
+						if (inputKey.startsWith('bat_') || inputKey.startsWith('bat-') || inputKey.length > 20) {
+							saveToken(inputKey, apiUrl);
+							console.error('✅ Saved formal account API key successfully.');
+							break;
+						} else {
+							throw new Error('Invalid API key format. Key should typically start with "bat_".');
+						}
+					}
 					await formalLogin(apiUrl);
 					break;
 				}
 				throw new Error(
-					'Usage: bat-cli login | bat-cli login <api-key> | bat-cli login guest | bat-cli login-guest',
+					'Usage: bat-cli login [--key <api-key>] [--api <url>] [--env dev|prod]\n' +
+						'       bat-cli login guest | bat-cli login-guest',
 				);
 			}
 			case 'login-guest': {
-				await autoLogin(readFlag(args, '--api'));
+				let apiUrl = readFlag(args, '--api');
+				const env = readFlag(args, '--env');
+				const isDev = args.includes('--dev');
+				if (isDev || env === 'dev' || env === 'development') {
+					apiUrl = 'http://localhost:6664';
+				} else if (env === 'prod' || env === 'production') {
+					apiUrl = BAT_API_URL_PRODUCTION;
+				}
+				await autoLogin(apiUrl);
 				break;
 			}
 			case 'schema': {
-				const schema = await fetchSchema(args[0] ?? 'en');
-				console.log(JSON.stringify(schema, null, 2));
+				const format = readFlag(args, '--format') ?? 'json';
+				const keys = readFlag(args, '--keys');
+				const schema = (await fetchSchema(args[0] && !args[0].startsWith('-') ? args[0] : 'en')) as any;
+
+				let outputData = schema;
+				if (keys) {
+					const filterKeys = keys.split(',').map((k) => k.trim());
+					const filtered: Record<string, any> = {};
+					for (const key of filterKeys) {
+						if (schema[key]) {
+							filtered[key] = schema[key];
+						}
+					}
+					outputData = filtered;
+				}
+
+				if (format === 'table') {
+					printSchemaTable(outputData);
+				} else {
+					console.log(JSON.stringify(outputData, null, 2));
+				}
 				break;
 			}
 			case 'validate': {
@@ -66,8 +119,9 @@ async function main() {
 				break;
 			}
 			case 'validate-phase1': {
-				const dir = args[0];
+				let dir = args[0];
 				if (!dir) throw new Error('Usage: bat-cli validate-phase1 <submit-dir>');
+				dir = resolve(dir);
 				const result = validatePhase1Directory(dir);
 				console.log(JSON.stringify(result, null, 2));
 				if (!result.ok) process.exit(1);
@@ -76,8 +130,9 @@ async function main() {
 			case 'submit': {
 				const dirFlag = args.indexOf('--dir');
 				if (dirFlag >= 0) {
-					const dir = args[dirFlag + 1];
+					let dir = args[dirFlag + 1];
 					if (!dir) throw new Error('Usage: bat-cli submit --dir <submit-dir>');
+					dir = resolve(dir);
 					await ensureSubmitAssetsUploaded(dir);
 					const bundle = await packSubmitDirectory(dir);
 					const validation = validateAgentSubmitBundle(bundle);
@@ -86,7 +141,7 @@ async function main() {
 						process.exit(1);
 					}
 					const data = await submitBundle(bundle);
-					console.log(
+					console.error(
 						`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
 					);
 					console.log(JSON.stringify(data, null, 2));
@@ -100,7 +155,7 @@ async function main() {
 					process.exit(1);
 				}
 				const data = await submitBundle(bundle);
-				console.log(
+				console.error(
 					`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
 				);
 				console.log(JSON.stringify(data, null, 2));
@@ -110,6 +165,38 @@ async function main() {
 				const submitId = parseSubmitId(args);
 				const data = await getSubmitStatus(submitId);
 				console.log(JSON.stringify(data, null, 2));
+				break;
+			}
+			case 'list': {
+				const format = readFlag(args, '--format') ?? 'table';
+				const data = await listSubmits();
+				if (format === 'table') {
+					if (!data || data.length === 0) {
+						console.error('No submits found.');
+						break;
+					}
+					console.log('ID\tName\tWebsite\tStatus\tCreated At');
+					console.log('--------------------------------------------------');
+					for (const item of data) {
+						console.log(
+							`${item.submitId}\t${item.name || '-'}\t${item.website || '-'}\t${item.statusLabel || item.status}\t${item.createdAt || '-'}`,
+						);
+					}
+				} else {
+					console.log(JSON.stringify(data, null, 2));
+				}
+				break;
+			}
+			case 'preview': {
+				const previewCode = readFlag(args, '--code') ?? args[0];
+				if (!previewCode) {
+					throw new Error('Usage: bat-cli preview --code <previewCode> | bat-cli preview <previewCode>');
+				}
+				const baseWeb = getWebsiteBaseUrl();
+				const previewUrl = `${baseWeb}/agent/preview/${previewCode}`;
+				console.error(`🔗 Preview URL: ${previewUrl}`);
+				console.log(previewUrl);
+				await openBrowser(previewUrl);
 				break;
 			}
 			case 'upload-screenshot': {
@@ -128,10 +215,11 @@ async function main() {
 				const opts = parseCaptureArgs(args);
 				const buffer = await captureWebsiteScreenshot(opts.url);
 				if (opts.dir) {
-					mkdirSync(opts.dir, { recursive: true });
-					const outPath = join(opts.dir, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME);
+					const resolvedDir = resolve(opts.dir);
+					mkdirSync(resolvedDir, { recursive: true });
+					const outPath = join(resolvedDir, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME);
 					writeFileSync(outPath, buffer);
-					console.log(`[bat-cli] wrote local screenshot ${outPath}`);
+					console.error(`[bat-cli] wrote local screenshot ${outPath}`);
 					break;
 				}
 				if (opts.mergeFile) {
@@ -152,26 +240,76 @@ async function main() {
 			case 'fetch-logo': {
 				const url = readFlag(args, '--url');
 				const dir = readFlag(args, '--dir');
+				const format = readFlag(args, '--format') ?? 'webp';
 				if (!url || !dir) {
-					throw new Error('Usage: bat-cli fetch-logo --url <logo-url> --dir <submit-dir>');
+					throw new Error(
+						'Usage: bat-cli fetch-logo --url <logo-url> --dir <submit-dir> [--format webp|png]',
+					);
 				}
-				const outPath = localLogoPath(dir);
-				await downloadAndProcessLogo(url, outPath);
-				console.log(`[bat-cli] wrote local logo ${outPath}`);
+				const resolvedDir = resolve(dir);
+				const outPath = join(resolvedDir, `logo.${format}`);
+				await downloadAndProcessLogo(url, outPath, format as 'webp' | 'png');
+				console.error(`[bat-cli] wrote local logo ${outPath}`);
 				break;
 			}
 			case 'pack': {
-				const dir = args[0];
+				let dir = args[0];
 				const out = readFlag(args, '-o') ?? readFlag(args, '--out');
 				if (!dir) throw new Error('Usage: bat-cli pack <submit-dir> [-o submit.bundle.json]');
+				dir = resolve(dir);
 				await ensureSubmitAssetsUploaded(dir);
 				const bundle = await packSubmitDirectory(dir);
 				const json = JSON.stringify(bundle, null, 2);
 				if (out) {
-					writeFileSync(out, json, 'utf-8');
-					console.log(`[bat-cli] wrote ${out} (${Object.keys(bundle.i18n).length} languages)`);
+					const resolvedOut = resolve(out);
+					writeFileSync(resolvedOut, json, 'utf-8');
+					console.error(`[bat-cli] wrote ${resolvedOut} (${Object.keys(bundle.i18n).length} languages)`);
 				} else {
 					console.log(json);
+				}
+				break;
+			}
+			case 'translate-template': {
+				const dir = readFlag(args, '--dir') ?? args[0];
+				const from = readFlag(args, '--from') ?? 'en';
+				const to = readFlag(args, '--to') ?? 'all';
+				if (!dir) {
+					throw new Error(
+						'Usage: bat-cli translate-template <submit-dir> [--from en] [--to all|zh,tw,ja,...]',
+					);
+				}
+				const resolvedDir = resolve(dir);
+				const fromPath = join(resolvedDir, `i18n/${from}.json`);
+				if (!existsSync(fromPath)) {
+					throw new Error(`Source translation file not found: ${fromPath}`);
+				}
+				const fromData = JSON.parse(readFileSync(fromPath, 'utf-8'));
+
+				let targetLangs: string[] = [];
+				if (to === 'all') {
+					targetLangs = AGENT_REQUIRED_LANGUAGE_CODES.filter((lang: string) => lang !== from);
+				} else {
+					targetLangs = to
+						.split(',')
+						.map((s) => s.trim())
+						.filter(Boolean);
+				}
+
+				mkdirSync(join(resolvedDir, 'i18n'), { recursive: true });
+
+				for (const lang of targetLangs) {
+					const targetPath = join(resolvedDir, `i18n/${lang}.json`);
+					let targetData: any = {};
+					if (existsSync(targetPath)) {
+						try {
+							targetData = JSON.parse(readFileSync(targetPath, 'utf-8'));
+						} catch {
+							targetData = {};
+						}
+					}
+					const template = generateTranslationTemplate(fromData, targetData);
+					writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
+					console.error(`✅ Created/updated translation template: i18n/${lang}.json`);
 				}
 				break;
 			}
@@ -185,23 +323,31 @@ async function main() {
 			}
 			case 'init-site': {
 				const website = readFlag(args, '--website');
-				if (!website) throw new Error('Usage: bat-cli init-site --website <url> [--root ./submits]');
-				const root = readFlag(args, '--root') ?? './submits';
-				const dir = submitDirForWebsite(website, root);
-				scaffoldSubmitDirectory(dir);
-				console.log(dir);
+				let dir = readFlag(args, '--dir');
+				if (!website)
+					throw new Error('Usage: bat-cli init-site --website <url> [--dir <submit-dir>] [--root ./submits]');
+				if (!dir) {
+					const root = readFlag(args, '--root') ?? './submits';
+					dir = submitDirForWebsite(website, root);
+				}
+				const resolvedDir = resolve(dir);
+				scaffoldSubmitDirectory(resolvedDir);
+				console.error(`✅ Site directory created at: ${resolvedDir}`);
+				console.log(resolvedDir);
 				break;
 			}
 			case 'init': {
 				const dir = args[0];
 				if (!dir) throw new Error('Usage: bat-cli init <submit-dir>');
-				scaffoldSubmitDirectory(dir);
+				const resolvedDir = resolve(dir);
+				scaffoldSubmitDirectory(resolvedDir);
+				console.error(`✅ Site directory scaffolded at: ${resolvedDir}`);
 				break;
 			}
 			default:
 				throw new Error(`Unknown command: ${command}`);
 		}
-		console.log(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
+		console.error(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
 	} catch (e) {
 		console.error(`[bat-cli] error:`, e instanceof Error ? e.message : e);
 		process.exit(1);
@@ -244,9 +390,7 @@ function parseCaptureArgs(args: string[]) {
 	const dir = readFlag(args, '--dir');
 	const mergeFile = readFlag(args, '--merge');
 	if (!website || !url) {
-		throw new Error(
-			'Usage: bat-cli capture-screenshot --website <url> --dir <submit-dir> [--url <capture-url>]',
-		);
+		throw new Error('Usage: bat-cli capture-screenshot --website <url> --dir <submit-dir> [--url <capture-url>]');
 	}
 	return { website, url, dir, mergeFile };
 }
@@ -260,7 +404,7 @@ function scaffoldSubmitDirectory(dir: string) {
 	const enTemplate = join(import.meta.dirname, '../examples/submit/i18n/en.json');
 	writeFileSync(basePath, readFileSync(baseTemplate, 'utf-8'));
 	writeFileSync(enPath, readFileSync(enTemplate, 'utf-8'));
-	console.log(`[bat-cli] scaffolded ${dir}/base.json and ${dir}/i18n/en.json`);
+	console.error(`[bat-cli] scaffolded ${dir}/base.json and ${dir}/i18n/en.json`);
 }
 
 function mergeScreenshotIntoFile(file: string, path: string) {
@@ -268,7 +412,71 @@ function mergeScreenshotIntoFile(file: string, path: string) {
 	bundle.websiteScreenshot = path;
 	delete bundle.screenshots;
 	writeFileSync(file, JSON.stringify(bundle, null, 2));
-	console.log(`[bat-cli] merged websiteScreenshot into ${file}`);
+	console.error(`[bat-cli] merged websiteScreenshot into ${file}`);
+}
+
+function printSchemaTable(schema: any) {
+	if (schema.categories && Array.isArray(schema.categories)) {
+		console.log('\n=== Categories (分类) ===');
+		for (const item of schema.categories) {
+			console.log(`* ${item.code || item.id} - ${item.name}`);
+		}
+	} else if (schema.categorys && Array.isArray(schema.categorys)) {
+		console.log('\n=== Categories (分类) ===');
+		for (const item of schema.categorys) {
+			console.log(`* ${item.code || item.id} - ${item.name}`);
+		}
+	}
+	if (schema.tags && Array.isArray(schema.tags)) {
+		console.log('\n=== Tags (标签) ===');
+		for (const item of schema.tags) {
+			console.log(`* ${item.code || item.id} - ${item.name}`);
+		}
+	}
+	if (schema.audiences && Array.isArray(schema.audiences)) {
+		console.log('\n=== Audiences (受众) ===');
+		for (const item of schema.audiences) {
+			console.log(`* ${item.code || item.id} - ${item.name}`);
+		}
+	}
+}
+
+function generateTranslationTemplate(source: any, existing: any): any {
+	if (typeof source === 'string') {
+		if (typeof existing === 'string' && existing.trim() !== '' && !existing.includes('[TODO:')) {
+			return existing;
+		}
+		return `[TODO: TRANSLATE] ${source}`;
+	}
+	if (Array.isArray(source)) {
+		const result = [];
+		const existArr = Array.isArray(existing) ? existing : [];
+		for (let i = 0; i < source.length; i++) {
+			result.push(generateTranslationTemplate(source[i], existArr[i]));
+		}
+		return result;
+	}
+	if (typeof source === 'object' && source !== null) {
+		const result: Record<string, any> = {};
+		const existObj = typeof existing === 'object' && existing !== null ? existing : {};
+		for (const key of Object.keys(source)) {
+			if (key === 'chargeType' || key === 'recommend' || key === 'url' || key === 'type') {
+				result[key] = source[key];
+			} else {
+				result[key] = generateTranslationTemplate(source[key], existObj[key]);
+			}
+		}
+		return result;
+	}
+	return source;
+}
+
+function getWebsiteBaseUrl(): string {
+	const apiUrl = getApiUrl();
+	if (apiUrl.includes('api.bataitools.com')) {
+		return 'https://bataitools.com';
+	}
+	return apiUrl.replace('api.', '');
 }
 
 function printHelp() {
@@ -284,10 +492,14 @@ Commands:
   submit --dir <dir>    Ensure screenshot + pack + submit and publish in one step
   submit -f <file>      Submit and publish bundle to BAT
   status --id <id>      Check review status
+  list [--format table|json]   List all submissions
+  preview <previewCode>        Preview listing and open in browser
   site-dir <url> [--root DIR]  Print per-site directory (default root: ./submits)
   init-site --website <url>    Scaffold ./submits/<host>/base.json + i18n/en.json
   init <submit-dir>            Scaffold base.json + i18n/en.json
   pack <dir> [-o file]  Merge base.json + i18n/*.json → bundle (uploads local logo/screenshot if needed)
+  translate-template <dir> [--from en] [--to all|zh,tw,...]
+                        Generate/merge multi-language translation JSON templates with placeholders
   fetch-logo --url <url> --dir <dir>  Download logo → local logo.webp (256×256 webp)
   upload-screenshot -f <file> --website <url> [--merge base.json]
   capture-screenshot --website <url> --dir <submit-dir> [--url <page>]
@@ -298,6 +510,19 @@ Commands:
 API endpoint:
   default             ${BAT_API_URL_PRODUCTION} (override via BAT_API_URL env or login --api)
 `);
+}
+
+function askQuestion(query: string): Promise<string> {
+	const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+	return new Promise((resolve) =>
+		rl.question(query, (ans) => {
+			rl.close();
+			resolve(ans.trim());
+		}),
+	);
 }
 
 main();
