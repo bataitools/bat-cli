@@ -39,7 +39,7 @@ jobs:
           fi
 
       - name: Upgrade npm to latest
-        run: npm install -g npm@latest
+        run: sudo npm install -g npm@latest
 
       - name: Run Publish Script
         run: bun run publish:npm
