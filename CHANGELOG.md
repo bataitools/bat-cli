@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.5.0](https://github.com/bataitools/bat-cli/compare/v1.4.0...v1.5.0) (2026-06-23)
+
+
+### Features
+
+* add version tag suffix to individual skill zip names ([2f9e924](https://github.com/bataitools/bat-cli/commit/2f9e92473304fe89cbbd323c0784c8f008f371cc))
+
 # [1.4.0](https://github.com/bataitools/bat-cli/compare/v1.3.1...v1.4.0) (2026-06-23)
 
 
