@@ -1,5 +1,8 @@
 # @bataitools/bat-cli
 
+[![npm version](https://img.shields.io/npm/v/@bataitools/bat-cli.svg?style=flat-square)](https://www.npmjs.com/package/@bataitools/bat-cli)
+[![npm downloads](https://img.shields.io/npm/dm/@bataitools/bat-cli.svg?style=flat-square)](https://www.npmjs.com/package/@bataitools/bat-cli)
+
 [BAT AI Tools](https://bataitools.com) — Scoped CLI to submit and publish multi-language AI Agents & Skills to the AI Directory Platform.
 
 ## Installation
