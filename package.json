@@ -8,7 +8,7 @@
 		"url": "git+https://github.com/bataitools/bat-cli.git"
 	},
 	"bin": {
-		"bat-cli": "./dist/cli.js"
+		"bat-cli": "dist/cli.js"
 	},
 	"main": "./dist/cli.js",
 	"files": [
