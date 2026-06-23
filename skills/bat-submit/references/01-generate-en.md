@@ -442,7 +442,7 @@ Only include tiers that **actually exist** on the website — do not invent plan
 - `priceNote` may localize **period/label words only** (e.g. `month`→`月`, `one-time`→`一次性`, `Free`→`免费`); **currency symbols and numeric amounts must stay unchanged** (e.g. `$19 /month` → `$19 /月`).
 - `features[]` strings get fully translated per locale.
 
-See `prompts/02-translate-i18n.md` for `priceNote` examples.
+See `02-translate-i18n.md` for `priceNote` examples.
 
 Sync `pricingUrl` in `base.json` with the pricing page you crawled.
 
@@ -483,6 +483,6 @@ bat-cli validate-phase1 <submit-dir>
 
 ## After Phase 1 — continue to Phase 2 immediately
 
-When `validate-phase1` passes, **do not stop or ask the user to confirm**. Proceed directly to Phase 2 (`prompts/02-translate-i18n.md`) in the same session.
+When `validate-phase1` passes, **do not stop or ask the user to confirm**. Proceed directly to Phase 2 (`02-translate-i18n.md`) in the same session.
 
 Optionally log a one-line summary (product name, taxonomy codes, pricing tier count) for transparency — but never block on user input unless the user explicitly asked to pause.

@@ -82,7 +82,7 @@ bat-cli validate-phase1 <submit-dir>
 
 ### 4. Translation & Package Packing
 
-Translate the product details into all 28 required languages (refer to prompts under `prompts/` for the translation workflow). Once translations are ready, pack everything into a single distribution bundle:
+Translate the product details into all 28 required languages (refer to the translation guidelines in `skills/bat-submit/references/` for the workflow). Once translations are ready, pack everything into a single distribution bundle:
 
 ```bash
 bat-cli pack <submit-dir> -o <submit-dir>/submit.bundle.json
@@ -104,7 +104,7 @@ bat-cli submit --dir <submit-dir>
 
 **Multiple sites:** repeat the same steps per URL, one site at a time, each in its own `<submit-dir>`. See `skills/bat-submit/SKILL.md`.
 
-See `prompts/01-generate-en.md` and `prompts/02-translate-i18n.md` for the **English → Translate → Submit** workflow.
+See `skills/bat-submit/references/01-generate-en.md` and `skills/bat-submit/references/02-translate-i18n.md` for the **English → Translate → Submit** workflow.
 
 ## Cursor Skills
 
