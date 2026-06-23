@@ -135,8 +135,8 @@ async function main() {
 						process.exit(1);
 					}
 					const data = await submitBundle(bundle);
-					console.log(
-						`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
+					console.error(
+						`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} status=${data.status} (${getStatusText(data.status)})`,
 					);
 					console.log(JSON.stringify(data, null, 2));
 					break;
@@ -149,8 +149,8 @@ async function main() {
 					process.exit(1);
 				}
 				const data = await submitBundle(bundle);
-				console.log(
-					`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
+				console.error(
+					`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} status=${data.status} (${getStatusText(data.status)})`,
 				);
 				console.log(JSON.stringify(data, null, 2));
 				break;
@@ -339,7 +339,7 @@ async function main() {
 			default:
 				throw new Error(`Unknown command: ${command}`);
 		}
-		console.log(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
+		console.error(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
 	} catch (e) {
 		console.error(`[bat-cli] error:`, e instanceof Error ? e.message : e);
 		process.exit(1);
@@ -520,6 +520,22 @@ function askQuestion(query: string): Promise<string> {
 			resolve(ans.trim());
 		}),
 	);
+}
+
+function getStatusText(status: number | string): string {
+	const s = Number(status);
+	switch (s) {
+		case 0:
+			return 'draft/草稿';
+		case 1:
+			return 'pending_review/待审核';
+		case 2:
+			return 'approved/审核通过已发布';
+		case 3:
+			return 'rejected/审核拒绝';
+		default:
+			return `unknown/未知(${status})`;
+	}
 }
 
 main();

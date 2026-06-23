@@ -41,11 +41,10 @@ export async function fetchSchema(lang = 'en') {
 export async function submitBundle(bundle: unknown) {
 	return request<{
 		submitId: number;
-		orderNo: string | null;
 		mode: 'new' | 'update';
-		orderType: string;
-		previewCode?: string;
+		previewUrl: string;
 		status: number;
+		statusLabel?: string;
 	}>('/bat/agent/submit', {
 		method: 'POST',
 		body: JSON.stringify(bundle),

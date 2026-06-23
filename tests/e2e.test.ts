@@ -47,10 +47,8 @@ describe('BAT CLI E2E Tests', () => {
 						success: true,
 						data: {
 							submitId: 888,
-							orderNo: 'order-123',
 							mode: 'new',
-							orderType: 'SUBMIT_AGENT',
-							previewCode: 'mock-preview',
+							previewUrl: 'http://localhost:6661/tools/mock-preview',
 							status: 1,
 						},
 					});

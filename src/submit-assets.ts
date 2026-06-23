@@ -68,7 +68,7 @@ export async function ensureLogoUploaded(submitDir: string): Promise<string> {
 	const existing = typeof base.logo === 'string' ? base.logo.trim() : '';
 
 	if (isRemoteAgentAssetUrl(existing)) {
-		console.log(`[bat-cli:Logo] using existing remote URL, skip upload url=${existing}`);
+		console.error(`[bat-cli:Logo] using existing remote URL, skip upload url=${existing}`);
 		return existing;
 	}
 
@@ -106,7 +106,7 @@ export async function ensureLogoUploaded(submitDir: string): Promise<string> {
 	const data = await uploadLogo({ filePath: uploadPath, website: base.website });
 	base.logo = data.path;
 	writeBaseJson(submitDir, base);
-	console.log(
+	console.error(
 		`[bat-cli:Logo] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
 	);
 	return data.path;
@@ -118,7 +118,7 @@ export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promis
 	const existing = typeof base.websiteScreenshot === 'string' ? base.websiteScreenshot.trim() : '';
 
 	if (isRemoteAgentAssetUrl(existing)) {
-		console.log(`[bat-cli:Screenshot] using existing remote URL, skip upload url=${existing}`);
+		console.error(`[bat-cli:Screenshot] using existing remote URL, skip upload url=${existing}`);
 		return existing;
 	}
 
@@ -154,7 +154,7 @@ export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promis
 	const data = await uploadScreenshot({ filePath: uploadPath, website: base.website });
 	base.websiteScreenshot = data.path;
 	writeBaseJson(submitDir, base);
-	console.log(
+	console.error(
 		`[bat-cli:Screenshot] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
 	);
 	return data.path;
@@ -165,5 +165,5 @@ export async function ensureSubmitAssetsUploaded(submitDir: string): Promise<voi
 	const started = performance.now();
 	await ensureLogoUploaded(submitDir);
 	await ensureWebsiteScreenshotUploaded(submitDir);
-	console.log(`[bat-cli:Assets] submitDir=${submitDir} ready in ${(performance.now() - started).toFixed(0)}ms`);
+	console.error(`[bat-cli:Assets] submitDir=${submitDir} ready in ${(performance.now() - started).toFixed(0)}ms`);
 }
