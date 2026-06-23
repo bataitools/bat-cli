@@ -70,7 +70,7 @@ jobs:
           mkdir -p dist/skills
           TAG=${GITHUB_REF#refs/tags/}
           
-          # 1. Pack individual skills (no version in filename for stable referencing)
+          # 1. Pack individual skills with the version tag suffix
           for skill_dir in skills/*/; do
             skill_name=$(basename "$skill_dir")
             # Validate SKILL.md exists
@@ -78,7 +78,7 @@ jobs:
               echo "⚠️  Skipping $skill_name — no SKILL.md found"
               continue
             fi
-            zip_path="dist/skills/${skill_name}.zip"
+            zip_path="dist/skills/${skill_name}-${TAG}.zip"
             # Create zip with skill-name/ as root folder inside the archive
             (cd skills && zip -r "../$zip_path" "$skill_name/" -x "*.DS_Store")
             echo "✅ Packaged individual skill: $zip_path"
