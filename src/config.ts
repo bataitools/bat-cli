@@ -13,7 +13,7 @@ const OLD_CONFIG_DIR = join(homedir(), '.bat-agent');
 try {
 	if (!existsSync(CONFIG_DIR) && existsSync(OLD_CONFIG_DIR)) {
 		renameSync(OLD_CONFIG_DIR, CONFIG_DIR);
-		console.error(`[bat-cli] Migrated credentials from ${OLD_CONFIG_DIR} to ${CONFIG_DIR}`);
+		console.log(`[bat-cli] Migrated credentials from ${OLD_CONFIG_DIR} to ${CONFIG_DIR}`);
 	}
 } catch {
 	// 静默失败
@@ -79,8 +79,8 @@ export function saveToken(token: string, apiUrl?: string) {
 	}
 
 	writeCredentialsFile(newCreds);
-	console.error(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
-	console.error(`[bat-cli] api: ${getApiUrl()}`);
+	console.log(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
+	console.log(`[bat-cli] api: ${getApiUrl()}`);
 }
 
 export function loadToken(): string | null {
@@ -100,7 +100,7 @@ export function requireToken(): string {
 export async function autoLogin(apiUrl?: string): Promise<string> {
 	const started = performance.now();
 	const base = apiUrl?.trim() ? apiUrl.trim().replace(/\/+$/, '') : getApiUrl();
-	console.error(`[bat-cli] auto-login requesting guest account from ${base}`);
+	console.log(`[bat-cli] auto-login requesting guest account from ${base}`);
 
 	const res = await fetch(`${base}/bat/agent/auto-login`, { method: 'POST' });
 	const body = (await res.json()) as ApiEnvelope<AutoLoginResponse>;
@@ -109,10 +109,10 @@ export async function autoLogin(apiUrl?: string): Promise<string> {
 	}
 
 	saveToken(body.data.key, apiUrl);
-	console.error(
+	console.log(
 		`[bat-cli] auto-login guest userId=${body.data.userId} completed in ${(performance.now() - started).toFixed(0)}ms`,
 	);
-	console.error(
+	console.log(
 		'[bat-cli] tip: credentials saved to ~/.bat-cli/credentials.json — use bat-cli login for a formal account on other devices',
 	);
 	return body.data.key;

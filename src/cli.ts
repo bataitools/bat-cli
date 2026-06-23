@@ -49,19 +49,19 @@ async function main() {
 				}
 				if (token?.startsWith('bat_') || token?.startsWith('bat-')) {
 					saveToken(token, apiUrl);
-					console.error('✅ Saved formal account API key successfully.');
+					console.log('✅ Saved formal account API key successfully.');
 					break;
 				}
 				if (!token) {
-					console.error('Welcome to BAT AI Tools CLI login!');
-					console.error('You can log in using either your API key or OAuth device flow.');
+					console.log('Welcome to BAT AI Tools CLI login!');
+					console.log('You can log in using either your API key or OAuth device flow.');
 					const inputKey = await askQuestion(
 						'👉 Please enter your API key (leave empty to login via browser OAuth): ',
 					);
 					if (inputKey) {
 						if (inputKey.startsWith('bat_') || inputKey.startsWith('bat-') || inputKey.length > 20) {
 							saveToken(inputKey, apiUrl);
-							console.error('✅ Saved formal account API key successfully.');
+							console.log('✅ Saved formal account API key successfully.');
 							break;
 						} else {
 							throw new Error('Invalid API key format. Key should typically start with "bat_".');
@@ -135,7 +135,7 @@ async function main() {
 						process.exit(1);
 					}
 					const data = await submitBundle(bundle);
-					console.error(
+					console.log(
 						`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
 					);
 					console.log(JSON.stringify(data, null, 2));
@@ -149,7 +149,7 @@ async function main() {
 					process.exit(1);
 				}
 				const data = await submitBundle(bundle);
-				console.error(
+				console.log(
 					`[bat-cli] ${data.mode === 'update' ? 'update' : 'new submit'} submitId=${data.submitId} orderType=${data.orderType} status=${data.status}`,
 				);
 				console.log(JSON.stringify(data, null, 2));
@@ -166,7 +166,7 @@ async function main() {
 				const data = await listSubmits();
 				if (format === 'table') {
 					if (!data || data.length === 0) {
-						console.error('No submits found.');
+						console.log('No submits found.');
 						break;
 					}
 					console.log('ID\tName\tWebsite\tStatus\tCreated At');
@@ -186,7 +186,7 @@ async function main() {
 				if (!previewUrl) {
 					throw new Error('Usage: bat-cli preview <previewUrl>');
 				}
-				console.error(`🔗 Preview URL: ${previewUrl}`);
+				console.log(`🔗 Preview URL: ${previewUrl}`);
 				console.log(previewUrl);
 				await openBrowser(previewUrl);
 				break;
@@ -211,7 +211,7 @@ async function main() {
 					mkdirSync(resolvedDir, { recursive: true });
 					const outPath = join(resolvedDir, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME);
 					writeFileSync(outPath, buffer);
-					console.error(`[bat-cli] wrote local screenshot ${outPath}`);
+					console.log(`[bat-cli] wrote local screenshot ${outPath}`);
 					break;
 				}
 				if (opts.mergeFile) {
@@ -241,7 +241,7 @@ async function main() {
 				const resolvedDir = resolve(dir);
 				const outPath = join(resolvedDir, `logo.${format}`);
 				await downloadAndProcessLogo(url, outPath, format as 'webp' | 'png');
-				console.error(`[bat-cli] wrote local logo ${outPath}`);
+				console.log(`[bat-cli] wrote local logo ${outPath}`);
 				break;
 			}
 			case 'pack': {
@@ -255,7 +255,7 @@ async function main() {
 				if (out) {
 					const resolvedOut = resolve(out);
 					writeFileSync(resolvedOut, json, 'utf-8');
-					console.error(`[bat-cli] wrote ${resolvedOut} (${Object.keys(bundle.i18n).length} languages)`);
+					console.log(`[bat-cli] wrote ${resolvedOut} (${Object.keys(bundle.i18n).length} languages)`);
 				} else {
 					console.log(json);
 				}
@@ -301,7 +301,7 @@ async function main() {
 					}
 					const template = generateTranslationTemplate(fromData, targetData);
 					writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-					console.error(`✅ Created/updated translation template: i18n/${lang}.json`);
+					console.log(`✅ Created/updated translation template: i18n/${lang}.json`);
 				}
 				break;
 			}
@@ -324,7 +324,7 @@ async function main() {
 				}
 				const resolvedDir = resolve(dir);
 				scaffoldSubmitDirectory(resolvedDir);
-				console.error(`✅ Site directory created at: ${resolvedDir}`);
+				console.log(`✅ Site directory created at: ${resolvedDir}`);
 				console.log(resolvedDir);
 				break;
 			}
@@ -333,13 +333,13 @@ async function main() {
 				if (!dir) throw new Error('Usage: bat-cli init <submit-dir>');
 				const resolvedDir = resolve(dir);
 				scaffoldSubmitDirectory(resolvedDir);
-				console.error(`✅ Site directory scaffolded at: ${resolvedDir}`);
+				console.log(`✅ Site directory scaffolded at: ${resolvedDir}`);
 				break;
 			}
 			default:
 				throw new Error(`Unknown command: ${command}`);
 		}
-		console.error(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
+		console.log(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
 	} catch (e) {
 		console.error(`[bat-cli] error:`, e instanceof Error ? e.message : e);
 		process.exit(1);
@@ -396,7 +396,7 @@ function scaffoldSubmitDirectory(dir: string) {
 	const enTemplate = join(import.meta.dirname, '../examples/submit/i18n/en.json');
 	writeFileSync(basePath, readFileSync(baseTemplate, 'utf-8'));
 	writeFileSync(enPath, readFileSync(enTemplate, 'utf-8'));
-	console.error(`[bat-cli] scaffolded ${dir}/base.json and ${dir}/i18n/en.json`);
+	console.log(`[bat-cli] scaffolded ${dir}/base.json and ${dir}/i18n/en.json`);
 }
 
 function mergeScreenshotIntoFile(file: string, path: string) {
@@ -404,7 +404,7 @@ function mergeScreenshotIntoFile(file: string, path: string) {
 	bundle.websiteScreenshot = path;
 	delete bundle.screenshots;
 	writeFileSync(file, JSON.stringify(bundle, null, 2));
-	console.error(`[bat-cli] merged websiteScreenshot into ${file}`);
+	console.log(`[bat-cli] merged websiteScreenshot into ${file}`);
 }
 
 function printSchemaTable(schema: any) {

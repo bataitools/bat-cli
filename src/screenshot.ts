@@ -13,7 +13,7 @@ export async function captureWebsiteScreenshot(url: string): Promise<Buffer> {
 	const tmpPath = join(tmpdir(), `bat-cli-screenshot-${Date.now()}.png`);
 
 	try {
-		console.error('⏳ Starting browser...');
+		console.log('⏳ Starting browser...');
 		const { chromium } = await import('playwright');
 		let browser;
 		try {
@@ -25,7 +25,7 @@ export async function captureWebsiteScreenshot(url: string): Promise<Buffer> {
 				errMsg.includes('playwright install') ||
 				errMsg.includes('chromium')
 			) {
-				console.error(
+				console.log(
 					'[bat-cli:Screenshot] Playwright Chromium is not installed. Attempting to install automatically...',
 				);
 				try {
@@ -41,7 +41,7 @@ export async function captureWebsiteScreenshot(url: string): Promise<Buffer> {
 			}
 		}
 
-		console.error(`📸 Capturing screenshot for ${target}...`);
+		console.log(`📸 Capturing screenshot for ${target}...`);
 		try {
 			const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 			await page.goto(target, { waitUntil: 'networkidle', timeout: 60_000 });
@@ -51,7 +51,7 @@ export async function captureWebsiteScreenshot(url: string): Promise<Buffer> {
 		}
 
 		const buffer = readFileSync(tmpPath);
-		console.error(`[bat-cli:Screenshot] captured ${target} in ${(performance.now() - started).toFixed(0)}ms`);
+		console.log(`[bat-cli:Screenshot] captured ${target} in ${(performance.now() - started).toFixed(0)}ms`);
 		return buffer;
 	} finally {
 		try {

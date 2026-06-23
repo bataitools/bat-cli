@@ -77,13 +77,13 @@ export async function formalLogin(apiUrl?: string): Promise<void> {
 	const started = performance.now();
 	const apiBase = apiUrl?.trim() ? apiUrl.trim().replace(/\/+$/, '') : getApiUrl();
 
-	console.error('[bat-cli] starting device authorization (OAuth)…');
+	console.log('[bat-cli] starting device authorization (OAuth)…');
 	const session = await requestDeviceCode(apiBase);
 
-	console.error('');
-	console.error(`!  Enter code: ${session.user_code}`);
-	console.error(`!  Open: ${session.verification_uri_complete}`);
-	console.error('');
+	console.log('');
+	console.log(`!  Enter code: ${session.user_code}`);
+	console.log(`!  Open: ${session.verification_uri_complete}`);
+	console.log('');
 
 	await openBrowser(session.verification_uri_complete);
 
@@ -95,7 +95,7 @@ export async function formalLogin(apiUrl?: string): Promise<void> {
 		try {
 			const token = await pollDeviceToken(apiBase, session.device_code);
 			saveToken(token.key, apiUrl);
-			console.error(
+			console.log(
 				`[bat-cli] formal login completed (userId=${token.userId}) in ${(performance.now() - started).toFixed(0)}ms`,
 			);
 			return;

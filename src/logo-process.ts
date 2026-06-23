@@ -63,5 +63,5 @@ export async function downloadAndProcessLogo(
 		await resized.webp({ quality: 90 }).toFile(outPath);
 	}
 
-	console.error(`[bat-cli:Logo] processed ${target} → ${outPath} in ${(performance.now() - started).toFixed(0)}ms`);
+	console.log(`[bat-cli:Logo] processed ${target} → ${outPath} in ${(performance.now() - started).toFixed(0)}ms`);
 }
