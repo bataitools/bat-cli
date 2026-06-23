@@ -5,7 +5,7 @@ import { join, resolve } from 'node:path';
 import readline from 'node:readline';
 import { validateAgentSubmitBundle, AGENT_REQUIRED_LANGUAGE_CODES } from './shared';
 import { fetchSchema, getSubmitStatus, publishSubmit, submitBundle, uploadScreenshot, listSubmits } from './client';
-import { BAT_API_URL_PRODUCTION, autoLogin, saveToken, getApiUrl } from './config';
+import { BAT_API_URL_PRODUCTION, BAT_API_URL_DEVELOPMENT, autoLogin, saveToken, getApiUrl } from './config';
 import { formalLogin, openBrowser } from './login-flow';
 import { packSubmitDirectory, validatePhase1Directory } from './pack';
 import { captureWebsiteScreenshot } from './screenshot';
@@ -19,7 +19,7 @@ async function main() {
 	if (devIdx >= 0) {
 		process.argv.splice(devIdx, 1);
 		if (!process.env.BAT_API_URL) {
-			process.env.BAT_API_URL = 'http://dev-api.bataitools.com';
+			process.env.BAT_API_URL = BAT_API_URL_DEVELOPMENT;
 		}
 	}
 
@@ -36,16 +36,8 @@ async function main() {
 		switch (command) {
 			case 'login': {
 				let token = args[0];
-				let apiUrl = readFlag(args, '--api');
-				const env = readFlag(args, '--env');
-				const isDev = args.includes('--dev');
+				const apiUrl = parseApiUrl(args);
 				const keyFlag = readFlag(args, '--key');
-
-				if (isDev || env === 'dev' || env === 'development') {
-					apiUrl = 'http://localhost:6664';
-				} else if (env === 'prod' || env === 'production') {
-					apiUrl = BAT_API_URL_PRODUCTION;
-				}
 
 				if (keyFlag) {
 					token = keyFlag;
@@ -84,14 +76,7 @@ async function main() {
 				);
 			}
 			case 'login-guest': {
-				let apiUrl = readFlag(args, '--api');
-				const env = readFlag(args, '--env');
-				const isDev = args.includes('--dev');
-				if (isDev || env === 'dev' || env === 'development') {
-					apiUrl = 'http://localhost:6664';
-				} else if (env === 'prod' || env === 'production') {
-					apiUrl = BAT_API_URL_PRODUCTION;
-				}
+				const apiUrl = parseApiUrl(args);
 				await autoLogin(apiUrl);
 				break;
 			}
@@ -197,12 +182,10 @@ async function main() {
 				break;
 			}
 			case 'preview': {
-				const previewCode = readFlag(args, '--code') ?? args[0];
-				if (!previewCode) {
-					throw new Error('Usage: bat-cli preview --code <previewCode> | bat-cli preview <previewCode>');
+				const previewUrl = readFlag(args, '--url') ?? args[0];
+				if (!previewUrl) {
+					throw new Error('Usage: bat-cli preview <previewUrl>');
 				}
-				const baseWeb = getWebsiteBaseUrl();
-				const previewUrl = `${baseWeb}/agent/preview/${previewCode}`;
 				console.error(`🔗 Preview URL: ${previewUrl}`);
 				console.log(previewUrl);
 				await openBrowser(previewUrl);
@@ -480,14 +463,6 @@ function generateTranslationTemplate(source: any, existing: any): any {
 	return source;
 }
 
-function getWebsiteBaseUrl(): string {
-	const apiUrl = getApiUrl();
-	if (apiUrl.includes('api.bataitools.com')) {
-		return 'https://bataitools.com';
-	}
-	return apiUrl.replace('api.', '');
-}
-
 function printHelp() {
 	console.log(`bat-cli — BAT AI Tools Skill/CLI submit tool
 
@@ -502,7 +477,7 @@ Commands:
   submit -f <file>      Submit and publish bundle to BAT
   status --id <id>      Check review status
   list [--format table|json]   List all submissions
-  preview <previewCode>        Preview listing and open in browser
+  preview <previewUrl>         Open preview URL in browser
   site-dir <url> [--root DIR]  Print per-site directory (default root: ./submits)
   init-site --website <url>    Scaffold ./submits/<host>/base.json + i18n/en.json
   init <submit-dir>            Scaffold base.json + i18n/en.json
@@ -519,6 +494,19 @@ Commands:
 API endpoint:
   default             ${BAT_API_URL_PRODUCTION} (override via BAT_API_URL env or login --api)
 `);
+}
+
+function parseApiUrl(args: string[]): string | undefined {
+	let apiUrl = readFlag(args, '--api');
+	const env = readFlag(args, '--env');
+
+	if (env === 'dev' || env === 'development') {
+		return BAT_API_URL_DEVELOPMENT;
+	}
+	if (env === 'prod' || env === 'production') {
+		return BAT_API_URL_PRODUCTION;
+	}
+	return apiUrl || process.env.BAT_API_URL;
 }
 
 function askQuestion(query: string): Promise<string> {

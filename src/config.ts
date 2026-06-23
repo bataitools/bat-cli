@@ -4,6 +4,7 @@ import { join } from 'node:path';
 
 /** 生产环境 API（与 bataitools.com 官网配套，普通用户无需配置） */
 export const BAT_API_URL_PRODUCTION = 'https://api.bataitools.com';
+export const BAT_API_URL_DEVELOPMENT = 'https://api-dev.bataitools.com';
 
 const CONFIG_DIR = join(homedir(), '.bat-cli');
 const OLD_CONFIG_DIR = join(homedir(), '.bat-agent');
@@ -24,7 +25,6 @@ export interface CredentialsFile {
 	token?: string;
 	/** 可选：持久化开发/自定义 API 地址，优先级低于 BAT_API_URL 环境变量 */
 	apiUrl?: string;
-	env?: 'production' | 'development' | 'custom';
 }
 
 interface AutoLoginResponse {
@@ -71,33 +71,16 @@ export function getApiUrl(): string {
 
 export function saveToken(token: string, apiUrl?: string) {
 	const normalizedApiUrl = apiUrl?.trim().replace(/\/+$/, '');
-	let finalApiUrl = normalizedApiUrl;
-	let env: 'production' | 'development' | 'custom' = 'production';
-
-	if (finalApiUrl) {
-		if (finalApiUrl === BAT_API_URL_PRODUCTION) {
-			env = 'production';
-		} else if (finalApiUrl === 'http://localhost:6664') {
-			env = 'development';
-		} else {
-			env = 'custom';
-		}
-	} else {
-		finalApiUrl = undefined;
-		env = 'production';
-	}
-
 	const newCreds: CredentialsFile = {
 		token,
-		env,
 	};
-	if (finalApiUrl) {
-		newCreds.apiUrl = finalApiUrl;
+	if (normalizedApiUrl && normalizedApiUrl !== BAT_API_URL_PRODUCTION) {
+		newCreds.apiUrl = normalizedApiUrl;
 	}
 
 	writeCredentialsFile(newCreds);
 	console.error(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
-	console.error(`[bat-cli] api: ${getApiUrl()} (${env})`);
+	console.error(`[bat-cli] api: ${getApiUrl()}`);
 }
 
 export function loadToken(): string | null {

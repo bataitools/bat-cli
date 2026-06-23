@@ -18,7 +18,7 @@
 	],
 	"scripts": {
 		"build": "bun build ./src/cli.ts --outdir ./dist --target node --external playwright",
-		"dev": "bun run src/cli.ts --dev",
+		"dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 bun run src/cli.ts --dev",
 		"typecheck": "tsc --noEmit",
 		"test": "bun test",
 		"release": "release-it",
