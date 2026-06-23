@@ -68,6 +68,9 @@ jobs:
       - name: Package skills as zip files
         run: |
           mkdir -p dist/skills
+          TAG=${GITHUB_REF#refs/tags/}
+          
+          # 1. Pack individual skills (no version in filename for stable referencing)
           for skill_dir in skills/*/; do
             skill_name=$(basename "$skill_dir")
             # Validate SKILL.md exists
@@ -77,9 +80,14 @@ jobs:
             fi
             zip_path="dist/skills/${skill_name}.zip"
             # Create zip with skill-name/ as root folder inside the archive
-            (cd skills && zip -r "../$zip_path" "$skill_name/")
-            echo "✅ Packaged: $zip_path"
+            (cd skills && zip -r "../$zip_path" "$skill_name/" -x "*.DS_Store")
+            echo "✅ Packaged individual skill: $zip_path"
           done
+          
+          # 2. Pack all skills together as a bundle with the version tag (e.g. bat-skills-v1.3.1.zip)
+          bundle_zip="dist/skills/bat-skills-${TAG}.zip"
+          zip -r "$bundle_zip" skills/ -x "*.DS_Store"
+          echo "✅ Packaged skills bundle: $bundle_zip"
 
       - name: Upload skill zips to GitHub Release
         env:
