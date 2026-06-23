@@ -3,6 +3,10 @@
 	"version": "1.2.2",
 	"type": "module",
 	"description": "BAT AI Tools — Agent/Skill CLI for multi-language product submission",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/bataitools/bat-cli.git"
+	},
 	"bin": {
 		"bat-cli": "./dist/cli.js"
 	},

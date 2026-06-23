@@ -92,9 +92,16 @@ async function main() {
 	);
 
 	try {
+		const npmBin = process.platform === 'linux' && existsSync('/usr/local/bin/npm') ? '/usr/local/bin/npm' : 'npm';
+		console.log(`\x1b[36m[Publish]\x1b[0m Using npm binary: ${npmBin}`);
+		const versionProc = spawnSync([npmBin, '--version'], { cwd: ROOT });
+		if (versionProc.exitCode === 0) {
+			console.log(`\x1b[36m[Publish]\x1b[0m npm CLI version: ${versionProc.stdout.toString().trim()}`);
+		}
+
 		if (dryRun) {
-			console.log('\x1b[36m[Publish]\x1b[0m Running: npm pack (dry-run, no auth required)');
-			const proc = spawnSync(['npm', 'pack', '--dry-run'], {
+			console.log(`\x1b[36m[Publish]\x1b[0m Running: ${npmBin} pack (dry-run, no auth required)`);
+			const proc = spawnSync([npmBin, 'pack', '--dry-run'], {
 				cwd: ROOT,
 				stdout: 'inherit',
 				stderr: 'inherit',
@@ -103,7 +110,7 @@ async function main() {
 				throw new Error(`npm pack --dry-run failed with exit code ${proc.exitCode ?? 1}`);
 			}
 		} else {
-			console.log('\x1b[36m[Publish]\x1b[0m Running: npm publish --access public');
+			console.log(`\x1b[36m[Publish]\x1b[0m Running: ${npmBin} publish --access public`);
 			const cmdArgs = ['publish', '--access', 'public'];
 			if (otp) {
 				cmdArgs.push('--otp', otp);
@@ -114,7 +121,7 @@ async function main() {
 				);
 				cmdArgs.push('--provenance');
 			}
-			const proc = spawnSync(['npm', ...cmdArgs], {
+			const proc = spawnSync([npmBin, ...cmdArgs], {
 				cwd: ROOT,
 				stdout: 'inherit',
 				stderr: 'inherit',
