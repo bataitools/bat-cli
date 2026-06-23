@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/bataitools/bat-cli/compare/v1.3.0...v1.3.1) (2026-06-23)
+
+
+### Bug Fixes
+
+* remove prompts references from package build and documentation ([3704389](https://github.com/bataitools/bat-cli/commit/3704389988852996195323436ae9ccbb51544559))
+
 # [1.3.0](https://github.com/bataitools/bat-cli/compare/v1.2.8...v1.3.0) (2026-06-23)
 
 
