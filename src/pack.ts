@@ -39,6 +39,11 @@ export function validatePhase1Directory(dir: string) {
 		localWebsiteScreenshot: hasLocalWebsiteScreenshot(dir),
 		localLogo: hasLocalLogo(dir),
 	});
+	if (result.warnings) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Detect unknown properties:\n${JSON.stringify(result.warnings, null, 2)}`,
+		);
+	}
 	console.error(
 		`[bat-cli:ValidatePhase1] dir=${dir} ok=${result.ok} in ${(performance.now() - started).toFixed(0)}ms`,
 	);
@@ -49,6 +54,11 @@ export async function packSubmitDirectory(dir: string): Promise<AgentSubmitBundl
 	const started = performance.now();
 	const bundle = loadSubmitDirectory(dir);
 	const validation = validateAgentSubmitBundle(bundle);
+	if (validation.warnings) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Detect unknown properties:\n${JSON.stringify(validation.warnings, null, 2)}`,
+		);
+	}
 	if (!validation.ok) {
 		const msg = JSON.stringify({ errors: validation.errors, languageErrors: validation.languageErrors }, null, 2);
 		throw new Error(`Pack validation failed:\n${msg}`);

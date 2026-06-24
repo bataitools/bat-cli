@@ -8,12 +8,7 @@ import { resolveWebsiteScreenshot, resolveRemoteLogo } from './agent-screenshots
 
 import { normalizeProductMediaList, type ProductMediaItem } from './product-media';
 import { buildSubmitChecklistFromPost, type ValidationResult } from './submit-validation';
-
-export interface AgentRelatedArticle {
-	url: string;
-	title?: string;
-	lang?: string;
-}
+import { createHmac } from 'crypto';
 
 export interface AgentI18nEntry {
 	name?: string;
@@ -45,12 +40,12 @@ export interface AgentSubmitBundle {
 	developerName?: string;
 	pricingUrl?: string;
 	docsUrl?: string;
-	relatedArticles?: AgentRelatedArticle[];
 	i18n: Record<string, AgentI18nEntry>;
 }
 
 export interface AgentSubmitValidationResult extends ValidationResult {
 	languageErrors?: Record<string, string>;
+	warnings?: Record<string, string>;
 }
 
 /** Phase 1 校验上下文（如本地截图 / logo 文件是否存在） */
@@ -169,20 +164,229 @@ function validateI18nEntry(lang: string, entry: AgentI18nEntry, enEntry: AgentI1
 	return null;
 }
 
-function validateRelatedArticles(articles: unknown): string | null {
-	if (articles == null) return null;
-	if (!Array.isArray(articles)) return 'relatedArticles must be an array';
-	for (const item of articles) {
-		if (!item || typeof item !== 'object') return 'relatedArticles items must be objects';
-		const url = (item as AgentRelatedArticle).url;
-		if (typeof url !== 'string' || !url.trim()) return 'relatedArticles.url is required';
-		try {
-			new URL(url);
-		} catch {
-			return `relatedArticles.url is invalid: ${url}`;
+const ALLOWED_ROOT_KEYS = new Set([
+	'website',
+	'slug',
+	'logo',
+	'websiteScreenshot',
+	'productMedia',
+	'categorys',
+	'tags',
+	'audiences',
+	'links',
+	'social',
+	'developerType',
+	'developerCountry',
+	'developerProvince',
+	'developerName',
+	'pricingUrl',
+	'docsUrl',
+	'i18n',
+]);
+
+const ALLOWED_I18N_KEYS = new Set([
+	'name',
+	'tagline',
+	'description',
+	'instruction',
+	'coreFeatures',
+	'useCases',
+	'pricing',
+	'faqs',
+	'seo',
+]);
+
+export function checkBundleKeysWhitelist(bundle: any): Record<string, string> {
+	const warnings: Record<string, string> = {};
+	if (!bundle || typeof bundle !== 'object') return warnings;
+
+	for (const key of Object.keys(bundle)) {
+		if (!ALLOWED_ROOT_KEYS.has(key)) {
+			warnings[`bundle.${key}`] = `Unknown property "${key}" in submit bundle (ignored)`;
 		}
 	}
-	return null;
+
+	if (bundle.i18n && typeof bundle.i18n === 'object') {
+		for (const lang of Object.keys(bundle.i18n)) {
+			const entry = bundle.i18n[lang];
+			if (entry && typeof entry === 'object') {
+				for (const key of Object.keys(entry)) {
+					if (!ALLOWED_I18N_KEYS.has(key)) {
+						warnings[`i18n.${lang}.${key}`] = `Unknown property "${key}" in i18n.${lang} (ignored)`;
+					}
+				}
+			}
+		}
+	}
+	return warnings;
+}
+
+export function filterBundleWhitelist(bundle: any): any {
+	if (!bundle || typeof bundle !== 'object') return bundle;
+
+	const clean: any = {};
+	for (const key of Object.keys(bundle)) {
+		if (ALLOWED_ROOT_KEYS.has(key)) {
+			clean[key] = bundle[key];
+		}
+	}
+
+	if (clean.i18n && typeof clean.i18n === 'object') {
+		const cleanI18n: any = {};
+		for (const lang of Object.keys(clean.i18n)) {
+			const entry = clean.i18n[lang];
+			if (entry && typeof entry === 'object') {
+				const cleanEntry: any = {};
+				for (const key of Object.keys(entry)) {
+					if (ALLOWED_I18N_KEYS.has(key)) {
+						cleanEntry[key] = entry[key];
+					}
+				}
+				cleanI18n[lang] = cleanEntry;
+			} else {
+				cleanI18n[lang] = entry;
+			}
+		}
+		clean.i18n = cleanI18n;
+	}
+	return clean;
+}
+
+export function validateLimits(bundle: any): Record<string, string> | null {
+	const errors: Record<string, string> = {};
+	if (!bundle || typeof bundle !== 'object') return null;
+
+	const checkLen = (val: unknown, limit: number, fieldName: string) => {
+		if (typeof val === 'string' && val.length > limit) {
+			errors[fieldName] = `${fieldName} must be at most ${limit} characters (got ${val.length})`;
+		}
+	};
+
+	checkLen(bundle.website, 500, 'website');
+	checkLen(bundle.pricingUrl, 500, 'pricingUrl');
+	checkLen(bundle.docsUrl, 500, 'docsUrl');
+	checkLen(bundle.logo, 500, 'logo');
+	checkLen(bundle.websiteScreenshot, 500, 'websiteScreenshot');
+
+	if (Array.isArray(bundle.productMedia)) {
+		if (bundle.productMedia.length > 10) {
+			errors['productMedia'] = `productMedia must have at most 10 items (got ${bundle.productMedia.length})`;
+		}
+		bundle.productMedia.forEach((item: any, i: number) => {
+			if (item && typeof item === 'object') {
+				checkLen(item.url, 500, `productMedia[${i}].url`);
+				checkLen(item.thumbnail, 500, `productMedia[${i}].thumbnail`);
+				checkLen(item.type, 50, `productMedia[${i}].type`);
+			}
+		});
+	}
+
+	if (Array.isArray(bundle.categorys)) {
+		if (bundle.categorys.length > 10) {
+			errors['categorys'] = `categorys must have at most 10 items (got ${bundle.categorys.length})`;
+		}
+		bundle.categorys.forEach((item: any, i: number) => {
+			checkLen(item, 50, `categorys[${i}]`);
+		});
+	}
+
+	if (Array.isArray(bundle.tags)) {
+		if (bundle.tags.length > 10) {
+			errors['tags'] = `tags must have at most 10 items (got ${bundle.tags.length})`;
+		}
+		bundle.tags.forEach((item: any, i: number) => {
+			checkLen(item, 50, `tags[${i}]`);
+		});
+	}
+
+	if (Array.isArray(bundle.audiences)) {
+		if (bundle.audiences.length > 10) {
+			errors['audiences'] = `audiences must have at most 10 items (got ${bundle.audiences.length})`;
+		}
+		bundle.audiences.forEach((item: any, i: number) => {
+			checkLen(item, 50, `audiences[${i}]`);
+		});
+	}
+
+	if (bundle.i18n && typeof bundle.i18n === 'object') {
+		for (const lang of Object.keys(bundle.i18n)) {
+			const entry = bundle.i18n[lang];
+			if (entry && typeof entry === 'object') {
+				checkLen(entry.name, 100, `i18n.${lang}.name`);
+				checkLen(entry.tagline, 150, `i18n.${lang}.tagline`);
+				checkLen(entry.description, 2000, `i18n.${lang}.description`);
+				checkLen(entry.instruction, 1000, `i18n.${lang}.instruction`);
+
+				if (Array.isArray(entry.coreFeatures)) {
+					if (entry.coreFeatures.length > 10) {
+						errors[`i18n.${lang}.coreFeatures`] =
+							`coreFeatures must have at most 10 items (got ${entry.coreFeatures.length})`;
+					}
+					entry.coreFeatures.forEach((item: any, i: number) => {
+						if (item && typeof item === 'object') {
+							checkLen(item.title, 100, `i18n.${lang}.coreFeatures[${i}].title`);
+							checkLen(item.description, 500, `i18n.${lang}.coreFeatures[${i}].description`);
+						}
+					});
+				}
+
+				if (Array.isArray(entry.useCases)) {
+					if (entry.useCases.length > 10) {
+						errors[`i18n.${lang}.useCases`] =
+							`useCases must have at most 10 items (got ${entry.useCases.length})`;
+					}
+					entry.useCases.forEach((item: any, i: number) => {
+						checkLen(item, 500, `i18n.${lang}.useCases[${i}]`);
+					});
+				}
+
+				if (Array.isArray(entry.faqs)) {
+					if (entry.faqs.length > 15) {
+						errors[`i18n.${lang}.faqs`] = `faqs must have at most 15 items (got ${entry.faqs.length})`;
+					}
+					entry.faqs.forEach((item: any, i: number) => {
+						if (item && typeof item === 'object') {
+							checkLen(item.question, 200, `i18n.${lang}.faqs[${i}].question`);
+							checkLen(item.answer, 1000, `i18n.${lang}.faqs[${i}].answer`);
+						}
+					});
+				}
+
+				if (Array.isArray(entry.pricing)) {
+					if (entry.pricing.length > 10) {
+						errors[`i18n.${lang}.pricing`] =
+							`pricing must have at most 10 items (got ${entry.pricing.length})`;
+					}
+					entry.pricing.forEach((item: any, i: number) => {
+						if (item && typeof item === 'object') {
+							checkLen(item.name, 100, `i18n.${lang}.pricing[${i}].name`);
+							checkLen(item.priceNote, 100, `i18n.${lang}.pricing[${i}].priceNote`);
+							if (Array.isArray(item.features)) {
+								if (item.features.length > 20) {
+									errors[`i18n.${lang}.pricing[${i}].features`] =
+										`pricing features must have at most 20 items (got ${item.features.length})`;
+								}
+								item.features.forEach((feat: any, j: number) => {
+									checkLen(feat, 200, `i18n.${lang}.pricing[${i}].features[${j}]`);
+								});
+							}
+						}
+					});
+				}
+			}
+		}
+	}
+
+	return Object.keys(errors).length > 0 ? errors : null;
+}
+
+export function calculateAgentSubmitSignature(
+	payload: string,
+	timestamp: number,
+	secret = 'bataitools-agent-submit-signature-secret-salt-2026',
+): string {
+	const message = `${timestamp}:${payload}`;
+	return createHmac('sha256', secret).update(message).digest('hex');
 }
 
 /** 将 Agent bundle 转为单语言 checklist 输入（以 en 为准） */
@@ -285,6 +489,22 @@ export function validateAgentSubmitPhase1(
 	}
 
 	const b = bundle as AgentSubmitBundle;
+
+	// 收集未知属性警告（不影响 ok）
+	const warnings = checkBundleKeysWhitelist(b);
+
+	// 字符长度及项数上限校验
+	const limitErrors = validateLimits(b);
+	if (limitErrors) {
+		return {
+			ok: false,
+			items: [],
+			errors: limitErrors,
+			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
+		};
+	}
+
 	const httpOrHttpsErrors = validateHttpOrHttpsUrls(b);
 	if (httpOrHttpsErrors) {
 		return {
@@ -292,10 +512,12 @@ export function validateAgentSubmitPhase1(
 			items: [],
 			errors: httpOrHttpsErrors,
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 	const websiteErr = validateBundleWebsite(b.website);
-	if (websiteErr) return { ...websiteErr, languageErrors };
+	if (websiteErr)
+		return { ...websiteErr, languageErrors, warnings: Object.keys(warnings).length > 0 ? warnings : undefined };
 
 	if (!b.i18n?.en) {
 		return {
@@ -303,6 +525,7 @@ export function validateAgentSubmitPhase1(
 			items: [],
 			errors: { i18n: 'i18n/en.json is required for Phase 1' },
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -321,6 +544,7 @@ export function validateAgentSubmitPhase1(
 					'websiteScreenshot URL in base.json or local website-screenshot.png is required (run capture-screenshot first)',
 			},
 			languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -334,16 +558,7 @@ export function validateAgentSubmitPhase1(
 				logo: 'logo URL in base.json or local logo file (svg/webp/png/jpg) is required (run fetch-logo first)',
 			},
 			languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
-		};
-	}
-
-	const articlesErr = validateRelatedArticles(b.relatedArticles);
-	if (articlesErr) {
-		return {
-			ok: false,
-			items: [],
-			errors: { relatedArticles: articlesErr },
-			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -363,6 +578,7 @@ export function validateAgentSubmitPhase1(
 		...baseResult,
 		ok,
 		languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
+		warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 	};
 }
 
@@ -379,6 +595,22 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 	}
 
 	const b = bundle as AgentSubmitBundle;
+
+	// 收集未知属性警告（不影响 ok）
+	const warnings = checkBundleKeysWhitelist(b);
+
+	// 字符长度及项数上限校验
+	const limitErrors = validateLimits(b);
+	if (limitErrors) {
+		return {
+			ok: false,
+			items: [],
+			errors: limitErrors,
+			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
+		};
+	}
+
 	const httpOrHttpsErrors = validateHttpOrHttpsUrls(b);
 	if (httpOrHttpsErrors) {
 		return {
@@ -386,11 +618,13 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 			items: [],
 			errors: httpOrHttpsErrors,
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
 	const websiteErr = validateBundleWebsite(b.website);
-	if (websiteErr) return { ...websiteErr, languageErrors };
+	if (websiteErr)
+		return { ...websiteErr, languageErrors, warnings: Object.keys(warnings).length > 0 ? warnings : undefined };
 
 	if (!resolveWebsiteScreenshot(b)) {
 		return {
@@ -398,6 +632,7 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 			items: [],
 			errors: { websiteScreenshot: 'websiteScreenshot is required' },
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -407,6 +642,7 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 			items: [],
 			errors: { logo: 'logo is required' },
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -416,6 +652,7 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 			items: [],
 			errors: { i18n: 'i18n object is required' },
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -430,6 +667,7 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 				i18n: `All ${AGENT_REQUIRED_I18N_COUNT} languages are required. Missing: ${missing.join(', ')}`,
 			},
 			languageErrors,
+			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 		};
 	}
 
@@ -487,16 +725,6 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 		}
 	}
 
-	const articlesErr = validateRelatedArticles(b.relatedArticles);
-	if (articlesErr) {
-		return {
-			ok: false,
-			items: [],
-			errors: { relatedArticles: articlesErr },
-			languageErrors,
-		};
-	}
-
 	normalizeProductMediaList(b.productMedia);
 
 	const baseResult = buildSubmitChecklistFromPost(agentBundleToEnPost(b), {
@@ -508,6 +736,7 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 		...baseResult,
 		ok,
 		languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
+		warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
 	};
 }
 

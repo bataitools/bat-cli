@@ -2,6 +2,7 @@ import { describe, expect, it, beforeAll, afterAll } from 'bun:test';
 import { existsSync, mkdirSync, readFileSync, rmSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
+import { calculateAgentSubmitSignature } from '../src/shared';
 
 // 测试配置常量，方便切换不同的测试数据
 const TEST_DOMAIN = 'imagetostl.me';
@@ -19,6 +20,43 @@ describe('BAT CLI E2E Tests', () => {
 			port: 6665,
 			async fetch(req) {
 				const url = new URL(req.url);
+
+				// 统一校验客户端算出来的签名
+				const timestampHeader = req.headers.get('x-bat-timestamp');
+				const signatureHeader = req.headers.get('x-bat-signature');
+				if (!timestampHeader || !signatureHeader) {
+					return Response.json(
+						{ success: false, errorMsg: `Missing signature headers on ${url.pathname}` },
+						{ status: 400 },
+					);
+				}
+				const timestamp = parseInt(timestampHeader, 10);
+				const now = Math.floor(Date.now() / 1000);
+				if (Math.abs(now - timestamp) > 300) {
+					return Response.json({ success: false, errorMsg: 'Signature expired' }, { status: 400 });
+				}
+				let bodyOrQuery = '';
+				const method = req.method;
+				if (method === 'POST') {
+					const cloned = req.clone();
+					bodyOrQuery = await cloned.text();
+				} else if (method === 'GET') {
+					bodyOrQuery = url.search.startsWith('?') ? url.search.slice(1) : '';
+				}
+				const expectedSignature = calculateAgentSubmitSignature(
+					`${method}:${url.pathname}:${bodyOrQuery}`,
+					timestamp,
+				);
+				if (signatureHeader !== expectedSignature) {
+					return Response.json(
+						{
+							success: false,
+							errorMsg: `Signature verification failed. Path: ${url.pathname}, Method: ${method}`,
+						},
+						{ status: 400 },
+					);
+				}
+
 				if (url.pathname === '/bat/agent/auto-login' && req.method === 'POST') {
 					return Response.json({
 						success: true,

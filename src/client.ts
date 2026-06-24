@@ -7,14 +7,42 @@ interface ApiEnvelope<T> {
 	errorMsg?: string;
 }
 
+import { calculateAgentSubmitSignature } from './shared';
+
+function signRequest(method: string, path: string, bodyOrQuery: string): Record<string, string> {
+	const timestamp = Math.floor(Date.now() / 1000);
+	const payload = `${method}:${path}:${bodyOrQuery}`;
+	const signature = calculateAgentSubmitSignature(payload, timestamp);
+	return {
+		'x-bat-timestamp': String(timestamp),
+		'x-bat-signature': signature,
+	};
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 	const base = getApiUrl();
 	const token = await ensureToken();
+	const method = options.method ?? 'GET';
+
+	const urlParts = path.split('?');
+	const cleanPath = urlParts[0];
+	const queryStr = urlParts[1] ?? '';
+
+	let bodyOrQuery = '';
+	if (method === 'POST' && typeof options.body === 'string') {
+		bodyOrQuery = options.body;
+	} else if (method === 'GET') {
+		bodyOrQuery = queryStr;
+	}
+
+	const signHeaders = signRequest(method, cleanPath, bodyOrQuery);
+
 	const res = await fetch(`${base}${path}`, {
 		...options,
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${token}`,
+			...signHeaders,
 			...(options.headers ?? {}),
 		},
 	});
@@ -29,13 +57,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 export async function fetchSchema(lang = 'en') {
-	const base = getApiUrl();
-	const res = await fetch(`${base}/bat/agent/schema?lang=${lang}`);
-	const body = (await res.json()) as ApiEnvelope<unknown>;
-	if (!res.ok || !body.success || body.data === undefined) {
-		throw new Error(body.errorMsg ?? `Schema fetch failed: ${res.status}`);
-	}
-	return body.data;
+	return request<unknown>(`/bat/agent/schema?lang=${lang}`);
 }
 
 export async function submitBundle(bundle: unknown) {
@@ -84,9 +106,15 @@ export async function uploadScreenshot(options: {
 	form.append('file', blob, 'screenshot.png');
 
 	const qs = new URLSearchParams({ website: options.website });
-	const res = await fetch(`${base}/bat/agent/upload-screenshot?${qs.toString()}`, {
+	const path = '/bat/agent/upload-screenshot';
+	const signHeaders = signRequest('POST', path, qs.toString());
+
+	const res = await fetch(`${base}${path}?${qs.toString()}`, {
 		method: 'POST',
-		headers: { Authorization: `Bearer ${token}` },
+		headers: {
+			Authorization: `Bearer ${token}`,
+			...signHeaders,
+		},
 		body: form,
 	});
 	const body = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;
@@ -122,9 +150,15 @@ export async function uploadLogo(options: {
 	form.append('file', blob, `logo.${ext}`);
 
 	const qs = new URLSearchParams({ website: options.website });
-	const res = await fetch(`${base}/bat/agent/upload-logo?${qs.toString()}`, {
+	const path = '/bat/agent/upload-logo';
+	const signHeaders = signRequest('POST', path, qs.toString());
+
+	const res = await fetch(`${base}${path}?${qs.toString()}`, {
 		method: 'POST',
-		headers: { Authorization: `Bearer ${token}` },
+		headers: {
+			Authorization: `Bearer ${token}`,
+			...signHeaders,
+		},
 		body: form,
 	});
 	const body = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;

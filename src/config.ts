@@ -96,13 +96,25 @@ export function requireToken(): string {
 	return token;
 }
 
+import { calculateAgentSubmitSignature } from './shared';
+
 /** 无本地凭证时自动创建设备 guest 账号并登录 */
 export async function autoLogin(apiUrl?: string): Promise<string> {
 	const started = performance.now();
 	const base = apiUrl?.trim() ? apiUrl.trim().replace(/\/+$/, '') : getApiUrl();
 	console.log(`[bat-cli] auto-login requesting guest account from ${base}`);
 
-	const res = await fetch(`${base}/bat/agent/auto-login`, { method: 'POST' });
+	const path = '/bat/agent/auto-login';
+	const timestamp = Math.floor(Date.now() / 1000);
+	const signature = calculateAgentSubmitSignature(`POST:${path}:`, timestamp);
+
+	const res = await fetch(`${base}${path}`, {
+		method: 'POST',
+		headers: {
+			'x-bat-timestamp': String(timestamp),
+			'x-bat-signature': signature,
+		},
+	});
 	const body = (await res.json()) as ApiEnvelope<AutoLoginResponse>;
 	if (!res.ok || !body.success || !body.data?.key) {
 		throw new Error(body.errorMsg ?? `Auto-login failed: ${res.status}`);

@@ -239,4 +239,124 @@ describe('BAT CLI Automated Tests - Validation', () => {
 		const result = validateAgentSubmitBundle(bundle as any);
 		expect(result.errors?.website).toBeUndefined();
 	});
+
+	it('should produce warnings for unknown properties but remain ok=true', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+				coreFeatures: [
+					{ title: `Feature 1 ${code}`, description: `Desc 1 ${code}` },
+					{ title: `Feature 2 ${code}`, description: `Desc 2 ${code}` },
+					{ title: `Feature 3 ${code}`, description: `Desc 3 ${code}` },
+				],
+				useCases: [`Use case 1 ${code}`, `Use case 2 ${code}`, `Use case 3 ${code}`],
+				pricing: [
+					{
+						chargeType: 'free',
+						priceNote: `Free Note ${code}`,
+						features: [`Feature 1 ${code}`],
+					},
+				],
+				faqs: [
+					{ question: `Question 1 ${code}?`, answer: `Answer 1 ${code}` },
+					{ question: `Question 2 ${code}?`, answer: `Answer 2 ${code}` },
+					{ question: `Question 3 ${code}?`, answer: `Answer 3 ${code}` },
+				],
+				extraI18nField: 'should warn', // i18n 内部多余字段
+			};
+		}
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			social: {
+				email: 'support@example.com',
+			},
+			extraRootField: 'should warn', // 根属性多余字段
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(true);
+		expect(result.warnings).toBeDefined();
+		expect(result.warnings?.['bundle.extraRootField']).toBe(
+			'Unknown property "extraRootField" in submit bundle (ignored)',
+		);
+		expect(result.warnings?.['i18n.en.extraI18nField']).toBe(
+			'Unknown property "extraI18nField" in i18n.en (ignored)',
+		);
+	});
+
+	it('should fail validation when string length exceeds limit', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: 'A'.repeat(101), // Limit is 100
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+			};
+		}
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(false);
+		expect(result.errors?.['i18n.en.name']).toContain('must be at most 100 characters');
+	});
+
+	it('should fail validation when lists contain too many items', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+			};
+		}
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: Array(11).fill('ai-3d-generator'), // Limit is 10
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(false);
+		expect(result.errors?.categorys).toContain('must have at most 10 items');
+	});
+
+	it('should correctly calculate signature', () => {
+		const { calculateAgentSubmitSignature } = require('../src/shared');
+		const payload = JSON.stringify({ website: 'https://example.com' });
+		const timestamp = 1719223200;
+		const signature = calculateAgentSubmitSignature(payload, timestamp);
+		expect(signature).toBeDefined();
+		expect(typeof signature).toBe('string');
+
+		// 校验相同的 signature 能够用相同算法重现
+		const signature2 = calculateAgentSubmitSignature(payload, timestamp);
+		expect(signature2).toBe(signature);
+	});
 });
