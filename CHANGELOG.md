@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.8.0](https://github.com/bataitools/bat-cli/compare/v1.7.2...v1.8.0) (2026-06-24)
+
+
+### Features
+
+* add URL schema validation and detection for unlocalized text in agent submission bundles ([69bf39f](https://github.com/bataitools/bat-cli/commit/69bf39fde53d6549ab3d3e93abf7873874e57334))
+
 ## [1.7.2](https://github.com/bataitools/bat-cli/compare/v1.7.1...v1.7.2) (2026-06-24)
 
 ## [1.7.1](https://github.com/bataitools/bat-cli/compare/v1.7.0...v1.7.1) (2026-06-24)
