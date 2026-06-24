@@ -115,4 +115,128 @@ describe('BAT CLI Automated Tests - Validation', () => {
 			}
 		}
 	});
+
+	it('should fail bundle validation when non-english translation directly copies english text (uniqueness check)', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+			};
+		}
+
+		// 让 zh 的 tagline 直接拷贝 en 的 tagline
+		mockI18n.zh.tagline = mockI18n.en.tagline;
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(false);
+		expect(result.languageErrors?.zh).toBeDefined();
+		expect(result.languageErrors?.zh).toContain('tagline is identical to the translation in en');
+	});
+
+	it('should fail bundle validation when coreFeatures title/description directly copies english text', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+				coreFeatures: [{ title: `Feature for ${code}`, description: `Description for ${code}` }],
+			};
+		}
+
+		// 让 zh 的 coreFeatures title 直接拷贝 en 的
+		mockI18n.zh.coreFeatures[0].title = mockI18n.en.coreFeatures[0].title;
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(false);
+		expect(result.languageErrors?.zh).toBeDefined();
+		expect(result.languageErrors?.zh).toContain('coreFeatures[0].title matches English text');
+	});
+
+	it('should fail validation when any URL field does not start with http:// or https://', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+				coreFeatures: [{ title: `Feature for ${code}`, description: `Description for ${code}` }],
+			};
+		}
+
+		// 1. 无协议的 website，或相对路径的 productMedia
+		const bundle = {
+			website: 'example.com', // 缺少 http/https
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			productMedia: [
+				{
+					type: 'video',
+					url: 'assets/video.mp4', // 相对路径，缺少 http/https
+				},
+			],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.ok).toBe(false);
+		expect(result.errors?.website).toBe('website URL must start with http:// or https://');
+		expect(result.errors?.['productMedia[0].url']).toBe(
+			'productMedia[0].url URL must start with http:// or https://',
+		);
+	});
+
+	it('should pass validation when website uses http://', () => {
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+				coreFeatures: [{ title: `Feature for ${code}`, description: `Description for ${code}` }],
+			};
+		}
+
+		const bundle = {
+			website: 'http://example.com', // http:// 协议
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const result = validateAgentSubmitBundle(bundle as any);
+		expect(result.errors?.website).toBeUndefined();
+	});
 });

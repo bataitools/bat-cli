@@ -122,6 +122,50 @@ function validateI18nEntry(lang: string, entry: AgentI18nEntry, enEntry: AgentI1
 	if (jsonLen(entry.faqs) !== jsonLen(enEntry.faqs)) {
 		return `${lang}: faqs length must match en`;
 	}
+
+	// 针对非英语语种，检查部分列表字段是否直接拷贝了英文文本
+	if (lang !== 'en') {
+		const features = Array.isArray(entry.coreFeatures) ? entry.coreFeatures : [];
+		const enFeatures = Array.isArray(enEntry.coreFeatures) ? enEntry.coreFeatures : [];
+		for (let i = 0; i < features.length; i++) {
+			const f = features[i] as any;
+			const enF = enFeatures[i] as any;
+			if (f && enF) {
+				if (f.title && enF.title && f.title.trim() === enF.title.trim()) {
+					return `${lang}: coreFeatures[${i}].title matches English text (not translated)`;
+				}
+				if (f.description && enF.description && f.description.trim() === enF.description.trim()) {
+					return `${lang}: coreFeatures[${i}].description matches English text (not translated)`;
+				}
+			}
+		}
+
+		const cases = Array.isArray(entry.useCases) ? entry.useCases : [];
+		const enCases = Array.isArray(enEntry.useCases) ? enEntry.useCases : [];
+		for (let i = 0; i < cases.length; i++) {
+			const c = cases[i];
+			const enC = enCases[i];
+			if (typeof c === 'string' && typeof enC === 'string' && c.trim() && c.trim() === enC.trim()) {
+				return `${lang}: useCases[${i}] matches English text (not translated)`;
+			}
+		}
+
+		const faqs = Array.isArray(entry.faqs) ? entry.faqs : [];
+		const enFaqs = Array.isArray(enEntry.faqs) ? enEntry.faqs : [];
+		for (let i = 0; i < faqs.length; i++) {
+			const f = faqs[i] as any;
+			const enF = enFaqs[i] as any;
+			if (f && enF) {
+				if (f.question && enF.question && f.question.trim() === enF.question.trim()) {
+					return `${lang}: faqs[${i}].question matches English text (not translated)`;
+				}
+				if (f.answer && enF.answer && f.answer.trim() === enF.answer.trim()) {
+					return `${lang}: faqs[${i}].answer matches English text (not translated)`;
+				}
+			}
+		}
+	}
+
 	return null;
 }
 
@@ -193,6 +237,37 @@ function validateBundleWebsite(website: unknown): AgentSubmitValidationResult | 
 	return null;
 }
 
+function validateHttpOrHttpsUrls(bundle: AgentSubmitBundle): Record<string, string> | null {
+	const errors: Record<string, string> = {};
+
+	const check = (val: unknown, fieldName: string) => {
+		if (typeof val === 'string' && val.trim()) {
+			const trimmed = val.trim();
+			if (!trimmed.startsWith('https://') && !trimmed.startsWith('http://')) {
+				errors[fieldName] = `${fieldName} URL must start with http:// or https://`;
+			}
+		}
+	};
+
+	check(bundle.website, 'website');
+	check(bundle.pricingUrl, 'pricingUrl');
+	check(bundle.docsUrl, 'docsUrl');
+	check(bundle.logo, 'logo');
+	check(bundle.websiteScreenshot, 'websiteScreenshot');
+
+	const media = Array.isArray(bundle.productMedia) ? bundle.productMedia : [];
+	for (let i = 0; i < media.length; i++) {
+		const item = media[i];
+		if (item && typeof item === 'object') {
+			const m = item as Record<string, unknown>;
+			check(m.url, `productMedia[${i}].url`);
+			check(m.thumbnail, `productMedia[${i}].thumbnail`);
+		}
+	}
+
+	return Object.keys(errors).length > 0 ? errors : null;
+}
+
 /** Phase 1：仅校验 base.json + i18n/en.json（英文阶段完成检查） */
 export function validateAgentSubmitPhase1(
 	bundle: unknown,
@@ -210,6 +285,15 @@ export function validateAgentSubmitPhase1(
 	}
 
 	const b = bundle as AgentSubmitBundle;
+	const httpOrHttpsErrors = validateHttpOrHttpsUrls(b);
+	if (httpOrHttpsErrors) {
+		return {
+			ok: false,
+			items: [],
+			errors: httpOrHttpsErrors,
+			languageErrors,
+		};
+	}
 	const websiteErr = validateBundleWebsite(b.website);
 	if (websiteErr) return { ...websiteErr, languageErrors };
 
@@ -295,6 +379,15 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 	}
 
 	const b = bundle as AgentSubmitBundle;
+	const httpOrHttpsErrors = validateHttpOrHttpsUrls(b);
+	if (httpOrHttpsErrors) {
+		return {
+			ok: false,
+			items: [],
+			errors: httpOrHttpsErrors,
+			languageErrors,
+		};
+	}
 
 	const websiteErr = validateBundleWebsite(b.website);
 	if (websiteErr) return { ...websiteErr, languageErrors };
@@ -352,6 +445,46 @@ export function validateAgentSubmitBundle(bundle: unknown): AgentSubmitValidatio
 		if (lang === 'en') continue;
 		const err = validateI18nEntry(lang, b.i18n[lang] ?? {}, enEntry);
 		if (err) languageErrors[lang] = err;
+	}
+
+	// 检查主要文本字段在全语种间的唯一性（防止拷贝未翻译文本）
+	const taglineLangs: Record<string, string> = {};
+	const descriptionLangs: Record<string, string> = {};
+	const instructionLangs: Record<string, string> = {};
+
+	for (const lang of langs) {
+		const entry = b.i18n[lang];
+		if (!entry) continue;
+
+		if (entry.tagline && entry.tagline.trim()) {
+			const val = entry.tagline.trim();
+			if (taglineLangs[val] && taglineLangs[val] !== lang) {
+				languageErrors[lang] =
+					`${lang}: tagline is identical to the translation in ${taglineLangs[val]} (must be unique across languages)`;
+			} else {
+				taglineLangs[val] = lang;
+			}
+		}
+
+		if (entry.description && entry.description.trim()) {
+			const val = entry.description.trim();
+			if (descriptionLangs[val] && descriptionLangs[val] !== lang) {
+				languageErrors[lang] =
+					`${lang}: description is identical to the translation in ${descriptionLangs[val]} (must be unique across languages)`;
+			} else {
+				descriptionLangs[val] = lang;
+			}
+		}
+
+		if (entry.instruction && entry.instruction.trim()) {
+			const val = entry.instruction.trim();
+			if (instructionLangs[val] && instructionLangs[val] !== lang) {
+				languageErrors[lang] =
+					`${lang}: instruction is identical to the translation in ${instructionLangs[val]} (must be unique across languages)`;
+			} else {
+				instructionLangs[val] = lang;
+			}
+		}
 	}
 
 	const articlesErr = validateRelatedArticles(b.relatedArticles);
