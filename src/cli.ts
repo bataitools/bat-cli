@@ -411,24 +411,24 @@ function printSchemaTable(schema: any) {
 	if (schema.categories && Array.isArray(schema.categories)) {
 		console.log('\n=== Categories (分类) ===');
 		for (const item of schema.categories) {
-			console.log(`* ${item.code || item.id} - ${item.name}`);
+			console.log(`* ${item.code} - ${item.name}`);
 		}
 	} else if (schema.categorys && Array.isArray(schema.categorys)) {
 		console.log('\n=== Categories (分类) ===');
 		for (const item of schema.categorys) {
-			console.log(`* ${item.code || item.id} - ${item.name}`);
+			console.log(`* ${item.code} - ${item.name}`);
 		}
 	}
 	if (schema.tags && Array.isArray(schema.tags)) {
 		console.log('\n=== Tags (标签) ===');
 		for (const item of schema.tags) {
-			console.log(`* ${item.code || item.id} - ${item.name}`);
+			console.log(`* ${item.code} - ${item.name}`);
 		}
 	}
 	if (schema.audiences && Array.isArray(schema.audiences)) {
 		console.log('\n=== Audiences (受众) ===');
 		for (const item of schema.audiences) {
-			console.log(`* ${item.code || item.id} - ${item.name}`);
+			console.log(`* ${item.code} - ${item.name}`);
 		}
 	}
 }
