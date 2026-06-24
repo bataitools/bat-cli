@@ -21,7 +21,7 @@ export const COMPRESS_SCREENSHOT_MAX_WIDTH = 1920;
 export const COMPRESS_SCREENSHOT_QUALITY = 80;
 
 export function localLogoPath(submitDir: string): string {
-	const extensions = ['webp', 'ico', 'png', 'jpg', 'jpeg'];
+	const extensions = ['svg', 'webp', 'ico', 'png', 'jpg', 'jpeg'];
 	for (const ext of extensions) {
 		const p = join(submitDir, `logo.${ext}`);
 		if (existsSync(p)) {
@@ -43,7 +43,7 @@ export function localWebsiteScreenshotPath(submitDir: string): string {
 }
 
 export function hasLocalLogo(submitDir: string): boolean {
-	const extensions = ['webp', 'ico', 'png', 'jpg', 'jpeg'];
+	const extensions = ['svg', 'webp', 'ico', 'png', 'jpg', 'jpeg'];
 	return extensions.some((ext) => existsSync(join(submitDir, `logo.${ext}`)));
 }
 
@@ -75,7 +75,7 @@ export async function ensureLogoUploaded(submitDir: string): Promise<string> {
 	const localPath = localLogoPath(submitDir);
 	if (!existsSync(localPath)) {
 		throw new Error(
-			`Missing logo: set base.json logo to a remote URL, or place logo.webp, logo.ico or logo.png in ${submitDir}`,
+			`Missing logo: set base.json logo to a remote URL, or place logo.svg, logo.webp, logo.ico or logo.png in ${submitDir}`,
 		);
 	}
 
@@ -83,24 +83,30 @@ export async function ensureLogoUploaded(submitDir: string): Promise<string> {
 		throw new Error('base.json website is required for logo upload');
 	}
 
-	// 统一在客户端压缩为 logo.webp
-	const logoWebpPath = join(submitDir, 'logo.webp');
+	// 统一在客户端压缩为 logo.webp，除了 svg 与 ico
 	let uploadPath = localPath;
-	try {
-		const buffer = readFileSync(localPath);
-		const pipeline = await sharpFromBuffer(buffer);
-		const tempPath = logoWebpPath + '.tmp';
-		await pipeline
-			.resize(COMPRESS_LOGO_MAX_WIDTH, COMPRESS_LOGO_MAX_HEIGHT, { fit: 'fill' })
-			.webp({ quality: COMPRESS_LOGO_QUALITY })
-			.toFile(tempPath);
-		if (existsSync(logoWebpPath)) {
-			unlinkSync(logoWebpPath);
+	if (localPath.endsWith('.svg') || localPath.endsWith('.ico')) {
+		console.error(
+			`[bat-cli:Logo] detected ${localPath.endsWith('.svg') ? 'SVG' : 'ICO'} format, skip WebP conversion`,
+		);
+	} else {
+		const logoWebpPath = join(submitDir, 'logo.webp');
+		try {
+			const buffer = readFileSync(localPath);
+			const pipeline = await sharpFromBuffer(buffer);
+			const tempPath = logoWebpPath + '.tmp';
+			await pipeline
+				.resize(COMPRESS_LOGO_MAX_WIDTH, COMPRESS_LOGO_MAX_HEIGHT, { fit: 'fill' })
+				.webp({ quality: COMPRESS_LOGO_QUALITY })
+				.toFile(tempPath);
+			if (existsSync(logoWebpPath)) {
+				unlinkSync(logoWebpPath);
+			}
+			renameSync(tempPath, logoWebpPath);
+			uploadPath = logoWebpPath;
+		} catch (err) {
+			console.error(`[bat-cli:Logo] compression failed for ${localPath}, falling back to original:`, err);
 		}
-		renameSync(tempPath, logoWebpPath);
-		uploadPath = logoWebpPath;
-	} catch (err) {
-		console.error(`[bat-cli:Logo] compression failed for ${localPath}, falling back to original:`, err);
 	}
 
 	const data = await uploadLogo({ filePath: uploadPath, website: base.website });
