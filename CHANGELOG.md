@@ -1,5 +1,13 @@
 # Changelog
 
+# [1.2.0](https://github.com/bataitools/bat-cli/compare/v1.5.1...v1.2.0) (2026-06-24)
+
+
+### Features
+
+* add internationalization support and expanded end-to-end testing infrastructure for ImageToSTL mock data ([1381144](https://github.com/bataitools/bat-cli/commit/13811440cffc15931f511af4c344584786860a8e))
+* add support for SVG logo files and skip WebP conversion for SVG/ICO formats ([1eacc03](https://github.com/bataitools/bat-cli/commit/1eacc03943f34c8a265d3b0195b775f2ebcdd499))
+
 # [1.1.0](https://github.com/bataitools/bat-cli/compare/v1.5.1...v1.1.0) (2026-06-24)
 
 
