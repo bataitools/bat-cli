@@ -8,12 +8,7 @@ export const AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME = 'website-screenshot.png';
 export function isRemoteAgentAssetUrl(value: string): boolean {
 	const trimmed = value.trim();
 	if (!trimmed) return false;
-	try {
-		const url = new URL(trimmed.startsWith('http') ? trimmed : `https://${trimmed}`);
-		return url.protocol === 'http:' || url.protocol === 'https:';
-	} catch {
-		return false;
-	}
+	return /^(https?:)?\/\//i.test(trimmed);
 }
 
 /** @deprecated 使用 isRemoteAgentAssetUrl */
