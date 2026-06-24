@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.9.0](https://github.com/bataitools/bat-cli/compare/v1.8.0...v1.9.0) (2026-06-24)
+
+
+### Features
+
+* add strict bundle schema validation including property whitelisting and character length limits ([a7480b6](https://github.com/bataitools/bat-cli/commit/a7480b6708be99c761591429a8824c24f86c3233))
+
 # [1.8.0](https://github.com/bataitools/bat-cli/compare/v1.7.2...v1.8.0) (2026-06-24)
 
 
