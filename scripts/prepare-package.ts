@@ -34,7 +34,7 @@ for (const file of filesToCopy) {
 	copyFileSync(join(ROOT, file), join(PKG_DIR, file));
 }
 
-const dirsToCopy = ['dist', 'skills', 'examples'];
+const dirsToCopy = ['dist', 'examples'];
 for (const dir of dirsToCopy) {
 	cpSync(join(ROOT, dir), join(PKG_DIR, dir), { recursive: true });
 }
