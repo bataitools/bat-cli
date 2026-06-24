@@ -43,11 +43,21 @@ describe('BAT CLI E2E Tests', () => {
 				} else if (method === 'GET') {
 					bodyOrQuery = url.search.startsWith('?') ? url.search.slice(1) : '';
 				}
-				const expectedSignature = calculateAgentSubmitSignature(
+				const expectedSignature = await calculateAgentSubmitSignature(
 					`${method}:${url.pathname}:${bodyOrQuery}`,
 					timestamp,
 				);
 				if (signatureHeader !== expectedSignature) {
+					console.error(
+						`Signature mismatch detailed debugging info:\n` +
+							`  Method: ${method}\n` +
+							`  Pathname: ${url.pathname}\n` +
+							`  BodyOrQuery: "${bodyOrQuery}"\n` +
+							`  Timestamp: ${timestamp}\n` +
+							`  Received signatureHeader: "${signatureHeader}"\n` +
+							`  Expected signature: "${expectedSignature}"\n` +
+							`  Payload string used: "${method}:${url.pathname}:${bodyOrQuery}"`,
+					);
 					return Response.json(
 						{
 							success: false,

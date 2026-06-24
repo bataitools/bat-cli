@@ -106,7 +106,7 @@ export async function autoLogin(apiUrl?: string): Promise<string> {
 
 	const path = '/bat/agent/auto-login';
 	const timestamp = Math.floor(Date.now() / 1000);
-	const signature = calculateAgentSubmitSignature(`POST:${path}:`, timestamp);
+	const signature = await calculateAgentSubmitSignature(`POST:${path}:`, timestamp);
 
 	const res = await fetch(`${base}${path}`, {
 		method: 'POST',

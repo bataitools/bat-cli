@@ -347,16 +347,16 @@ describe('BAT CLI Automated Tests - Validation', () => {
 		expect(result.errors?.categorys).toContain('must have at most 10 items');
 	});
 
-	it('should correctly calculate signature', () => {
+	it('should correctly calculate signature', async () => {
 		const { calculateAgentSubmitSignature } = require('../src/shared');
 		const payload = JSON.stringify({ website: 'https://example.com' });
 		const timestamp = 1719223200;
-		const signature = calculateAgentSubmitSignature(payload, timestamp);
+		const signature = await calculateAgentSubmitSignature(payload, timestamp);
 		expect(signature).toBeDefined();
 		expect(typeof signature).toBe('string');
 
 		// 校验相同的 signature 能够用相同算法重现
-		const signature2 = calculateAgentSubmitSignature(payload, timestamp);
+		const signature2 = await calculateAgentSubmitSignature(payload, timestamp);
 		expect(signature2).toBe(signature);
 	});
 });

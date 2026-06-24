@@ -9,10 +9,10 @@ interface ApiEnvelope<T> {
 
 import { calculateAgentSubmitSignature } from './shared';
 
-function signRequest(method: string, path: string, bodyOrQuery: string): Record<string, string> {
+async function signRequest(method: string, path: string, bodyOrQuery: string): Promise<Record<string, string>> {
 	const timestamp = Math.floor(Date.now() / 1000);
 	const payload = `${method}:${path}:${bodyOrQuery}`;
-	const signature = calculateAgentSubmitSignature(payload, timestamp);
+	const signature = await calculateAgentSubmitSignature(payload, timestamp);
 	return {
 		'x-bat-timestamp': String(timestamp),
 		'x-bat-signature': signature,
@@ -35,7 +35,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 		bodyOrQuery = queryStr;
 	}
 
-	const signHeaders = signRequest(method, cleanPath, bodyOrQuery);
+	const signHeaders = await signRequest(method, cleanPath, bodyOrQuery);
 
 	const res = await fetch(`${base}${path}`, {
 		...options,
@@ -107,7 +107,7 @@ export async function uploadScreenshot(options: {
 
 	const qs = new URLSearchParams({ website: options.website });
 	const path = '/bat/agent/upload-screenshot';
-	const signHeaders = signRequest('POST', path, qs.toString());
+	const signHeaders = await signRequest('POST', path, qs.toString());
 
 	const res = await fetch(`${base}${path}?${qs.toString()}`, {
 		method: 'POST',
@@ -151,7 +151,7 @@ export async function uploadLogo(options: {
 
 	const qs = new URLSearchParams({ website: options.website });
 	const path = '/bat/agent/upload-logo';
-	const signHeaders = signRequest('POST', path, qs.toString());
+	const signHeaders = await signRequest('POST', path, qs.toString());
 
 	const res = await fetch(`${base}${path}?${qs.toString()}`, {
 		method: 'POST',

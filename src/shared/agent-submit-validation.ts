@@ -8,7 +8,6 @@ import { resolveWebsiteScreenshot, resolveRemoteLogo } from './agent-screenshots
 
 import { normalizeProductMediaList, type ProductMediaItem } from './product-media';
 import { buildSubmitChecklistFromPost, type ValidationResult } from './submit-validation';
-import { createHmac } from 'crypto';
 
 export interface AgentI18nEntry {
 	name?: string;
@@ -380,13 +379,44 @@ export function validateLimits(bundle: any): Record<string, string> | null {
 	return Object.keys(errors).length > 0 ? errors : null;
 }
 
-export function calculateAgentSubmitSignature(
+function getCrypto(): any {
+	if (typeof globalThis !== 'undefined' && (globalThis as any).crypto) {
+		return (globalThis as any).crypto;
+	}
+	try {
+		// eslint-disable-next-line no-eval
+		const nodeCrypto = eval('require')('crypto');
+		if (nodeCrypto && nodeCrypto.webcrypto) {
+			return nodeCrypto.webcrypto;
+		}
+	} catch {
+		// Ignore
+	}
+	return null;
+}
+
+export async function calculateAgentSubmitSignature(
 	payload: string,
 	timestamp: number,
 	secret = 'bataitools-agent-submit-signature-secret-salt-2026',
-): string {
+): Promise<string> {
 	const message = `${timestamp}:${payload}`;
-	return createHmac('sha256', secret).update(message).digest('hex');
+	const encoder = new TextEncoder();
+	const keyData = encoder.encode(secret);
+	const messageData = encoder.encode(message);
+
+	const cryptoObj = getCrypto();
+	if (!cryptoObj || !cryptoObj.subtle) {
+		throw new Error('Web Crypto API is not available');
+	}
+
+	const key = await cryptoObj.subtle.importKey('raw', keyData, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+
+	const signatureBuffer = await cryptoObj.subtle.sign('HMAC', key, messageData);
+
+	return Array.from(new Uint8Array(signatureBuffer))
+		.map((b) => b.toString(16).padStart(2, '0'))
+		.join('');
 }
 
 /** 将 Agent bundle 转为单语言 checklist 输入（以 en 为准） */
