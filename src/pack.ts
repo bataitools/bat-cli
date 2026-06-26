@@ -29,7 +29,85 @@ export function loadSubmitDirectory(dir: string): AgentSubmitBundle {
 		throw new Error(`Missing i18n directory: ${i18nDir}`);
 	}
 	const i18nByLang = loadI18nDirectory(i18nDir);
-	return packAgentSubmit(base, i18nByLang);
+	const bundle = packAgentSubmit(base, i18nByLang);
+
+	// 1. 自动截断外层数组（base.json）并输出警告
+	if (Array.isArray(bundle.categorys) && bundle.categorys.length > 10) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Too many categorys (${bundle.categorys.length}) in base.json, automatically keeping the first 10.`,
+		);
+		bundle.categorys = bundle.categorys.slice(0, 10);
+	}
+
+	if (Array.isArray(bundle.tags) && bundle.tags.length > 15) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Too many tags (${bundle.tags.length}) in base.json, automatically keeping the first 15.`,
+		);
+		bundle.tags = bundle.tags.slice(0, 15);
+	}
+
+	if (Array.isArray(bundle.audiences) && bundle.audiences.length > 10) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Too many audiences (${bundle.audiences.length}) in base.json, automatically keeping the first 10.`,
+		);
+		bundle.audiences = bundle.audiences.slice(0, 10);
+	}
+
+	if (Array.isArray(bundle.productMedia) && bundle.productMedia.length > 20) {
+		console.warn(
+			`\x1b[33m[WARNING]\x1b[0m Too many productMedia items (${bundle.productMedia.length}) in base.json, automatically keeping the first 20.`,
+		);
+		bundle.productMedia = bundle.productMedia.slice(0, 20);
+	}
+
+	// 2. 自动截断多语言内层数组（i18n/*.json）并输出警告
+	if (bundle.i18n && typeof bundle.i18n === 'object') {
+		for (const lang of Object.keys(bundle.i18n)) {
+			const entry = bundle.i18n[lang];
+			if (!entry || typeof entry !== 'object') continue;
+
+			if (Array.isArray(entry.coreFeatures) && entry.coreFeatures.length > 10) {
+				console.warn(
+					`\x1b[33m[WARNING]\x1b[0m Too many coreFeatures (${entry.coreFeatures.length}) in i18n/${lang}.json, automatically keeping the first 10.`,
+				);
+				entry.coreFeatures = entry.coreFeatures.slice(0, 10);
+			}
+
+			if (Array.isArray(entry.useCases) && entry.useCases.length > 10) {
+				console.warn(
+					`\x1b[33m[WARNING]\x1b[0m Too many useCases (${entry.useCases.length}) in i18n/${lang}.json, automatically keeping the first 10.`,
+				);
+				entry.useCases = entry.useCases.slice(0, 10);
+			}
+
+			if (Array.isArray(entry.faqs) && entry.faqs.length > 15) {
+				console.warn(
+					`\x1b[33m[WARNING]\x1b[0m Too many faqs (${entry.faqs.length}) in i18n/${lang}.json, automatically keeping the first 15.`,
+				);
+				entry.faqs = entry.faqs.slice(0, 15);
+			}
+
+			if (Array.isArray(entry.pricing) && entry.pricing.length > 10) {
+				console.warn(
+					`\x1b[33m[WARNING]\x1b[0m Too many pricing plans (${entry.pricing.length}) in i18n/${lang}.json, automatically keeping the first 10.`,
+				);
+				entry.pricing = entry.pricing.slice(0, 10);
+			}
+
+			if (Array.isArray(entry.pricing)) {
+				entry.pricing.forEach((item, i) => {
+					if (item && Array.isArray(item.features) && item.features.length > 20) {
+						console.warn(
+							`\x1b[33m[WARNING]\x1b[0m Too many features (${item.features.length}) in i18n/${lang}.json pricing[${i}], automatically keeping the first 20.`,
+						);
+						item.features = item.features.slice(0, 20);
+					}
+				});
+			}
+		}
+	}
+
+	return bundle;
 }
 
 export function validatePhase1Directory(dir: string) {

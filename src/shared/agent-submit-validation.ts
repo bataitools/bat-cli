@@ -268,8 +268,8 @@ export function validateLimits(bundle: any): Record<string, string> | null {
 	checkLen(bundle.websiteScreenshot, 500, 'websiteScreenshot');
 
 	if (Array.isArray(bundle.productMedia)) {
-		if (bundle.productMedia.length > 10) {
-			errors['productMedia'] = `productMedia must have at most 10 items (got ${bundle.productMedia.length})`;
+		if (bundle.productMedia.length > 20) {
+			errors['productMedia'] = `productMedia must have at most 20 items (got ${bundle.productMedia.length})`;
 		}
 		bundle.productMedia.forEach((item: any, i: number) => {
 			if (item && typeof item === 'object') {
@@ -290,8 +290,8 @@ export function validateLimits(bundle: any): Record<string, string> | null {
 	}
 
 	if (Array.isArray(bundle.tags)) {
-		if (bundle.tags.length > 10) {
-			errors['tags'] = `tags must have at most 10 items (got ${bundle.tags.length})`;
+		if (bundle.tags.length > 15) {
+			errors['tags'] = `tags must have at most 15 items (got ${bundle.tags.length})`;
 		}
 		bundle.tags.forEach((item: any, i: number) => {
 			checkLen(item, 50, `tags[${i}]`);
