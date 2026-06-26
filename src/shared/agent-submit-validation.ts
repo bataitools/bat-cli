@@ -384,8 +384,8 @@ function getCrypto(): any {
 		return (globalThis as any).crypto;
 	}
 	try {
-		// eslint-disable-next-line no-eval
-		const nodeCrypto = eval('require')('crypto');
+		const m = typeof module !== 'undefined' ? module : null;
+		const nodeCrypto = m && typeof m.require === 'function' ? m.require('crypto') : null;
 		if (nodeCrypto && nodeCrypto.webcrypto) {
 			return nodeCrypto.webcrypto;
 		}
