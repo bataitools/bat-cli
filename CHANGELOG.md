@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.10.0](https://github.com/bataitools/bat-cli/compare/v1.9.1...v1.10.0) (2026-06-26)
+
+
+### Features
+
+* implement automatic truncation for agent submission fields and update validation limits ([42b491d](https://github.com/bataitools/bat-cli/commit/42b491d17cc25382b8c95b98e51b5a45941d248e))
+
 ## [1.9.1](https://github.com/bataitools/bat-cli/compare/v1.9.0...v1.9.1) (2026-06-24)
 
 # [1.9.0](https://github.com/bataitools/bat-cli/compare/v1.8.0...v1.9.0) (2026-06-24)

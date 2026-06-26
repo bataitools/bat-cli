@@ -1,6 +1,6 @@
 {
 	"name": "@bataitools/bat-cli",
-	"version": "1.9.1",
+	"version": "1.10.0",
 	"type": "module",
 	"description": "BAT AI Tools — Scoped CLI to submit and publish multi-language AI Agents & Skills to the AI Directory Platform",
 	"repository": {
