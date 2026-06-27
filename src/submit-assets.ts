@@ -1,12 +1,7 @@
 import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
-import {
-	AGENT_LOCAL_LOGO_FILENAME,
-	AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME,
-	isRemoteAgentAssetUrl,
-	type AgentSubmitBase,
-} from './shared';
+import { AGENT_LOCAL_LOGO_FILENAME, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, type AgentSubmitBase } from './shared';
 import { uploadLogo, uploadScreenshot } from './client';
 import { sharpFromBuffer } from './logo-process';
 
@@ -62,86 +57,36 @@ function writeBaseJson(submitDir: string, base: AgentSubmitBase & Record<string,
 	writeFileSync(basePath, `${JSON.stringify(base, null, 2)}\n`, 'utf-8');
 }
 
-export async function ensureLogoUploaded(submitDir: string): Promise<string> {
-	const started = performance.now();
-	const base = readBaseJson(submitDir);
-	const existing = typeof base.logo === 'string' ? base.logo.trim() : '';
-
-	if (isRemoteAgentAssetUrl(existing)) {
-		console.error(`[bat-cli:Logo] using existing remote URL, skip upload url=${existing}`);
-		return existing;
-	}
-
-	const localPath = localLogoPath(submitDir);
-	if (!existsSync(localPath)) {
-		throw new Error(
-			`Missing logo: set base.json logo to a remote URL, or place logo.svg, logo.webp, logo.ico or logo.png in ${submitDir}`,
-		);
-	}
-
-	if (!base.website || typeof base.website !== 'string') {
-		throw new Error('base.json website is required for logo upload');
-	}
-
-	// 统一在客户端压缩为 logo.webp，除了 svg 与 ico
-	let uploadPath = localPath;
+async function prepareLogoUploadPath(submitDir: string, localPath: string): Promise<string> {
 	if (localPath.endsWith('.svg') || localPath.endsWith('.ico')) {
 		console.error(
 			`[bat-cli:Logo] detected ${localPath.endsWith('.svg') ? 'SVG' : 'ICO'} format, skip WebP conversion`,
 		);
-	} else {
-		const logoWebpPath = join(submitDir, 'logo.webp');
-		try {
-			const buffer = readFileSync(localPath);
-			const pipeline = await sharpFromBuffer(buffer);
-			const tempPath = logoWebpPath + '.tmp';
-			await pipeline
-				.resize(COMPRESS_LOGO_MAX_WIDTH, COMPRESS_LOGO_MAX_HEIGHT, { fit: 'fill' })
-				.webp({ quality: COMPRESS_LOGO_QUALITY })
-				.toFile(tempPath);
-			if (existsSync(logoWebpPath)) {
-				unlinkSync(logoWebpPath);
-			}
-			renameSync(tempPath, logoWebpPath);
-			uploadPath = logoWebpPath;
-		} catch (err) {
-			console.error(`[bat-cli:Logo] compression failed for ${localPath}, falling back to original:`, err);
-		}
+		return localPath;
 	}
 
-	const data = await uploadLogo({ filePath: uploadPath, website: base.website });
-	base.logo = data.path;
-	writeBaseJson(submitDir, base);
-	console.error(
-		`[bat-cli:Logo] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
-	);
-	return data.path;
+	const logoWebpPath = join(submitDir, 'logo.webp');
+	try {
+		const buffer = readFileSync(localPath);
+		const pipeline = await sharpFromBuffer(buffer);
+		const tempPath = logoWebpPath + '.tmp';
+		await pipeline
+			.resize(COMPRESS_LOGO_MAX_WIDTH, COMPRESS_LOGO_MAX_HEIGHT, { fit: 'fill' })
+			.webp({ quality: COMPRESS_LOGO_QUALITY })
+			.toFile(tempPath);
+		if (existsSync(logoWebpPath)) {
+			unlinkSync(logoWebpPath);
+		}
+		renameSync(tempPath, logoWebpPath);
+		return logoWebpPath;
+	} catch (err) {
+		console.error(`[bat-cli:Logo] compression failed for ${localPath}, falling back to original:`, err);
+		return localPath;
+	}
 }
 
-export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promise<string> {
-	const started = performance.now();
-	const base = readBaseJson(submitDir);
-	const existing = typeof base.websiteScreenshot === 'string' ? base.websiteScreenshot.trim() : '';
-
-	if (isRemoteAgentAssetUrl(existing)) {
-		console.error(`[bat-cli:Screenshot] using existing remote URL, skip upload url=${existing}`);
-		return existing;
-	}
-
-	const localPath = localWebsiteScreenshotPath(submitDir);
-	if (!existsSync(localPath)) {
-		throw new Error(
-			`Missing website screenshot: set base.json websiteScreenshot to a remote URL, or place website-screenshot.png/website-screenshot.webp in ${submitDir}`,
-		);
-	}
-
-	if (!base.website || typeof base.website !== 'string') {
-		throw new Error('base.json website is required for screenshot upload');
-	}
-
-	// 统一在客户端压缩为 website-screenshot.webp
+async function prepareScreenshotUploadPath(submitDir: string, localPath: string): Promise<string> {
 	const screenshotWebpPath = join(submitDir, 'website-screenshot.webp');
-	let uploadPath = localPath;
 	try {
 		const tempPath = screenshotWebpPath + '.tmp';
 		await sharp(localPath)
@@ -152,21 +97,74 @@ export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promis
 			unlinkSync(screenshotWebpPath);
 		}
 		renameSync(tempPath, screenshotWebpPath);
-		uploadPath = screenshotWebpPath;
+		return screenshotWebpPath;
 	} catch (err) {
 		console.error(`[bat-cli:Screenshot] compression failed for ${localPath}, falling back to original:`, err);
+		return localPath;
+	}
+}
+
+/** 向 API 同步 logo URL：有本地文件则上传，否则解析 R2 已有资源；URL 一律由服务端返回 */
+export async function ensureLogoUploaded(submitDir: string): Promise<string> {
+	const started = performance.now();
+	const base = readBaseJson(submitDir);
+
+	if (!base.website || typeof base.website !== 'string') {
+		throw new Error('base.json website is required for logo upload');
 	}
 
-	const data = await uploadScreenshot({ filePath: uploadPath, website: base.website });
-	base.websiteScreenshot = data.path;
+	const localPath = localLogoPath(submitDir);
+	let data: { path: string; website: string };
+
+	if (existsSync(localPath)) {
+		const uploadPath = await prepareLogoUploadPath(submitDir, localPath);
+		data = await uploadLogo({ filePath: uploadPath, website: base.website });
+		console.error(
+			`[bat-cli:Logo] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
+		);
+	} else {
+		data = await uploadLogo({ website: base.website });
+		console.error(
+			`[bat-cli:Logo] resolved from API → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
+		);
+	}
+
+	base.logo = data.path;
 	writeBaseJson(submitDir, base);
-	console.error(
-		`[bat-cli:Screenshot] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
-	);
 	return data.path;
 }
 
-/** pack / submit 前上传本地 logo 与截图（若 base.json 尚无远程 URL） */
+/** 向 API 同步截图 URL：有本地文件则上传，否则解析 R2 已有资源；URL 一律由服务端返回 */
+export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promise<string> {
+	const started = performance.now();
+	const base = readBaseJson(submitDir);
+
+	if (!base.website || typeof base.website !== 'string') {
+		throw new Error('base.json website is required for screenshot upload');
+	}
+
+	const localPath = localWebsiteScreenshotPath(submitDir);
+	let data: { path: string; website: string };
+
+	if (existsSync(localPath)) {
+		const uploadPath = await prepareScreenshotUploadPath(submitDir, localPath);
+		data = await uploadScreenshot({ filePath: uploadPath, website: base.website });
+		console.error(
+			`[bat-cli:Screenshot] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
+		);
+	} else {
+		data = await uploadScreenshot({ website: base.website });
+		console.error(
+			`[bat-cli:Screenshot] resolved from API → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
+		);
+	}
+
+	base.websiteScreenshot = data.path;
+	writeBaseJson(submitDir, base);
+	return data.path;
+}
+
+/** pack / submit 前通过 API 同步 logo 与截图 URL 到 base.json */
 export async function ensureSubmitAssetsUploaded(submitDir: string): Promise<void> {
 	const started = performance.now();
 	await ensureLogoUploaded(submitDir);

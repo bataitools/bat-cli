@@ -9,7 +9,6 @@ import { validateAgentSubmitBundle } from '../src/shared';
 const TEST_DOMAIN = 'imagetostl.me';
 const SAMPLE_DIR = resolve(import.meta.dirname, `../samples/${TEST_DOMAIN}`);
 const EXPECTED_WEBSITE = 'https://imagetostl.me';
-const EXPECTED_LOGO = 'https://static.bataitools.com/upload/toos/logo/imagetostl.me/f0c0c9695807b30d.webp';
 
 describe('BAT CLI Automated Tests - Validation', () => {
 	const sampleDir = SAMPLE_DIR;
@@ -40,12 +39,16 @@ describe('BAT CLI Automated Tests - Validation', () => {
 		const bundle = await packSubmitDirectory(sampleDir);
 		expect(bundle).toBeDefined();
 		expect(bundle.website).toBe(EXPECTED_WEBSITE);
-		expect(bundle.logo).toBe(EXPECTED_LOGO);
 		expect(bundle.i18n).toBeDefined();
 		expect(bundle.i18n.en).toBeDefined();
 		expect(bundle.i18n.zh).toBeDefined();
 
-		const validationResult = validateAgentSubmitBundle(bundle);
+		// 完整 bundle 校验需 API 返回的 logo / websiteScreenshot，离线 pack 仅验证 i18n 结构
+		const validationResult = validateAgentSubmitBundle({
+			...bundle,
+			logo: 'https://static.example.com/upload/toos/logo/imagetostl.me/local.webp',
+			websiteScreenshot: 'https://static.example.com/upload/toos/screenshot/imagetostl.me/local.png',
+		});
 		expect(validationResult.ok).toBe(true);
 		expect(validationResult.errors).toEqual({});
 		expect(validationResult.languageErrors).toBeUndefined();

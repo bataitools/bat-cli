@@ -57,7 +57,39 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 }
 
 export async function fetchSchema(lang = 'en') {
-	return request<unknown>(`/bat/agent/schema?lang=${lang}`);
+	return request<{ staticBase?: string } & Record<string, unknown>>(`/bat/agent/schema?lang=${lang}`);
+}
+
+async function postAgentAsset(
+	apiPath: '/bat/agent/upload-logo' | '/bat/agent/upload-screenshot',
+	website: string,
+	file?: { buffer: Buffer; mime: string; filename: string },
+): Promise<{ path: string; website: string }> {
+	const base = getApiUrl();
+	const token = await ensureToken();
+	const qs = new URLSearchParams({ website });
+	const signHeaders = await signRequest('POST', apiPath, qs.toString());
+
+	let body: BodyInit | undefined;
+	if (file) {
+		const form = new FormData();
+		form.append('file', new Blob([file.buffer], { type: file.mime }), file.filename);
+		body = form;
+	}
+
+	const res = await fetch(`${base}${apiPath}?${qs.toString()}`, {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${token}`,
+			...signHeaders,
+		},
+		body,
+	});
+	const json = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;
+	if (!res.ok || !json.success || !json.data?.path) {
+		throw new Error(json.errorMsg ?? `Asset request failed: ${res.status}`);
+	}
+	return json.data;
 }
 
 export async function submitBundle(bundle: unknown) {
@@ -91,81 +123,50 @@ export async function getSubmitStatus(submitId: number) {
 }
 
 export async function uploadScreenshot(options: {
-	filePath: string;
+	filePath?: string;
 	website: string;
 }): Promise<{ path: string; website: string }> {
-	const base = getApiUrl();
-	const token = await ensureToken();
-	if (!existsSync(options.filePath)) {
-		throw new Error(`File not found: ${options.filePath}`);
+	if (options.filePath) {
+		if (!existsSync(options.filePath)) {
+			throw new Error(`File not found: ${options.filePath}`);
+		}
+		const buffer = readFileSync(options.filePath);
+		return postAgentAsset('/bat/agent/upload-screenshot', options.website, {
+			buffer,
+			mime: 'image/png',
+			filename: 'screenshot.png',
+		});
 	}
-	const buffer = readFileSync(options.filePath);
-	const blob = new Blob([buffer], { type: 'image/png' });
-
-	const form = new FormData();
-	form.append('file', blob, 'screenshot.png');
-
-	const qs = new URLSearchParams({ website: options.website });
-	const path = '/bat/agent/upload-screenshot';
-	const signHeaders = await signRequest('POST', path, qs.toString());
-
-	const res = await fetch(`${base}${path}?${qs.toString()}`, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${token}`,
-			...signHeaders,
-		},
-		body: form,
-	});
-	const body = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;
-	if (!res.ok || !body.success || !body.data) {
-		throw new Error(body.errorMsg ?? `Upload failed: ${res.status}`);
-	}
-	return body.data;
+	return postAgentAsset('/bat/agent/upload-screenshot', options.website);
 }
 
 export async function uploadLogo(options: {
-	filePath: string;
+	filePath?: string;
 	website: string;
 }): Promise<{ path: string; website: string }> {
-	const base = getApiUrl();
-	const token = await ensureToken();
-	if (!existsSync(options.filePath)) {
-		throw new Error(`File not found: ${options.filePath}`);
+	if (options.filePath) {
+		if (!existsSync(options.filePath)) {
+			throw new Error(`File not found: ${options.filePath}`);
+		}
+		const buffer = readFileSync(options.filePath);
+		const ext = options.filePath.split('.').pop()?.toLowerCase() || 'webp';
+		let mime = 'image/webp';
+		if (ext === 'ico') {
+			mime = 'image/x-icon';
+		} else if (ext === 'png') {
+			mime = 'image/png';
+		} else if (ext === 'jpg' || ext === 'jpeg') {
+			mime = 'image/jpeg';
+		} else if (ext === 'svg') {
+			mime = 'image/svg+xml';
+		}
+		return postAgentAsset('/bat/agent/upload-logo', options.website, {
+			buffer,
+			mime,
+			filename: `logo.${ext}`,
+		});
 	}
-	const buffer = readFileSync(options.filePath);
-
-	const ext = options.filePath.split('.').pop()?.toLowerCase() || 'webp';
-	let mime = 'image/webp';
-	if (ext === 'ico') {
-		mime = 'image/x-icon';
-	} else if (ext === 'png') {
-		mime = 'image/png';
-	} else if (ext === 'jpg' || ext === 'jpeg') {
-		mime = 'image/jpeg';
-	}
-
-	const blob = new Blob([buffer], { type: mime });
-	const form = new FormData();
-	form.append('file', blob, `logo.${ext}`);
-
-	const qs = new URLSearchParams({ website: options.website });
-	const path = '/bat/agent/upload-logo';
-	const signHeaders = await signRequest('POST', path, qs.toString());
-
-	const res = await fetch(`${base}${path}?${qs.toString()}`, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${token}`,
-			...signHeaders,
-		},
-		body: form,
-	});
-	const body = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;
-	if (!res.ok || !body.success || !body.data) {
-		throw new Error(body.errorMsg ?? `Upload failed: ${res.status}`);
-	}
-	return body.data;
+	return postAgentAsset('/bat/agent/upload-logo', options.website);
 }
 
 export interface AgentSubmitItem {

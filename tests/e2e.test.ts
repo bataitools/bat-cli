@@ -8,7 +8,7 @@ import { calculateAgentSubmitSignature } from '../src/shared';
 const TEST_DOMAIN = 'imagetostl.me';
 const SAMPLE_DIR = resolve(import.meta.dirname, `../samples/${TEST_DOMAIN}`);
 const EXPECTED_WEBSITE = 'https://imagetostl.me';
-const EXPECTED_LOGO = 'https://static.bataitools.com/upload/toos/logo/imagetostl.me/f0c0c9695807b30d.webp';
+const MOCK_STATIC_BASE = 'https://static.bataitools.com';
 
 describe('BAT CLI E2E Tests', () => {
 	const tempHome = join(tmpdir(), `bat-cli-e2e-home-${Date.now()}`);
@@ -37,9 +37,14 @@ describe('BAT CLI E2E Tests', () => {
 				}
 				let bodyOrQuery = '';
 				const method = req.method;
+				const contentType = req.headers.get('Content-Type') || '';
 				if (method === 'POST') {
-					const cloned = req.clone();
-					bodyOrQuery = await cloned.text();
+					if (contentType.includes('multipart/form-data')) {
+						bodyOrQuery = url.search.startsWith('?') ? url.search.slice(1) : '';
+					} else {
+						const cloned = req.clone();
+						bodyOrQuery = await cloned.text();
+					}
 				} else if (method === 'GET') {
 					bodyOrQuery = url.search.startsWith('?') ? url.search.slice(1) : '';
 				}
@@ -84,9 +89,30 @@ describe('BAT CLI E2E Tests', () => {
 					return Response.json({
 						success: true,
 						data: {
+							staticBase: MOCK_STATIC_BASE,
 							categorys: [{ id: 'ai-3d-generator', code: 'ai-3d-generator', name: 'AI 3D Generator' }],
 							tags: [{ id: 'freemium', code: 'freemium', name: 'Freemium' }],
 							audiences: [{ id: 'developers', code: 'developers', name: 'Developers' }],
+						},
+					});
+				}
+				if (url.pathname === '/bat/agent/upload-logo' && req.method === 'POST') {
+					const website = url.searchParams.get('website') ?? EXPECTED_WEBSITE;
+					return Response.json({
+						success: true,
+						data: {
+							path: `${MOCK_STATIC_BASE}/upload/toos/logo/imagetostl.me/mock.webp`,
+							website,
+						},
+					});
+				}
+				if (url.pathname === '/bat/agent/upload-screenshot' && req.method === 'POST') {
+					const website = url.searchParams.get('website') ?? EXPECTED_WEBSITE;
+					return Response.json({
+						success: true,
+						data: {
+							path: `${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.png`,
+							website,
 						},
 					});
 				}
@@ -225,7 +251,8 @@ describe('BAT CLI E2E Tests', () => {
 			expect(existsSync(tempOutJson)).toBe(true);
 			const bundle = JSON.parse(readFileSync(tempOutJson, 'utf-8'));
 			expect(bundle.website).toBe(EXPECTED_WEBSITE);
-			expect(bundle.logo).toBe(EXPECTED_LOGO);
+			expect(bundle.logo).toBe(`${MOCK_STATIC_BASE}/upload/toos/logo/imagetostl.me/mock.webp`);
+			expect(bundle.websiteScreenshot).toBe(`${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.png`);
 		} finally {
 			if (existsSync(tempOutJson)) {
 				rmSync(tempOutJson, { recursive: true, force: true });
