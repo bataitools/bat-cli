@@ -1,0 +1,32 @@
+{
+	"website": "https://example.com",
+	"developerName": "Example Inc",
+	"developerType": "team",
+	"developerCountry": "US",
+	"developerProvince": "CA",
+	"pricingUrl": "https://example.com/pricing",
+	"docsUrl": "https://example.com/about",
+	"categorys": ["productivity"],
+	"tags": ["ai-writing"],
+	"audiences": ["developers"],
+	"social": {
+		"email": "hello@example.com",
+		"twitter": "",
+		"facebook": "",
+		"linkedin": "",
+		"instagram": "",
+		"youtube": "",
+		"tiktok": "",
+		"github": "https://github.com/example"
+	},
+	"productMedia": [
+		{
+			"type": "video",
+			"url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+		},
+		{
+			"type": "image",
+			"url": "https://example.com/assets/demo-screenshot.png"
+		}
+	]
+}
