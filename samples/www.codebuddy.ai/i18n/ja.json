@@ -1,0 +1,125 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "Tencent Yuanbao コード大モデル搭載の AI コードエディタ",
+	"description": "Tencent Cloud CodeBuddy は次世代の AI コードエディタです。Tencent Yuanbao コード大モデルを搭載し、コード補完、エラー診断、技術的 Q&A、パフォーマンス最適化などのサービスを提供します。Java、Python、Go、C/C++、JS/TS など 200 以上のプログラミング言語とフレームワークをサポートし、VS Code、JetBrains IDE、Visual Studio、WeChat 開発者ツールと統合されています。CodeBuddy は AI 駆動のワークフローでコーディング効率を向上させ、エンタープライズ級アプリケーション開発をサポートします。",
+	"instruction": "IDE のプラグインマーケットプレイス（VS Code、JetBrains、または Visual Studio）から CodeBuddy プラグインをインストールし、Tencent Cloud アカウントでサインインして、AI 支援コーディングを開始します。Ask モードは技術的 Q&A 用、Craft モードはコード生成とマルチファイル編集用、Plan モードは複雑なクロスファイル機能開発用です。",
+	"coreFeatures": [
+		{
+			"title": "インテリジェントコード補完",
+			"description": "コンテキスト理解と編集行動に基づくリアルタイムの複数行コード補完。次の変更点を予測し、200 以上のプログラミング言語をサポート。"
+		},
+		{
+			"title": "AI 技術対話",
+			"description": "Ask モードはコードを変更しない技術的 Q&A と概念説明に使用。Craft モードは現在のコンテキスト内でのコード生成とローカル修正に使用。Plan モードは最も強力な自動化モードで、クロスファイル変更や複雑な機能開発用。AI がタスク計画を作成し、確認後に自律実行します。"
+		},
+		{
+			"title": "マルチ IDE サポート",
+			"description": "VS Code、JetBrains スイート（IDEA/PyCharm）、Visual Studio、WeChat 開発者ツール、CloudStudio の IDE プラグインとして利用可能。スタンドアロンの AI IDE と CLI ツールも提供。"
+		},
+		{
+			"title": "デザインからコードへのパイプライン",
+			"description": "自然言語や手描きスケッチから高忠実度の UI プロトタイプを生成。組み込みの Figma 統合により、デザインモックアップを直接メンテナンス可能なフロントエンド・バックエンドコードに変換。"
+		},
+		{
+			"title": "MCP エコシステムとカスタムエージェント",
+			"description": "Model Context Protocol を通じて AI 機能を拡張。データベース、CI/CD パイプライン、セキュリティスキャナーなどの外部ツールを接続。特定のビジネスロジック用にカスタムエージェントを作成。"
+		},
+		{
+			"title": "エンタープライズナレッジベース",
+			"description": "組織固有の RAG ナレッジベースを構築し、正確でコンテキストを認識した回答を提供。カスタムルール、プリファレンスの記憶、チーム全体のコーディング標準をサポート。"
+		}
+	],
+	"useCases": [
+		"AI 支援コーディングと自動コードレビューを活用したエンタープライズアプリケーション開発",
+		"自然言語 PRD からデプロイ可能なアプリケーションへの迅速なプロトタイピング",
+		"AI チュータリングと即座のコード解説を活用したプログラミングの教育と学習",
+		"マルチファイル分析とコンテキスト認識の提案によるレガシーコードのリファクタリングと保守",
+		"Figma モックアップから本番コードへの自動変換による UI/UX デザインのハンドオフ"
+	],
+	"pricing": [
+		{
+			"name": "無料版",
+			"chargeType": "free",
+			"priceNote": "無料",
+			"features": ["月 500 クレジット", "基本コード補完", "レート制限付き技術 Q&A", "コミュニティサポート"]
+		},
+		{
+			"name": "Pro（月払い）",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /月",
+			"features": [
+				"月 1,000 クレジット",
+				"すべてのプレミアムモデル（Hunyuan、DeepSeek）",
+				"無制限 BuddyTab",
+				"無制限 BuddyNES",
+				"優先サポート"
+			]
+		},
+		{
+			"name": "Pro（年払い）",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /年",
+			"features": [
+				"月 1,000 クレジット",
+				"すべてのプレミアムモデル（Hunyuan、DeepSeek）",
+				"無制限 BuddyTab",
+				"無制限 BuddyNES",
+				"優先サポート",
+				"月払いよりお得"
+			]
+		},
+		{
+			"name": "Team（月払い）",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /シート /月",
+			"features": [
+				"シートあたり月 1,000 クレジット",
+				"共有チームクレジットプール",
+				"管理者コンソール",
+				"統一請求管理",
+				"IDE/CLI/プラグインサポート",
+				"エンタープライズナレッジベース"
+			]
+		},
+		{
+			"name": "Team（年払い）",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /シート /年",
+			"features": [
+				"シートあたり月 1,000 クレジット",
+				"共有チームクレジットプール",
+				"管理者コンソール",
+				"統一請求管理",
+				"IDE/CLI/プラグインサポート",
+				"エンタープライズナレッジベース",
+				"月払いよりお得"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "CodeBuddy はどの IDE をサポートしていますか？",
+			"answer": "CodeBuddy は VS Code、JetBrains スイート（IntelliJ IDEA、PyCharm など）、Visual Studio、WeChat 開発者ツール、CloudStudio、Vim をサポートしています。また、スタンドアロンの AI IDE と DevOps ワークフロー用の CLI ツールも提供しています。"
+		},
+		{
+			"question": "CodeBuddy はどのプログラミング言語をサポートしていますか？",
+			"answer": "CodeBuddy は Java、Python、Go、C/C++、JavaScript、TypeScript、HTML、PHP、Ruby、Rust、Swift、Scala など、200 以上のプログラミング言語とフレームワークをサポートしています。"
+		},
+		{
+			"question": "Ask、Craft、Plan モードの違いは何ですか？",
+			"answer": "Ask モードはコードを変更しない技術的 Q&A と概念説明に使用されます。Craft モードは現在のコンテキスト内でのコード生成とローカル修正に使用されます。Plan モードは最も強力な自動化モードで、クロスファイル変更や複雑な機能開発用です。AI がタスク計画を作成し、確認後に自律実行します。"
+		},
+		{
+			"question": "クレジットシステムはどのように機能しますか？",
+			"answer": "AI 機能を使用するとクレジットが消費されます。無料版は月 500 クレジットを含みます。Pro 版は月 1,000 クレジットを含みます。Team 版はシートあたり月 1,000 クレジットを含み、共有プールを使用します。追加クレジットはアドオンパックとして購入できます。"
+		},
+		{
+			"question": "CodeBuddy はエンタープライズ展開をサポートしていますか？",
+			"answer": "はい、CodeBuddy は専用サポート、SLA、カスタムナレッジベース、プライベート展開オプションを含む SaaS エンタープライズ版とプライベートクラウドエンタープライズ版を提供しています。カスタムボリューム価格については営業にご連絡ください。"
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Tencent Cloud の AI コードエディタ",
+		"description": "インテリジェント補完、マルチファイル生成、デザインからコードへのパイプラインを備えた AI 駆動コードエディタ。200 以上の言語と VS Code、JetBrains、Visual Studio をサポート。"
+	}
+}

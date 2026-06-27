@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "Trình chỉnh sửa mã AI được hỗ trợ bởi mô hình mã lớn Tencent Yuanbao",
+	"description": "Tencent Cloud CodeBuddy là trình chỉnh sửa mã AI thế hệ mới. Được hỗ trợ bởi mô hình mã lớn Tencent Yuanbao, nó cung cấp các dịch vụ như hoàn thành mã, chẩn đoán lỗi, hỏi đáp kỹ thuật và tối ưu hóa hiệu suất. Hỗ trợ 200+ ngôn ngữ và framework lập trình bao gồm Java, Python, Go, C/C++, JS/TS, và tích hợp với VS Code, JetBrains IDE, Visual Studio và các công cụ phát triển WeChat. CodeBuddy nâng cao hiệu quả lập trình thông qua các quy trình làm việc dựa trên AI và hỗ trợ phát triển ứng dụng cấp doanh nghiệp.",
+	"instruction": "Cài đặt plugin CodeBuddy từ marketplace IDE (VS Code, JetBrains hoặc Visual Studio), đăng nhập bằng tài khoản Tencent Cloud và bắt đầu lập trình với sự hỗ trợ của AI. Chế độ Ask cho hỏi đáp kỹ thuật, chế độ Craft cho tạo mã và chỉnh sửa đa tệp, và chế độ Plan cho phát triển tính năng phức tạp xuyên tệp.",
+	"coreFeatures": [
+		{
+			"title": "Hoàn thành mã thông minh",
+			"description": "Hoàn thành mã đa dòng theo thời gian thực dựa trên sự hiểu ngữ cảnh và hành vi chỉnh sửa, dự đoán điểm sửa đổi tiếp theo với hỗ trợ 200+ ngôn ngữ lập trình."
+		},
+		{
+			"title": "Đối thoại kỹ thuật dựa trên AI",
+			"description": "Chế độ Ask dùng cho hỏi đáp kỹ thuật và giải thích khái niệm mà không sửa đổi mã. Chế độ Craft dùng cho tạo mã và sửa đổi cục bộ trong ngữ cảnh hiện tại. Chế độ Plan là chế độ tự động hóa mạnh mẽ nhất cho sửa đổi xuyên tệp hoặc phát triển tính năng phức tạp, nơi AI tạo kế hoạch nhiệm vụ và tự động thực hiện sau khi xác nhận."
+		},
+		{
+			"title": "Hỗ trợ đa IDE",
+			"description": "Có sẵn dưới dạng plugin IDE cho VS Code, bộ JetBrains (IDEA/PyCharm), Visual Studio, công cụ phát triển WeChat và CloudStudio, cùng với IDE AI độc lập và công cụ CLI."
+		},
+		{
+			"title": "Pipeline thiết kế sang mã",
+			"description": "Tạo nguyên mẫu UI độ trung thực cao từ ngôn ngữ tự nhiên hoặc phác thảo vẽ tay, với tích hợp Figma tích hợp để chuyển đổi trực tiếp các mẫu thiết kế thành mã front-end và back-end có thể bảo trì."
+		},
+		{
+			"title": "Hệ sinh thái MCP và agent tùy chỉnh",
+			"description": "Mở rộng khả năng AI thông qua Giao thức Ngữ cảnh Mô hình để kết nối các công cụ bên ngoài như cơ sở dữ liệu, pipeline CI/CD và trình quét bảo mật. Tạo agent tùy chỉnh cho logic nghiệp vụ cụ thể."
+		},
+		{
+			"title": "Cơ sở tri thức doanh nghiệp",
+			"description": "Xây dựng cơ sở tri thức RAG dành riêng cho tổ chức để có câu trả lời chính xác và hiểu ngữ cảnh. Hỗ trợ quy tắc tùy chỉnh, lưu trữ tùy chọn và tiêu chuẩn lập trình nhóm."
+		}
+	],
+	"useCases": [
+		"Phát triển ứng dụng doanh nghiệp với lập trình được hỗ trợ bởi AI và đánh giá mã tự động",
+		"Tạo nguyên mẫu nhanh từ PRD ngôn ngữ tự nhiên sang ứng dụng có thể triển khai",
+		"Dạy và học lập trình với gia sư AI và giải thích mã tức thì",
+		"Tái cấu trúc và bảo trì mã legacy với phân tích đa tệp và đề xuất hiểu ngữ cảnh",
+		"Bàn giao thiết kế UI/UX với chuyển đổi tự động từ mẫu Figma sang mã sản xuất"
+	],
+	"pricing": [
+		{
+			"name": "Miễn phí",
+			"chargeType": "free",
+			"priceNote": "Miễn phí",
+			"features": [
+				"500 Điểm tín dụng mỗi tháng",
+				"Hoàn thành mã cơ bản",
+				"Hỏi đáp kỹ thuật có giới hạn tần suất",
+				"Hỗ trợ cộng đồng"
+			]
+		},
+		{
+			"name": "Pro (tháng)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /tháng",
+			"features": [
+				"1.000 Điểm tín dụng mỗi tháng",
+				"Tất cả các mô hình cao cấp (Hunyuan, DeepSeek)",
+				"BuddyTab không giới hạn",
+				"BuddyNES không giới hạn",
+				"Hỗ trợ ưu tiên"
+			]
+		},
+		{
+			"name": "Pro (năm)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /năm",
+			"features": [
+				"1.000 Điểm tín dụng mỗi tháng",
+				"Tất cả các mô hình cao cấp (Hunyuan, DeepSeek)",
+				"BuddyTab không giới hạn",
+				"BuddyNES không giới hạn",
+				"Hỗ trợ ưu tiên",
+				"Tiết kiệm hơn thanh toán tháng"
+			]
+		},
+		{
+			"name": "Team (tháng)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /chỗ /tháng",
+			"features": [
+				"1.000 Điểm tín dụng mỗi chỗ mỗi tháng",
+				"Pool điểm tín dụng chia sẻ nhóm",
+				"Bảng điều khiển quản trị",
+				"Quản lý hóa đơn thống nhất",
+				"Hỗ trợ IDE/CLI/Plugin",
+				"Cơ sở tri thức doanh nghiệp"
+			]
+		},
+		{
+			"name": "Team (năm)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /chỗ /năm",
+			"features": [
+				"1.000 Điểm tín dụng mỗi chỗ mỗi tháng",
+				"Pool điểm tín dụng chia sẻ nhóm",
+				"Bảng điều khiển quản trị",
+				"Quản lý hóa đơn thống nhất",
+				"Hỗ trợ IDE/CLI/Plugin",
+				"Cơ sở tri thức doanh nghiệp",
+				"Tiết kiệm hơn thanh toán tháng"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "CodeBuddy hỗ trợ những IDE nào?",
+			"answer": "CodeBuddy hỗ trợ VS Code, bộ JetBrains (IntelliJ IDEA, PyCharm, v.v.), Visual Studio, công cụ phát triển WeChat, CloudStudio và Vim. Nó cũng có sẵn dưới dạng IDE AI độc lập và công cụ CLI cho quy trình làm việc DevOps."
+		},
+		{
+			"question": "CodeBuddy hỗ trợ những ngôn ngữ lập trình nào?",
+			"answer": "CodeBuddy hỗ trợ 200+ ngôn ngữ và framework lập trình, bao gồm Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala và nhiều hơn nữa."
+		},
+		{
+			"question": "Sự khác biệt giữa chế độ Ask, Craft và Plan là gì?",
+			"answer": "Chế độ Ask dùng cho hỏi đáp kỹ thuật và giải thích khái niệm mà không sửa đổi mã. Chế độ Craft dùng cho tạo mã và sửa đổi cục bộ trong ngữ cảnh hiện tại. Chế độ Plan là chế độ tự động hóa mạnh mẽ nhất cho sửa đổi xuyên tệp hoặc phát triển tính năng phức tạp, nơi AI tạo kế hoạch nhiệm vụ và tự động thực hiện sau khi bạn xác nhận."
+		},
+		{
+			"question": "Hệ thống điểm tín dụng hoạt động như thế nào?",
+			"answer": "Điểm tín dụng được tiêu thụ khi sử dụng các tính năng AI. Bản miễn phí bao gồm 500 điểm mỗi tháng. Các gói Pro bao gồm 1.000 điểm mỗi tháng. Các gói Team bao gồm 1.000 điểm mỗi chỗ mỗi tháng với pool chia sẻ. Điểm bổ sung có thể được mua dưới dạng gói bổ sung."
+		},
+		{
+			"question": "CodeBuddy có hỗ trợ triển khai doanh nghiệp không?",
+			"answer": "Có, CodeBuddy cung cấp phiên bản SaaS Enterprise và Private Cloud Enterprise với hỗ trợ chuyên dụng, SLA, cơ sở tri thức tùy chỉnh và các tùy chọn triển khai riêng tư. Liên hệ bộ phận bán hàng để biết giá khối tùy chỉnh."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Trình chỉnh sửa mã AI của Tencent Cloud",
+		"description": "Trình chỉnh sửa mã dựa trên AI với hoàn thành thông minh, tạo đa tệp và pipeline thiết kế sang mã. Hỗ trợ 200+ ngôn ngữ và VS Code, JetBrains, Visual Studio."
+	}
+}

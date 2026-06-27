@@ -1,0 +1,125 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "由腾讯混元代码大模型驱动的 AI 代码编辑器",
+	"description": "腾讯云 CodeBuddy 是新一代 AI 代码编辑器。基于腾讯混元代码大模型，提供代码补全、错误诊断、技术问答、性能优化等服务。支持 Java、Python、Go、C/C++、JS/TS 等 200 多种编程语言和框架，集成 VS Code、JetBrains IDE、Visual Studio 和微信开发者工具。CodeBuddy 通过 AI 驱动的工作流提升编码效率，支持企业级应用开发。",
+	"instruction": "从 IDE 插件市场（VS Code、JetBrains 或 Visual Studio）安装 CodeBuddy 插件，使用腾讯云账号登录，即可开始 AI 辅助编程。Ask 模式用于技术问答，Craft 模式用于代码生成和多文件编辑，Plan 模式用于复杂的跨文件功能开发。",
+	"coreFeatures": [
+		{
+			"title": "智能代码补全",
+			"description": "基于上下文理解和编辑行为的实时多行代码补全，预测下一个修改点，支持 200 多种编程语言。"
+		},
+		{
+			"title": "AI 技术对话",
+			"description": "Ask 模式用于不修改代码的技术问答和概念解释；Craft 模式用于在当前上下文内进行代码生成和局部修改；Plan 模式是最强大的自动化模式，用于跨文件修改或复杂功能开发，AI 会创建任务计划并在确认后自主执行。"
+		},
+		{
+			"title": "多 IDE 支持",
+			"description": "可作为 VS Code、JetBrains 套件（IDEA/PyCharm）、Visual Studio、微信开发者工具和 CloudStudio 的 IDE 插件使用，另有独立 AI IDE 和 CLI 工具。"
+		},
+		{
+			"title": "设计转代码流水线",
+			"description": "通过自然语言或手绘草图生成高保真 UI 原型，内置 Figma 集成，可直接将设计稿转换为可维护的前后端代码。"
+		},
+		{
+			"title": "MCP 生态与自定义智能体",
+			"description": "通过模型上下文协议扩展 AI 能力，连接数据库、CI/CD 流水线、安全扫描等外部工具。可为特定业务逻辑创建自定义智能体。"
+		},
+		{
+			"title": "企业知识库",
+			"description": "构建组织专属的 RAG 知识库，提供精准、上下文感知的回答。支持自定义规则、偏好记忆和团队编码规范。"
+		}
+	],
+	"useCases": [
+		"AI 辅助编码和自动代码审查的企业级应用开发",
+		"从自然语言 PRD 到可部署应用的快速原型开发",
+		"AI 辅导和即时代码解释的教学编程场景",
+		"多文件分析和上下文感知建议的遗留代码重构与维护",
+		"Figma 设计稿自动转换为生产代码的 UI/UX 设计交付"
+	],
+	"pricing": [
+		{
+			"name": "免费版",
+			"chargeType": "free",
+			"priceNote": "免费",
+			"features": ["每月 500 积分", "基础代码补全", "有频率限制的技术问答", "社区支持"]
+		},
+		{
+			"name": "专业版（月付）",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /月",
+			"features": [
+				"每月 1,000 积分",
+				"所有高级模型（混元、DeepSeek）",
+				"无限 BuddyTab",
+				"无限 BuddyNES",
+				"优先支持"
+			]
+		},
+		{
+			"name": "专业版（年付）",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /年",
+			"features": [
+				"每月 1,000 积分",
+				"所有高级模型（混元、DeepSeek）",
+				"无限 BuddyTab",
+				"无限 BuddyNES",
+				"优先支持",
+				"比月付更省钱"
+			]
+		},
+		{
+			"name": "团队版（月付）",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /席位 /月",
+			"features": [
+				"每席位每月 1,000 积分",
+				"共享团队积分池",
+				"管理员控制台",
+				"统一账单管理",
+				"IDE/CLI/插件支持",
+				"企业知识库"
+			]
+		},
+		{
+			"name": "团队版（年付）",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /席位 /年",
+			"features": [
+				"每席位每月 1,000 积分",
+				"共享团队积分池",
+				"管理员控制台",
+				"统一账单管理",
+				"IDE/CLI/插件支持",
+				"企业知识库",
+				"比月付更省钱"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "CodeBuddy 支持哪些 IDE？",
+			"answer": "CodeBuddy 支持 VS Code、JetBrains 套件（IntelliJ IDEA、PyCharm 等）、Visual Studio、微信开发者工具、CloudStudio 和 Vim。同时提供独立 AI IDE 和面向 DevOps 工作流的 CLI 工具。"
+		},
+		{
+			"question": "CodeBuddy 支持哪些编程语言？",
+			"answer": "CodeBuddy 支持 200 多种编程语言和框架，包括 Java、Python、Go、C/C++、JavaScript、TypeScript、HTML、PHP、Ruby、Rust、Swift、Scala 等。"
+		},
+		{
+			"question": "Ask、Craft 和 Plan 模式有什么区别？",
+			"answer": "Ask 模式用于不修改代码的技术问答和概念解释。Craft 模式用于在当前上下文内进行代码生成和局部修改。Plan 模式是最强大的自动化模式，用于跨文件修改或复杂功能开发，AI 会创建任务计划并在您确认后自主执行。"
+		},
+		{
+			"question": "积分系统是如何运作的？",
+			"answer": "使用 AI 功能时会消耗积分。免费版每月包含 500 积分。专业版每月包含 1,000 积分。团队版每席位每月包含 1,000 积分，采用共享积分池。可购买加量包补充积分。"
+		},
+		{
+			"question": "CodeBuddy 支持企业部署吗？",
+			"answer": "是的，CodeBuddy 提供 SaaS 企业版和私有云企业版，包含专属支持、SLA、自定义知识库和私有化部署选项。请联系销售获取自定义批量定价。"
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — 腾讯云 AI 代码编辑器",
+		"description": "AI 驱动的代码编辑器，支持智能补全、多文件生成和设计转代码流水线。支持 200 多种语言和 VS Code、JetBrains、Visual Studio。"
+	}
+}

@@ -392,8 +392,8 @@ function scaffoldSubmitDirectory(dir: string) {
 	const enPath = join(dir, 'i18n/en.json');
 
 	mkdirSync(join(dir, 'i18n'), { recursive: true });
-	const baseTemplate = join(import.meta.dirname, '../examples/submit/base.json');
-	const enTemplate = join(import.meta.dirname, '../examples/submit/i18n/en.json');
+	const baseTemplate = join(import.meta.dirname, '../templates/submit/base.json');
+	const enTemplate = join(import.meta.dirname, '../templates/submit/i18n/en.json');
 	writeFileSync(basePath, readFileSync(baseTemplate, 'utf-8'));
 	writeFileSync(enPath, readFileSync(enTemplate, 'utf-8'));
 	console.log(`[bat-cli] scaffolded ${dir}/base.json and ${dir}/i18n/en.json`);

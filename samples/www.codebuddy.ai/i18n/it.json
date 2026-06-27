@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "Editor di codice AI alimentato dal modello di codice large Tencent Yuanbao",
+	"description": "Tencent Cloud CodeBuddy è un editor di codice AI di nuova generazione. Alimentato dal modello di codice large Tencent Yuanbao, fornisce servizi come il completamento del codice, la diagnosi degli errori, il Q&A tecnico e l'ottimizzazione delle prestazioni. Supporta oltre 200 linguaggi e framework di programmazione, tra cui Java, Python, Go, C/C++, JS/TS, e si integra con VS Code, JetBrains IDE, Visual Studio e gli strumenti di sviluppo WeChat. CodeBuddy migliora l'efficienza della codifica attraverso flussi di lavoro guidati dall'IA e supporta lo sviluppo di applicazioni enterprise.",
+	"instruction": "Installa il plugin CodeBuddy dal marketplace del tuo IDE (VS Code, JetBrains o Visual Studio), accedi con il tuo account Tencent Cloud e inizia a programmare con l'assistenza dell'IA. La modalità Ask per il Q&A tecnico, la modalità Craft per la generazione di codice e la modifica multi-file, e la modalità Plan per lo sviluppo complesso di funzionalità multi-file.",
+	"coreFeatures": [
+		{
+			"title": "Completamento del codice intelligente",
+			"description": "Completamento del codice multi-riga in tempo reale basato sulla comprensione del contesto e sul comportamento di editing, predice il prossimo punto di modifica con supporto per oltre 200 linguaggi di programmazione."
+		},
+		{
+			"title": "Dialogo tecnico basato sull'IA",
+			"description": "La modalità Ask è per il Q&A tecnico e la spiegazione dei concetti senza modificare il codice. La modalità Craft è per la generazione di codice e le modifiche locali all'interno del contesto attuale. La modalità Plan è la modalità di automazione più potente per modifiche multi-file o sviluppo di funzionalità complesse, in cui l'IA crea un piano di attività e si esegue autonomamente dopo la conferma."
+		},
+		{
+			"title": "Supporto multi-IDE",
+			"description": "Disponibile come plugin IDE per VS Code, la suite JetBrains (IDEA/PyCharm), Visual Studio, gli strumenti di sviluppo WeChat e CloudStudio, oltre a un'IDE IA standalone e uno strumento CLI."
+		},
+		{
+			"title": "Pipeline Design-to-Code",
+			"description": "Genera prototipi UI ad alta fedeltà da linguaggio naturale o schizzi disegnati a mano, con integrazione Figma integrata per convertire direttamente i mockup di design in codice front-end e back-end manutenibile."
+		},
+		{
+			"title": "Ecosistema MCP e agenti personalizzati",
+			"description": "Estendi le capacità dell'IA attraverso il Model Context Protocol per connettere strumenti esterni come database, pipeline CI/CD e scanner di sicurezza. Crea agenti personalizzati per logiche di business specifiche."
+		},
+		{
+			"title": "Knowledge base aziendale",
+			"description": "Costruisci knowledge base RAG specifiche per l'organizzazione per risposte precise e consapevoli del contesto. Supporta regole personalizzate, memoria delle preferenze e standard di codifica del team."
+		}
+	],
+	"useCases": [
+		"Sviluppo di applicazioni enterprise con codifica assistita dall'IA e revisione del codice automatizzata",
+		"Prototipazione rapida da PRD in linguaggio naturale ad applicazioni distribuibili",
+		"Insegnamento e apprendimento della programmazione con tutoring IA e spiegazioni istantanee del codice",
+		"Refactoring e manutenzione del codice legacy con analisi multi-file e suggerimenti consapevoli del contesto",
+		"Handoff di progettazione UI/UX con conversione automatizzata da mockup Figma a codice di produzione"
+	],
+	"pricing": [
+		{
+			"name": "Gratuito",
+			"chargeType": "free",
+			"priceNote": "Gratuito",
+			"features": [
+				"500 Crediti al mese",
+				"Completamento del codice di base",
+				"Q&A tecnico con limiti di frequenza",
+				"Supporto della community"
+			]
+		},
+		{
+			"name": "Pro (mensile)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /mese",
+			"features": [
+				"1.000 Crediti al mese",
+				"Tutti i modelli premium (Hunyuan, DeepSeek)",
+				"BuddyTab illimitato",
+				"BuddyNES illimitato",
+				"Supporto prioritario"
+			]
+		},
+		{
+			"name": "Pro (annuale)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /anno",
+			"features": [
+				"1.000 Crediti al mese",
+				"Tutti i modelli premium (Hunyuan, DeepSeek)",
+				"BuddyTab illimitato",
+				"BuddyNES illimitato",
+				"Supporto prioritario",
+				"Risparmio rispetto al mensile"
+			]
+		},
+		{
+			"name": "Team (mensile)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /posto /mese",
+			"features": [
+				"1.000 Crediti per posto al mese",
+				"Pool di crediti del team condiviso",
+				"Console di amministrazione",
+				"Gestione della fatturazione unificata",
+				"Supporto IDE/CLI/Plugin",
+				"Knowledge base aziendale"
+			]
+		},
+		{
+			"name": "Team (annuale)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /posto /anno",
+			"features": [
+				"1.000 Crediti per posto al mese",
+				"Pool di crediti del team condiviso",
+				"Console di amministrazione",
+				"Gestione della fatturazione unificata",
+				"Supporto IDE/CLI/Plugin",
+				"Knowledge base aziendale",
+				"Risparmio rispetto al mensile"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Quali IDE sono supportati da CodeBuddy?",
+			"answer": "CodeBuddy supporta VS Code, la suite JetBrains (IntelliJ IDEA, PyCharm, ecc.), Visual Studio, gli strumenti di sviluppo WeChat, CloudStudio e Vim. È disponibile anche come IDE IA standalone e strumento CLI per flussi di lavoro DevOps."
+		},
+		{
+			"question": "Quali linguaggi di programmazione supporta CodeBuddy?",
+			"answer": "CodeBuddy supporta oltre 200 linguaggi e framework di programmazione, tra cui Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala e altri."
+		},
+		{
+			"question": "Qual è la differenza tra le modalità Ask, Craft e Plan?",
+			"answer": "La modalità Ask è per il Q&A tecnico e la spiegazione dei concetti senza modificare il codice. La modalità Craft è per la generazione di codice e le modifiche locali all'interno del contesto attuale. La modalità Plan è la modalità di automazione più potente per modifiche multi-file o sviluppo di funzionalità complesse, in cui l'IA crea un piano di attività e si esegue autonomamente dopo la conferma."
+		},
+		{
+			"question": "Come funziona il sistema dei crediti?",
+			"answer": "I crediti vengono consumati quando si utilizzano le funzionalità IA. Il piano Gratuito include 500 crediti al mese. I piani Pro includono 1.000 crediti al mese. I piani Team includono 1.000 crediti per posto al mese con un pool condiviso. Crediti aggiuntivi possono essere acquistati come pacchetti aggiuntivi."
+		},
+		{
+			"question": "CodeBuddy supporta il deployment aziendale?",
+			"answer": "Sì, CodeBuddy offre edizioni SaaS Enterprise e Private Cloud Enterprise con supporto dedicato, SLA, knowledge base personalizzate e opzioni di deployment privato. Contatta le vendite per prezzi di volume personalizzati."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Editor di codice AI di Tencent Cloud",
+		"description": "Editor di codice basato sull'IA con completamento intelligente, generazione multi-file e pipeline design-to-code. Supporta 200+ linguaggi e VS Code, JetBrains, Visual Studio."
+	}
+}

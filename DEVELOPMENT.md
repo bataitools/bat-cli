@@ -1,170 +1,261 @@
 # BAT CLI 开发与本地测试指南 (DEVELOPMENT.md)
 
-本文件详细记录了 `bat-cli` 的本地开发流程、代码规范以及如何在开发环境中运行和扩展自动化测试，以便您或后续开发者在未来的迭代中能够快速上手。
+本文件记录 `bat-cli` 仓库内的目录结构、npm 脚本、开发脚本及 CLI 调试命令，供日常开发与维护参考。
 
 ---
 
-## 🛠️ 本地环境准备与开发命令
+## 📁 目录说明
 
-### 1. 安装依赖
+| 目录 / 文件                      | 用途                                                                    |
+| -------------------------------- | ----------------------------------------------------------------------- |
+| `src/`                           | CLI 源码（`cli.ts`、`pack.ts`、`client.ts` 等）                         |
+| `templates/`                     | **脚手架模板**：`init` / `init-site` 时复制到用户的 `./submits/<host>/` |
+| `templates/submit.template.json` | 完整 bundle 格式参考（只读，CLI 不引用）                                |
+| `samples/`                       | **完整提交样本**：供自动化测试与远程推送共用                            |
+| `tests/`                         | 测试代码（`*.test.ts`），不含样本数据                                   |
+| `scripts/push-samples.ts`        | 将 `samples/` 批量提交到 dev / prod API                                 |
+| `scripts/prepare-package.ts`     | 构建 npm 发布包到 `./pkg/`                                              |
+| `submits/`                       | 本地开发时手动维护的提交目录（可选，不入 npm 包）                       |
 
-项目采用 [Bun](https://bun.sh/) 作为包管理与测试执行工具：
+`templates/` 与 `samples/` 的分工：
+
+- `templates/` = 空白表格（`init` 时复制）
+- `samples/` = 填好的完整样本（`bun test` + `dev:push-samples` / `prod:push-samples`）
+
+当前 `samples/` 包含：`imagetostl.me`、`www.codebuddy.ai`。
+
+---
+
+## 📦 npm 脚本一览
+
+在仓库根目录执行：
+
+| 命令                        | 说明                                                     |
+| --------------------------- | -------------------------------------------------------- |
+| `bun install`               | 安装依赖                                                 |
+| `bun run dev [子命令...]`   | 以 dev API 运行 CLI 源码（见下文）                       |
+| `bun run build`             | 编译 CLI 到 `dist/`                                      |
+| `bun run typecheck`         | TypeScript 类型检查                                      |
+| `bun run test`              | 运行全量测试（离线，含 E2E）                             |
+| `bun run dev:push-samples`  | 将 `samples/` 推送到 **dev** API                         |
+| `bun run prod:push-samples` | 将 `samples/` 推送到 **prod** API（需 `--confirm-prod`） |
+| `bun run prepare:pkg`       | 生成 npm 发布目录 `./pkg/`                               |
+| `bun run build:pkg`         | `build` + `prepare:pkg`                                  |
+| `bun run release`           | 发布新版本到 npm（release-it）                           |
+
+### API 环境对照
+
+| 环境 | API 地址                         | 如何指定                                                   |
+| ---- | -------------------------------- | ---------------------------------------------------------- |
+| dev  | `https://api-dev.bataitools.com` | `bun run dev ...`（自动注入 `--dev`）或 `dev:push-samples` |
+| prod | `https://api.bataitools.com`     | 默认；`prod:push-samples` 或 `BAT_API_URL` 环境变量        |
+
+本地凭据保存在 `~/.bat-cli/credentials.json`。`push-samples` 执行前会自动 guest 登录到目标 API，**会覆盖当前凭据中的 token 与 apiUrl**。
+
+---
+
+## 🚀 push-samples：推送 samples 到远程 API
+
+脚本：`scripts/push-samples.ts`
+
+用途：把 `samples/` 下含 `base.json` 的子目录，走完整 submit 流程（上传资源 → 打包 → 校验 → 提交），用于验证 dev / prod 环境的 API 与审核链路是否正常。
+
+### 基本用法
 
 ```bash
-bun install
+# 推送全部 samples 到 dev（默认场景）
+bun run dev:push-samples
+
+# 只校验打包，不登录、不提交
+bun run dev:push-samples -- --dry-run
+
+# 只推送指定样本（目录名，即域名）
+bun run dev:push-samples -- --only imagetostl.me
+bun run dev:push-samples -- --only imagetostl.me,www.codebuddy.ai
+
+# 推送到 prod（必须显式确认，会向生产 API 提交真实数据）
+bun run prod:push-samples -- --confirm-prod
+bun run prod:push-samples -- --confirm-prod --only imagetostl.me
 ```
 
-### 2. 本地调试运行
+### 参数说明
 
-无需编译，直接在本地运行 TS 源码进行调试：
+| 参数              | 说明                                                 |
+| ----------------- | ---------------------------------------------------- |
+| `--env dev\|prod` | 目标环境（npm script 已内置，一般无需手动传）        |
+| `--dry-run`       | 仅本地打包 + 校验，不登录、不提交                    |
+| `--only <name>`   | 只处理指定样本，逗号分隔，值为 `samples/` 下的目录名 |
+| `--confirm-prod`  | 推 prod 时**必须**携带，否则拒绝执行                 |
+
+### 典型工作流
 
 ```bash
-bun run dev [commands...]
-# 例如：
+# 1. 改完校验逻辑或 samples 数据后，先 dry-run
+bun run dev:push-samples -- --dry-run
+
+# 2. 确认无误后推到 dev 验证
+bun run dev:push-samples
+
+# 3. dev 通过后，必要时推到 prod
+bun run prod:push-samples -- --confirm-prod
+```
+
+日志前缀为 `[push-samples]`，成功时会输出 `submitId`、`previewUrl` 等。
+
+---
+
+## 📤 prepare-package：构建 npm 发布包
+
+脚本：`scripts/prepare-package.ts`
+
+用途：在 `./pkg/` 生成可发布到 npm 的干净包（剥离 devDependencies、scripts，拷贝 `dist/` 与 `templates/`）。
+
+```bash
+# 仅生成 pkg/
+bun run prepare:pkg
+
+# 先编译再生成（发布前推荐）
+bun run build:pkg
+```
+
+生成结果：
+
+```
+pkg/
+├── dist/          # 编译后的 CLI
+├── templates/     # init 脚手架（随 npm 包分发）
+├── package.json     # 精简后的 manifest
+├── README.md
+└── LICENSE
+```
+
+注意：`samples/`、`tests/`、`scripts/` **不会**打入 npm 包，仅仓库内开发使用。
+
+---
+
+## 🛠️ CLI 本地调试（`bun run dev`）
+
+无需编译，直接运行 TS 源码。`bun run dev` 会自动指向 dev API（等价于源码里的 `--dev` 标志）。
+
+```bash
 bun run dev --help
-bun run dev site-dir https://example.com
 ```
 
-### 3. 类型检查
-
-由于使用了 TypeScript，修改任何源码后，在提交流程前均需执行类型检查确保没有类型安全问题：
+### 登录与凭据
 
 ```bash
-bun run typecheck
+# Guest 匿名账号（无需浏览器）
+bun run dev login-guest
+
+# 正式账号 OAuth 或 API Key
+bun run dev login
+bun run dev login <api-key>
 ```
 
-### 4. 常用 CLI 调试命令示例
+### 初始化提交目录（使用 templates/）
 
-在开发迭代中，可使用 `bun run dev` 替代全局安装的 `bat-cli` 来模拟执行与调试具体的命令行分支：
+```bash
+# 在指定路径创建 base.json + i18n/en.json（来自 templates/submit/）
+bun run dev init ./submits/my-site-dir
 
-- **Guest 匿名账号快捷登录（在本地生成 credentials.json）**：
+# 按域名在 ./submits/<host>/ 下初始化
+bun run dev init-site --website https://example.com --root ./submits
 
-    ```bash
-    bun run dev login-guest
-    ```
+# 查询域名对应的目录路径
+bun run dev site-dir https://example.com --root ./submits
+```
 
-- **静态初始化脚手架（于指定路径创建 base.json 及 en.json 模板）**：
+### 校验与打包
 
-    ```bash
-    bun run dev init ./submits/my-site-dir
-    ```
+```bash
+# 一阶段：仅校验 base.json + i18n/en.json
+bun run dev validate-phase1 ./submits/example.com
 
-- **按照域名与指定的 root 目录初始化脚手架**：
+# 生成多语言翻译占位模板
+bun run dev translate-template ./submits/example.com --from en --to zh,tw,ja
 
-    ```bash
-    bun run dev init-site --website https://example.com --root ./submits
-    ```
+# 打包目录为 bundle（含资源上传）
+bun run dev pack ./submits/example.com -o ./submits/example.com/submit.bundle.json
 
-- **查询指定域名在提交根目录下的相对解析路径**：
+# 二阶段：校验完整 bundle
+bun run dev validate -f ./submits/example.com/submit.bundle.json
+```
 
-    ```bash
-    bun run dev site-dir https://example.com --root ./submits
-    ```
+### 提交与查询
 
-- **对指定的产品提交目录运行一阶段静态文件校验（Phase 1）**：
+```bash
+# 一键：上传资源 → 打包 → 校验 → 提交到 dev API
+bun run dev submit --dir ./submits/example.com
 
-    ```bash
-    bun run dev validate-phase1 ./submits/example.com
-    ```
+# 查询审核状态
+bun run dev status --id <submitId>
+bun run dev list --format table
+```
 
-- **根据英文原件，自动生成或增量更新多语言翻译模板占位符**：
+### 资源抓取
 
-    ```bash
-    bun run dev translate-template ./submits/example.com --from en --to zh,tw,ja
-    ```
-
-- **本地打包产品目录（将 base.json 与翻译后的 json 文件压缩合成最终的 bundle.json）**：
-
-    ```bash
-    bun run dev pack ./submits/example.com -o ./submits/example.com/submit.bundle.json
-    ```
-
-- **对已打包的 bundle.json 进行本地二阶段格式与逻辑完整校验**：
-
-    ```bash
-    bun run dev validate -f ./submits/example.com/submit.bundle.json
-    ```
-
-- **打包当前产品目录并自动上传资源、校验并执行服务端提交发布（一键流）**：
-
-    ```bash
-    bun run dev submit --dir ./submits/example.com
-    ```
-
-- **查询产品提交的审核状态与进度**：
-
-    ```bash
-    bun run dev status --id <submitId>
-    ```
-
-- **列出当前用户的所有产品提交记录**：
-    ```bash
-    bun run dev list --format table
-    ```
+```bash
+bat-cli fetch-logo --url <logo-url> --dir <submit-dir>
+bat-cli capture-screenshot --website <url> --dir <submit-dir>
+# 首次使用 Playwright 需：bunx playwright install chromium
+```
 
 ---
 
-## 🧪 自动化测试架构与执行
-
-我们使用 Bun 自带的测试框架 `bun test`。测试用例在设计上完全自包含，**100% 离线、快速且不依赖外部网络**。
-
-### 1. 执行测试
-
-运行全量测试套件（包括单元测试与端到端测试）：
+## 🧪 自动化测试
 
 ```bash
 bun test
+bun run typecheck   # 提交前建议执行
 ```
 
-### 2. 测试目录与功能划分 (`tests/`)
+### 测试文件
 
-测试代码被按功能拆分在以下文件中：
+| 文件                       | 内容                                                      |
+| -------------------------- | --------------------------------------------------------- |
+| `tests/validation.test.ts` | 打包、Phase 1 / Phase 2 校验、边界用例                    |
+| `tests/e2e.test.ts`        | CLI 子进程 E2E；本地 Mock API（6665 端口）；HOME 沙箱隔离 |
 
-- **[validation.test.ts](file:///Users/jeff/Projects/bat/bat-cli/tests/validation.test.ts)** (打包与校验单元测试)
-    - 针对内存里的静态打包（`packSubmitDirectory`）、一阶段校验（`validatePhase1Directory`）及完整 Bundle 校验逻辑进行分支断言。
-- **[e2e.test.ts](file:///Users/jeff/Projects/bat/bat-cli/tests/e2e.test.ts)** (命令行端到端集成测试)
-    - 采用**非阻塞异步子进程**（`Bun.spawn`）拉起 CLI 源码。
-    - **沙箱隔离**：测试执行时会将 `HOME` 重定向为系统临时沙箱目录，彻底防止测试读写污染您本地真实的 `~/.bat-cli/credentials.json` 凭据。
-    - **Mock API 服务**：在 `beforeAll` 中拉起一个本地 `Bun.serve` HTTP 服务器（6665 端口）拦截并模拟 `auto-login`、`submit`、`list`、`schema` 等接口的网络响应。
-- **[mock/](file:///Users/jeff/Projects/bat/bat-cli/tests/mock)** (测试样本数据集)
-    - 存放用于测试打包的本地样本，当前包含 `imagetostl.me` 样本目录。
+E2E 测试**不访问真实网络**，API 响应由测试内 `Bun.serve` 模拟。
 
 ---
 
-## 🔄 如何切换或添加自定义测试数据集
+## 🔄 添加或切换 samples 样本
 
-如果您在开发中遇到了复杂的边界场景，想要用别的数据源在本地进行校验测试，按以下步骤操作即可：
+### 步骤 1：放入样本目录
 
-### 步骤 1：放入测试数据
+在 `samples/` 下按域名创建目录：
 
-在 `tests/mock/` 目录下创建一个与您的域名同名的文件夹（如 `tests/mock/mytest.com`），并将配置结构放进去：
+```
+samples/mytest.com/
+├── base.json
+└── i18n/
+    ├── en.json
+    └── ...（其他语言）
+```
 
-- `tests/mock/mytest.com/base.json`
-- `tests/mock/mytest.com/i18n/en.json` (以及其他语言)
+添加后，`dev:push-samples` 会自动扫描（含 `base.json` 的子目录）；无需改脚本。
 
-### 步骤 2：更改测试常量
+### 步骤 2：（可选）切换测试断言
 
-打开 [validation.test.ts](file:///Users/jeff/Projects/bat/bat-cli/tests/validation.test.ts) 和 [e2e.test.ts](file:///Users/jeff/Projects/bat/bat-cli/tests/e2e.test.ts)，在文件最上方修改配置常量：
+若需让 `bun test` 针对新样本断言，修改 `tests/validation.test.ts` 与 `tests/e2e.test.ts` 顶部常量：
 
 ```typescript
-// 修改为你的域名
 const TEST_DOMAIN = 'mytest.com';
-const TEST_MOCK_DIR = resolve(import.meta.dirname, `./mock/${TEST_DOMAIN}`);
-
-// 修改为你期望的断言匹配结果
+const SAMPLE_DIR = resolve(import.meta.dirname, `../samples/${TEST_DOMAIN}`);
 const EXPECTED_WEBSITE = 'https://mytest.com';
-const EXPECTED_LOGO = 'https://example.com/logo.webp';
+const EXPECTED_LOGO = 'https://...';
 ```
 
-修改完成后，再次执行 `bun test` 即可快速检验该特定数据在打包和完整提交流程中的校验表现。
+然后执行 `bun test` 验证。
 
 ---
 
-## 🚨 团队协作代码规范与约束
+## 🚨 代码规范
 
-在修改项目源码时，必须严格遵守以下代码格式规范（否则在 `git commit` 时会被 `prettier` 拦截提交）：
+提交前须通过 Prettier（husky pre-commit）：
 
-1. **缩进格式**：统一使用 **Tab** 缩进，`tabWidth` 设为 `4`。
-2. **单双引号**：统一使用 **单引号** `'`。
-3. **分号结尾**：语句末尾统一**保留分号** `;`。
-4. **凭据安全**：禁止直接提交个人的真实邮箱及 API Key 至代码库中，本地沙箱测试已经通过代码进行了隔离。
+1. **缩进**：Tab，`tabWidth = 4`
+2. **引号**：单引号 `'`
+3. **分号**：保留
+4. **凭据**：禁止将真实 API Key 提交到仓库；E2E 测试已通过 HOME 沙箱隔离本地凭据

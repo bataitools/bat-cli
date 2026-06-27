@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "Tencent Yuanbao Kod Büyük Modeli tarafından desteklenen AI Kod Editörü",
+	"description": "Tencent Cloud CodeBuddy, yeni nesil bir AI kod editörüdür. Tencent Yuanbao Kod Büyük Modeli tarafından desteklenen CodeBuddy, kod tamamlama, hata teşhisi, teknik soru-cevap ve performans optimizasyonu gibi hizmetler sunar. Java, Python, Go, C/C++, JS/TS dahil 200'den fazla programlama dili ve framework'ünü destekler ve VS Code, JetBrains IDE, Visual Studio ve WeChat geliştirici araçlarıyla entegre olur. CodeBuddy, AI destekli iş akışlarıyla kodlama verimliliğini artırır ve kurumsal uygulama geliştirmeyi destekler.",
+	"instruction": "IDE pazarından (VS Code, JetBrains veya Visual Studio) CodeBuddy eklentisini yükleyin, Tencent Cloud hesabınızla giriş yapın ve AI destekli kodlamaya başlayın. Ask modu teknik soru-cevap için, Craft modu kod oluşturma ve çoklu dosya düzenleme için, Plan modu ise karmaşık dosyalar arası özellik geliştirme içindir.",
+	"coreFeatures": [
+		{
+			"title": "Akıllı Kod Tamamlama",
+			"description": "Bağlam anlama ve düzenleme davranışına dayalı gerçek zamanlı çok satırlı kod tamamlama, bir sonraki değişiklik noktasını tahmin eder ve 200'den fazla programlama dilini destekler."
+		},
+		{
+			"title": "AI Destekli Teknik Diyalog",
+			"description": "Ask modu kodu değiştirmeden teknik soru-cevap ve kavram açıklaması içindir. Craft modu mevcut bağlam içinde kod oluşturma ve yerel değişiklikler içindir. Plan modu, dosyalar arası değişiklikler veya karmaşık özellik geliştirme için en güçlü otomasyon modudur; AI bir görev planı oluşturur ve onaydan sonra otonom olarak yürütür."
+		},
+		{
+			"title": "Çoklu IDE Desteği",
+			"description": "VS Code, JetBrains paketi (IDEA/PyCharm), Visual Studio, WeChat geliştirici araçları ve CloudStudio için IDE eklentisi olarak kullanılabilir; ayrıca bağımsız bir AI IDE ve CLI aracı da mevcuttur."
+		},
+		{
+			"title": "Tasarımdan Koda Pipeline",
+			"description": "Doğal dil veya el çizimi taslağından yüksek kaliteli UI prototipleri oluşturur; yerleşik Figma entegrasyonu ile tasarım mockuplarını doğrudan sürdürülebilir ön uç ve arka uç koduna dönüştürür."
+		},
+		{
+			"title": "MCP Ekosistemi ve Özel Ajanlar",
+			"description": "Model Bağlam Protokolü üzerinden AI yeteneklerini genişletin; veritabanları, CI/CD pipeline'ları ve güvenlik tarayıcıları gibi harici araçları bağlayın. Belirli iş mantığı için özel ajanlar oluşturun."
+		},
+		{
+			"title": "Kurumsal Bilgi Bankası",
+			"description": "Hassas ve bağlam-duyarlı yanıtlar için kuruluşe özel RAG bilgi bankaları oluşturun. Özel kurallar, tercih hafızası ve takım genelinde kodlama standartlarını destekler."
+		}
+	],
+	"useCases": [
+		"AI destekli kodlama ve otomatik kod incelemesi ile kurumsal uygulama geliştirme",
+		"Doğal dil PRD'sinden dağıtılabilir uygulamalara hızlı prototipleme",
+		"AI öğreticiliği ve anlık kod açıklamaları ile programlama öğretimi ve öğrenimi",
+		"Çoklu dosya analizi ve bağlam-duyarlı öneriler ile legacy kod yeniden düzenleme ve bakımı",
+		"Figma mockuplarından üretim koduna otomatik dönüşüm ile UI/UX tasarımı teslimi"
+	],
+	"pricing": [
+		{
+			"name": "Ücretsiz",
+			"chargeType": "free",
+			"priceNote": "Ücretsiz",
+			"features": [
+				"Ayda 500 Kredi",
+				"Temel kod tamamlama",
+				"Hız sınırı ile teknik soru-cevap",
+				"Topluluk desteği"
+			]
+		},
+		{
+			"name": "Pro (Aylık)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /ay",
+			"features": [
+				"Ayda 1.000 Kredi",
+				"Tüm premium modeller (Hunyuan, DeepSeek)",
+				"Sınırsız BuddyTab",
+				"Sınırsız BuddyNES",
+				"Öncelikli destek"
+			]
+		},
+		{
+			"name": "Pro (Yıllık)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /yıl",
+			"features": [
+				"Ayda 1.000 Kredi",
+				"Tüm premium modeller (Hunyuan, DeepSeek)",
+				"Sınırsız BuddyTab",
+				"Sınırsız BuddyNES",
+				"Öncelikli destek",
+				"Aylık plana göre tasarruf"
+			]
+		},
+		{
+			"name": "Team (Aylık)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /koltuk /ay",
+			"features": [
+				"Koltuk başına ayda 1.000 Kredi",
+				"Paylaşılan takım kredi havuzu",
+				"Yönetici konsolu",
+				"Birleşik faturalama yönetimi",
+				"IDE/CLI/Eklenti desteği",
+				"Kurumsal bilgi bankası"
+			]
+		},
+		{
+			"name": "Team (Yıllık)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /koltuk /yıl",
+			"features": [
+				"Koltuk başına ayda 1.000 Kredi",
+				"Paylaşılan takım kredi havuzu",
+				"Yönetici konsolu",
+				"Birleşik faturalama yönetimi",
+				"IDE/CLI/Eklenti desteği",
+				"Kurumsal bilgi bankası",
+				"Aylık plana göre tasarruf"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "CodeBuddy hangi IDE'leri destekliyor?",
+			"answer": "CodeBuddy, VS Code, JetBrains paketi (IntelliJ IDEA, PyCharm vb.), Visual Studio, WeChat geliştirici araçları, CloudStudio ve Vim'i destekler. Ayrıca bağımsız bir AI IDE ve DevOps iş akışları için bir CLI aracı olarak da mevcuttur."
+		},
+		{
+			"question": "CodeBuddy hangi programlama dillerini destekliyor?",
+			"answer": "CodeBuddy, Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala dahil 200'den fazla programlama dili ve framework'ünü destekler."
+		},
+		{
+			"question": "Ask, Craft ve Plan modları arasındaki fark nedir?",
+			"answer": "Ask modu kodu değiştirmeden teknik soru-cevap ve kavram açıklaması içindir. Craft modu mevcut bağlam içinde kod oluşturma ve yerel değişiklikler içindir. Plan modu, dosyalar arası değişiklikler veya karmaşık özellik geliştirme için en güçlü otomasyon modudur; AI bir görev planı oluşturur ve onayınızdan sonra otonom olarak yürütür."
+		},
+		{
+			"question": "Kredi sistemi nasıl çalışır?",
+			"answer": "AI özellikleri kullanıldığında krediler tüketilir. Ücretsiz plan ayda 500 kredi içerir. Pro planları ayda 1.000 kredi içerir. Team planları paylaşılan havuz ile koltuk başına ayda 1.000 kredi içerir. Ek krediler eklenti paketleri olarak satın alınabilir."
+		},
+		{
+			"question": "CodeBuddy kurumsal dağıtımı destekliyor mu?",
+			"answer": "Evet, CodeBuddy özel destek, SLA, özel bilgi bankaları ve özel dağıtım seçenekleri ile SaaS Kurumsal ve Özel Bulut Kurumsal sürümler sunar. Özel hacim fiyatlandırması için satış ekibiyle iletişime geçin."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Tencent Cloud'un AI Kod Editörü",
+		"description": "Akıllı tamamlama, çoklu dosya oluşturma ve tasarımdan koda pipeline özelliklerine sahip AI tabanlı kod editörü. 200'den fazla dili ve VS Code, JetBrains, Visual Studio'yu destekler."
+	}
+}

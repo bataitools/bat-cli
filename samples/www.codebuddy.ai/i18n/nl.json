@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "AI-code-editor aangedreven door het Tencent Yuanbao Code Large Model",
+	"description": "Tencent Cloud CodeBuddy is een AI-code-editor van de volgende generatie. Aangedreven door het Tencent Yuanbao Code Large Model, biedt het diensten zoals code-aanvulling, foutdiagnose, technische Q&A en prestatieoptimalisatie. Het ondersteunt 200+ programmeertalen en frameworks, waaronder Java, Python, Go, C/C++, JS/TS, en is geïntegreerd met VS Code, JetBrains IDE, Visual Studio en WeChat-ontwikkeltools. CodeBuddy verbetert de coderingsefficiëntie door AI-gestuurde workflows en ondersteunt enterprise-applicatieontwikkeling.",
+	"instruction": "Installeer de CodeBuddy-plugin vanuit de IDE-marketplace (VS Code, JetBrains of Visual Studio), log in met uw Tencent Cloud-account en begin met AI-geassisteerd coderen. Gebruik de Ask-modus voor technische Q&A, de Craft-modus voor codegeneratie en multi-file-bewerking, en de Plan-modus voor complexe cross-file-ontwikkeling.",
+	"coreFeatures": [
+		{
+			"title": "Intelligente code-aanvulling",
+			"description": "Real-time multi-line code-aanvulling op basis van contextbegrip en bewerkingsgedrag, die het volgende wijzigingspunt voorspelt en 200+ programmeertalen ondersteunt."
+		},
+		{
+			"title": "AI-gestuurde technische dialoog",
+			"description": "Ask-modus voor technische Q&A en conceptuitleg zonder code te wijzigen; Craft-modus voor codegeneratie en lokale wijzigingen binnen de huidige context; Plan-modus als krachtigste automatiseringsmodus voor cross-file-wijzigingen of complexe feature-ontwikkeling, waarbij AI een taakplan maakt en autonoom uitvoert na bevestiging."
+		},
+		{
+			"title": "Multi-IDE-ondersteuning",
+			"description": "Beschikbaar als IDE-plugin voor VS Code, JetBrains-suite (IDEA/PyCharm), Visual Studio, WeChat-ontwikkeltools en CloudStudio, plus een standalone AI-IDE en CLI-tool."
+		},
+		{
+			"title": "Design-to-Code-pipeline",
+			"description": "Genereer high-fidelity UI-prototypes vanuit natuurlijke taal of handgetekende schetsen, met ingebouwde Figma-integratie om design-mockups direct om te zetten in onderhoudbare front-end en back-end code."
+		},
+		{
+			"title": "MCP-ecosysteem en aangepaste agents",
+			"description": "Breid AI-mogelijkheden uit via het Model Context Protocol om externe tools zoals databases, CI/CD-pipelines en beveiligingsscanners te verbinden. Maak aangepaste agents voor specifieke bedrijfslogica."
+		},
+		{
+			"title": "Enterprise-kennisbank",
+			"description": "Bouw organisatiespecifieke RAG-kennisbanken voor nauwkeurige, contextbewuste antwoorden. Ondersteunt aangepaste regels, voorkeur-geheugen en teambrede coderingsstandaarden."
+		}
+	],
+	"useCases": [
+		"Enterprise-applicatieontwikkeling met AI-geassisteerd coderen en geautomatiseerde code-review",
+		"Rapid prototyping van natuurlijke-taal-PRD's naar distribueerbare applicaties",
+		"Programmeren onderwijzen en leren met AI-tutoring en directe code-uitleg",
+		"Legacy-code-refactoring en -onderhoud met multi-file-analyse en contextbewuste suggesties",
+		"UI/UX-design-handoff met geautomatiseerde conversie van Figma-mockups naar productiecode"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"500 Credits per maand",
+				"Basis code-aanvulling",
+				"Technische Q&A met ratelimits",
+				"Community-ondersteuning"
+			]
+		},
+		{
+			"name": "Pro (maandelijks)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /maand",
+			"features": [
+				"1.000 Credits per maand",
+				"Alle premium-modellen (Hunyuan, DeepSeek)",
+				"Onbeperkte BuddyTab",
+				"Onbeperkte BuddyNES",
+				"Prioriteitsondersteuning"
+			]
+		},
+		{
+			"name": "Pro (jaarlijks)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /jaar",
+			"features": [
+				"1.000 Credits per maand",
+				"Alle premium-modellen (Hunyuan, DeepSeek)",
+				"Onbeperkte BuddyTab",
+				"Onbeperkte BuddyNES",
+				"Prioriteitsondersteuning",
+				"Besparing ten opzichte van maandelijks"
+			]
+		},
+		{
+			"name": "Team (maandelijks)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /zetel /maand",
+			"features": [
+				"1.000 Credits per zetel per maand",
+				"Gedeelde team-creditpool",
+				"Admin-console",
+				"Geünificeerde facturatiebeheer",
+				"IDE/CLI/Plugin-ondersteuning",
+				"Enterprise-kennisbank"
+			]
+		},
+		{
+			"name": "Team (jaarlijks)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /zetel /jaar",
+			"features": [
+				"1.000 Credits per zetel per maand",
+				"Gedeelde team-creditpool",
+				"Admin-console",
+				"Geünificeerde facturatiebeheer",
+				"IDE/CLI/Plugin-ondersteuning",
+				"Enterprise-kennisbank",
+				"Besparing ten opzichte van maandelijks"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Welke IDE's worden ondersteund door CodeBuddy?",
+			"answer": "CodeBuddy ondersteunt VS Code, JetBrains-suite (IntelliJ IDEA, PyCharm, etc.), Visual Studio, WeChat-ontwikkeltools, CloudStudio en Vim. Het is ook beschikbaar als standalone AI-IDE en CLI-tool voor DevOps-workflows."
+		},
+		{
+			"question": "Welke programmeertalen ondersteunt CodeBuddy?",
+			"answer": "CodeBuddy ondersteunt 200+ programmeertalen en frameworks, waaronder Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala en meer."
+		},
+		{
+			"question": "Wat is het verschil tussen de Ask-, Craft- en Plan-modus?",
+			"answer": "Ask-modus is voor technische Q&A en conceptuitleg zonder code te wijzigen. Craft-modus is voor codegeneratie en lokale wijzigingen binnen de huidige context. Plan-modus is de krachtigste automatiseringsmodus voor cross-file-wijzigingen of complexe feature-ontwikkeling, waarbij AI een taakplan maakt en autonoom uitvoert na bevestiging."
+		},
+		{
+			"question": "Hoe werkt het creditsysteem?",
+			"answer": "Credits worden verbruikt bij het gebruik van AI-functies. Het gratis plan bevat 500 credits per maand. Pro-plannen bevatten 1.000 credits per maand. Team-plannen bevatten 1.000 credits per zetel per maand met een gedeelde pool. Extra credits kunnen worden gekocht als add-on-pakketten."
+		},
+		{
+			"question": "Ondersteunt CodeBuddy enterprise-deployment?",
+			"answer": "Ja, CodeBuddy biedt SaaS Enterprise- en Private Cloud Enterprise-edities met toegewijde ondersteuning, SLA, aangepaste kennisbanken en private deployment-opties. Neem contact op met sales voor aangepaste volumeprijzen."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — AI-code-editor van Tencent Cloud",
+		"description": "AI-gestuurde code-editor met intelligente aanvulling, multi-file-generatie en design-to-code-pipeline. Ondersteunt 200+ talen en VS Code, JetBrains, Visual Studio."
+	}
+}

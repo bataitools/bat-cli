@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "AI-kodeeditor drevet af Tencent Yuanbao Code Large Model",
+	"description": "Tencent Cloud CodeBuddy er en AI-kodeeditor af næste generation. Drevet af Tencent Yuanbao Code Large Model tilbyder den tjenester som kodekomplettering, fejldiagnostik, teknisk Q&A og ydeevneoptimering. Understøtter 200+ programmeringssprog og rammer inklusive Java, Python, Go, C/C++, JS/TS, og er integreret med VS Code, JetBrains IDE, Visual Studio og WeChat-udviklingsværktøjer. CodeBuddy forbedrer kodningseffektiviteten gennem AI-drevne arbejdsgange og understøtter virksomhedsapplikationsudvikling.",
+	"instruction": "Installer CodeBuddy-plugin fra IDE-markedspladsen (VS Code, JetBrains eller Visual Studio), log ind med din Tencent Cloud-konto, og begynd at kode med AI-assistance. Tilstand Ask til teknisk Q&A, tilstand Craft til kodegenerering og multifilredigering, og tilstand Plan til kompleks tværfil-funktionsudvikling.",
+	"coreFeatures": [
+		{
+			"title": "Intelligent kodekomplettering",
+			"description": "Realtids flerlinjekodekomplettering baseret på kontekstforståelse og redigeringsadfærd, forudsiger næste ændringspunkt med understøttelse af 200+ programmeringssprog."
+		},
+		{
+			"title": "AI-drevet teknisk dialog",
+			"description": "Tilstand Ask til teknisk Q&A og konceptforklaring uden at ændre kode. Tilstand Craft til kodegenerering og lokale ændringer inden for aktuel kontekst. Tilstand Plan er den mest kraftfulde automatiseringstilstand til tværfil-ændringer eller kompleks funktionsudvikling, hvor AI opretter en opgaveplan og kører autonomt efter bekræftelse."
+		},
+		{
+			"title": "Understøttelse af flere IDE",
+			"description": "Tilgængelig som IDE-plugin til VS Code, JetBrains Suite (IDEA/PyCharm), Visual Studio, WeChat-udviklingsværktøjer og CloudStudio, plus en selvstændig AI IDE og et CLI-værktøj."
+		},
+		{
+			"title": "Design-til-kode-pipeline",
+			"description": "Generer højopløsnings UI-prototyper fra naturligt sprog eller håndtegnede skitser, med indbygget Figma-integration til direkte at konvertere designmockups til vedligeholdelsesvenlig front-end og back-end kode."
+		},
+		{
+			"title": "MCP-økosystem og brugerdefinerede agenter",
+			"description": "Udvid AI-kapaciteter via Model Context Protocol for at forbinde eksterne værktøjer som databaser, CI/CD-pipelines og sikkerhedsscanninger. Opret brugerdefinerede agenter til specifik forretningslogik."
+		},
+		{
+			"title": "Virksomhedsvidensbase",
+			"description": "Byg organisationsspecifikke RAG-vidensbaser til nøjagtige og kontekstbevidste svar. Understøtter brugerdefinerede regler, præferencehukommelse og teamomfattende kodningsstandarder."
+		}
+	],
+	"useCases": [
+		"Virksomhedsapplikationsudvikling med AI-assisteret kodning og automatisk kodegennemgang",
+		"Hurtig prototyping fra PRD på naturligt sprog til distribuerbare applikationer",
+		"Undervisning og læring af programmering med AI-tutoring og øjeblikkelige kodeforklaringer",
+		"Refaktorering og vedligeholdelse af legacy-kode med multifilanalyse og kontekstbevidste forslag",
+		"UI/UX-designoverdragelse med automatisk konvertering fra Figma-mockups til produktionskode"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"500 kreditter pr. måned",
+				"Grundlæggende kodekomplettering",
+				"Teknisk Q&A med hastighedsbegrænsninger",
+				"Fællesskabsunderstøttelse"
+			]
+		},
+		{
+			"name": "Pro (månedlig)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /måned",
+			"features": [
+				"1.000 kreditter pr. måned",
+				"Alle premium-modeller (Hunyuan, DeepSeek)",
+				"Ubegrænset BuddyTab",
+				"Ubegrænset BuddyNES",
+				"Prioriteret understøttelse"
+			]
+		},
+		{
+			"name": "Pro (årlig)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /år",
+			"features": [
+				"1.000 kreditter pr. måned",
+				"Alle premium-modeller (Hunyuan, DeepSeek)",
+				"Ubegrænset BuddyTab",
+				"Ubegrænset BuddyNES",
+				"Prioriteret understøttelse",
+				"Besparing vs månedlig plan"
+			]
+		},
+		{
+			"name": "Team (månedlig)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /plads /måned",
+			"features": [
+				"1.000 kreditter pr. plads pr. måned",
+				"Delt teamkreditpulje",
+				"Administrator-konsol",
+				"Unified faktureringsstyring",
+				"IDE/CLI/Plugin-understøttelse",
+				"Virksomhedsvidensbase"
+			]
+		},
+		{
+			"name": "Team (årlig)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /plads /år",
+			"features": [
+				"1.000 kreditter pr. plads pr. måned",
+				"Delt teamkreditpulje",
+				"Administrator-konsol",
+				"Unified faktureringsstyring",
+				"IDE/CLI/Plugin-understøttelse",
+				"Virksomhedsvidensbase",
+				"Besparing vs månedlig plan"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Hvilke IDE understøtter CodeBuddy?",
+			"answer": "CodeBuddy understøtter VS Code, JetBrains Suite (IntelliJ IDEA, PyCharm, etc.), Visual Studio, WeChat-udviklingsværktøjer, CloudStudio og Vim. Den er også tilgængelig som selvstændig AI IDE og CLI-værktøj til DevOps-arbejdsgange."
+		},
+		{
+			"question": "Hvilke programmeringssprog understøtter CodeBuddy?",
+			"answer": "CodeBuddy understøtter 200+ programmeringssprog og rammer, inklusive Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala og flere."
+		},
+		{
+			"question": "Hvad er forskellen mellem tilstandene Ask, Craft og Plan?",
+			"answer": "Tilstand Ask er til teknisk Q&A og konceptforklaring uden at ændre kode. Tilstand Craft er til kodegenerering og lokale ændringer inden for aktuel kontekst. Tilstand Plan er den mest kraftfulde automatiseringstilstand til tværfil-ændringer eller kompleks funktionsudvikling, hvor AI opretter en opgaveplan og kører autonomt efter din bekræftelse."
+		},
+		{
+			"question": "Hvordan fungerer kreditsystemet?",
+			"answer": "Kreditter forbruges ved brug af AI-funktioner. Gratisplanen inkluderer 500 kreditter pr. måned. Pro-planer inkluderer 1.000 kreditter pr. måned. Team-planer inkluderer 1.000 kreditter pr. plads pr. måned med delt pulje. Yderligere kreditter kan købes som tillægspakker."
+		},
+		{
+			"question": "Understøtter CodeBuddy virksomhedsudrulning?",
+			"answer": "Ja, CodeBuddy tilbyder SaaS Enterprise- og Private Cloud Enterprise-udgaver med dedikeret understøttelse, SLA, brugerdefinerede vidensbaser og private udrulningsmuligheder. Kontakt salg for brugerdefinerede volumenpriser."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — AI-kodeeditor fra Tencent Cloud",
+		"description": "AI-baseret kodeeditor med intelligent komplettering, multifilgenerering og design-til-kode-pipeline. Understøtter 200+ sprog og VS Code, JetBrains, Visual Studio."
+	}
+}

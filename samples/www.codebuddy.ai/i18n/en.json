@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "AI Code Editor powered by Tencent Yuanbao Code Large Model",
+	"description": "Tencent Cloud CodeBuddy is a next-generation AI Code Editor. Powered by the Tencent Yuanbao Code Large Model, it provides services such as code completion, error diagnosis, technical Q&A, and performance optimization. Supporting 200+ programming languages and frameworks including Java, Python, Go, C/C++, JS/TS, it integrates with VS Code, JetBrains IDEs, Visual Studio, and WeChat Developer Tools. CodeBuddy improves coding efficiency and supports enterprise-level application development through AI-driven workflows.",
+	"instruction": "Install the CodeBuddy plugin from your IDE marketplace (VS Code, JetBrains, or Visual Studio), sign in with your Tencent Cloud account, and start coding with AI assistance. Use Ask mode for technical Q&A, Craft mode for code generation and multi-file editing, and Plan mode for complex cross-file feature development.",
+	"coreFeatures": [
+		{
+			"title": "Intelligent Code Completion",
+			"description": "Real-time multi-line code completion based on context understanding and editing behavior, predicting the next modification point with support for 200+ programming languages."
+		},
+		{
+			"title": "AI-Powered Technical Dialogue",
+			"description": "Ask mode for technical Q&A and concept explanation without modifying code; Craft mode for code generation and local modifications within the current context; Plan mode for autonomous cross-file feature development with task planning."
+		},
+		{
+			"title": "Multi-IDE Support",
+			"description": "Available as IDE plugin for VS Code, JetBrains suite (IDEA/PyCharm), Visual Studio, WeChat Developer Tools, and CloudStudio, plus a standalone AI IDE and CLI tool."
+		},
+		{
+			"title": "Design-to-Code Pipeline",
+			"description": "Generate high-fidelity UI prototypes from natural language or hand-drawn sketches, with built-in Figma integration to convert design mockups directly into maintainable frontend and backend code."
+		},
+		{
+			"title": "MCP Ecosystem & Custom Agents",
+			"description": "Extend AI capabilities through the Model Context Protocol to connect external tools like databases, CI/CD pipelines, and security scanners. Create custom agents for specific business logic."
+		},
+		{
+			"title": "Enterprise Knowledge Base",
+			"description": "Build organization-specific RAG knowledge bases for accurate, context-aware answers. Supports custom rules, memory of preferences, and team-wide coding standards."
+		}
+	],
+	"useCases": [
+		"Enterprise application development with AI-assisted coding and automated code review",
+		"Rapid prototyping from natural language PRD to deployable application",
+		"Teaching and learning programming with AI tutoring and instant code explanations",
+		"Legacy code refactoring and maintenance with multi-file analysis and context-aware suggestions",
+		"UI/UX design handoff with automated conversion from Figma mockups to production code"
+	],
+	"pricing": [
+		{
+			"name": "Free",
+			"chargeType": "free",
+			"priceNote": "Free",
+			"features": [
+				"500 Credits per month",
+				"Basic code completion",
+				"Technical Q&A with rate limits",
+				"Community support"
+			]
+		},
+		{
+			"name": "Pro Monthly",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /month",
+			"features": [
+				"1,000 Credits per month",
+				"All premium models (Hunyuan, DeepSeek)",
+				"Unlimited BuddyTab",
+				"Unlimited BuddyNES",
+				"Priority support"
+			]
+		},
+		{
+			"name": "Pro Yearly",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /year",
+			"features": [
+				"1,000 Credits per month",
+				"All premium models (Hunyuan, DeepSeek)",
+				"Unlimited BuddyTab",
+				"Unlimited BuddyNES",
+				"Priority support",
+				"Save vs monthly plan"
+			]
+		},
+		{
+			"name": "Team Monthly",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /seat /month",
+			"features": [
+				"1,000 Credits per seat per month",
+				"Shared team credits pool",
+				"Admin console",
+				"Unified billing management",
+				"IDE/CLI/Plugin support",
+				"Enterprise knowledge base"
+			]
+		},
+		{
+			"name": "Team Yearly",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /seat /year",
+			"features": [
+				"1,000 Credits per seat per month",
+				"Shared team credits pool",
+				"Admin console",
+				"Unified billing management",
+				"IDE/CLI/Plugin support",
+				"Enterprise knowledge base",
+				"Save vs monthly plan"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Which IDEs are supported by CodeBuddy?",
+			"answer": "CodeBuddy supports VS Code, JetBrains suite (IntelliJ IDEA, PyCharm, etc.), Visual Studio, WeChat Developer Tools, CloudStudio, and Vim. It is also available as a standalone AI IDE and a CLI tool for DevOps workflows."
+		},
+		{
+			"question": "What programming languages does CodeBuddy support?",
+			"answer": "CodeBuddy supports 200+ programming languages and frameworks including Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala, and more."
+		},
+		{
+			"question": "What is the difference between Ask, Craft, and Plan modes?",
+			"answer": "Ask mode is for technical Q&A and concept explanation without modifying code. Craft mode is for code generation and local modifications within the current context. Plan mode is the most powerful automation mode for cross-file modifications or complex feature development, where AI creates a task plan and autonomously executes after your confirmation."
+		},
+		{
+			"question": "How does the credit system work?",
+			"answer": "Credits are consumed when using AI features. The Free plan includes 500 Credits per month. Pro plans include 1,000 Credits per month. Team plans include 1,000 Credits per seat per month with a shared pool. Additional credits can be purchased as add-on packs."
+		},
+		{
+			"question": "Does CodeBuddy support enterprise deployment?",
+			"answer": "Yes, CodeBuddy offers SaaS Enterprise and Private Cloud Enterprise editions with dedicated support, SLA, custom knowledge bases, and private deployment options. Contact sales for custom volume pricing."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — AI Code Editor by Tencent Cloud",
+		"description": "AI-powered code editor with intelligent completion, multi-file generation, and design-to-code pipeline. Supports 200+ languages and VS Code, JetBrains, Visual Studio."
+	}
+}

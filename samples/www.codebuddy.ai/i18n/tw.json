@@ -1,0 +1,125 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "由騰訊混元程式碼大模型驅動的 AI 程式碼編輯器",
+	"description": "騰訊雲 CodeBuddy 是新一代 AI 程式碼編輯器。基於騰訊混元程式碼大模型，提供程式碼補全、錯誤診斷、技術問答、效能優化等服務。支援 Java、Python、Go、C/C++、JS/TS 等 200 多種程式語言和框架，整合 VS Code、JetBrains IDE、Visual Studio 和微信開發者工具。CodeBuddy 透過 AI 驅動的工作流程提升編碼效率，支援企業級應用開發。",
+	"instruction": "從 IDE 插件市集（VS Code、JetBrains 或 Visual Studio）安裝 CodeBuddy 插件，使用騰訊雲帳號登入，即可開始 AI 輔助程式設計。Ask 模式用於技術問答，Craft 模式用於程式碼生成和多檔案編輯，Plan 模式用於複雜的跨檔案功能開發。",
+	"coreFeatures": [
+		{
+			"title": "智慧程式碼補全",
+			"description": "基於上下文理解和編輯行為的即時多行程式碼補全，預測下一個修改點，支援 200 多種程式語言。"
+		},
+		{
+			"title": "AI 技術對話",
+			"description": "Ask 模式用於不修改程式碼的技術問答和概念解釋；Craft 模式用於在目前上下文內進行程式碼生成和局部修改；Plan 模式是最強大的自動化模式，用於跨檔案修改或複雜功能開發，AI 會建立任務計畫並在確認後自主執行。"
+		},
+		{
+			"title": "多 IDE 支援",
+			"description": "可作為 VS Code、JetBrains 套件（IDEA/PyCharm）、Visual Studio、微信開發者工具和 CloudStudio 的 IDE 插件使用，另有獨立 AI IDE 和 CLI 工具。"
+		},
+		{
+			"title": "設計轉程式碼流程",
+			"description": "透過自然語言或手繪草圖產生高保真 UI 原型，內建 Figma 整合，可直接將設計稿轉換為可維護的前後端程式碼。"
+		},
+		{
+			"title": "MCP 生態與自訂智慧體",
+			"description": "透過模型上下文協定擴展 AI 能力，連接資料庫、CI/CD 流水線、安全掃描等外部工具。可為特定業務邏輯建立自訂智慧體。"
+		},
+		{
+			"title": "企業知識庫",
+			"description": "建構組織專屬的 RAG 知識庫，提供精準、上下文感知的回答。支援自訂規則、偏好記憶和團隊編碼規範。"
+		}
+	],
+	"useCases": [
+		"AI 輔助編碼和自動程式碼審查的企業級應用開發",
+		"從自然語言 PRD 到可部署應用的快速原型開發",
+		"AI 輔導和即時代碼解釋的教學程式設計場景",
+		"多檔案分析和上下文感知建議的遺留程式碼重構與維護",
+		"Figma 設計稿自動轉換為生產程式碼的 UI/UX 設計交付"
+	],
+	"pricing": [
+		{
+			"name": "免費版",
+			"chargeType": "free",
+			"priceNote": "免費",
+			"features": ["每月 500 積分", "基礎程式碼補全", "有頻率限制的技術問答", "社群支援"]
+		},
+		{
+			"name": "專業版（月付）",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /月",
+			"features": [
+				"每月 1,000 積分",
+				"所有進階模型（混元、DeepSeek）",
+				"無限 BuddyTab",
+				"無限 BuddyNES",
+				"優先支援"
+			]
+		},
+		{
+			"name": "專業版（年付）",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /年",
+			"features": [
+				"每月 1,000 積分",
+				"所有進階模型（混元、DeepSeek）",
+				"無限 BuddyTab",
+				"無限 BuddyNES",
+				"優先支援",
+				"比月付更省錢"
+			]
+		},
+		{
+			"name": "團隊版（月付）",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /席位 /月",
+			"features": [
+				"每席位每月 1,000 積分",
+				"共享團隊積分池",
+				"管理員控制台",
+				"統一帳單管理",
+				"IDE/CLI/插件支援",
+				"企業知識庫"
+			]
+		},
+		{
+			"name": "團隊版（年付）",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /席位 /年",
+			"features": [
+				"每席位每月 1,000 積分",
+				"共享團隊積分池",
+				"管理員控制台",
+				"統一帳單管理",
+				"IDE/CLI/插件支援",
+				"企業知識庫",
+				"比月付更省錢"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "CodeBuddy 支援哪些 IDE？",
+			"answer": "CodeBuddy 支援 VS Code、JetBrains 套件（IntelliJ IDEA、PyCharm 等）、Visual Studio、微信開發者工具、CloudStudio 和 Vim。同時提供獨立 AI IDE 和面向 DevOps 工作流程的 CLI 工具。"
+		},
+		{
+			"question": "CodeBuddy 支援哪些程式語言？",
+			"answer": "CodeBuddy 支援 200 多種程式語言和框架，包括 Java、Python、Go、C/C++、JavaScript、TypeScript、HTML、PHP、Ruby、Rust、Swift、Scala 等。"
+		},
+		{
+			"question": "Ask、Craft 和 Plan 模式有什麼區別？",
+			"answer": "Ask 模式用於不修改程式碼的技術問答和概念解釋。Craft 模式用於在目前上下文內進行程式碼生成和局部修改。Plan 模式是最強大的自動化模式，用於跨檔案修改或複雜功能開發，AI 會建立任務計畫並在您確認後自主執行。"
+		},
+		{
+			"question": "積分系統是如何運作的？",
+			"answer": "使用 AI 功能時會消耗積分。免費版每月包含 500 積分。專業版每月包含 1,000 積分。團隊版每席位每月包含 1,000 積分，採用共享積分池。可購買加量包補充積分。"
+		},
+		{
+			"question": "CodeBuddy 支援企業部署嗎？",
+			"answer": "是的，CodeBuddy 提供 SaaS 企業版和私有雲企業版，包含專屬支援、SLA、自訂知識庫和私有化部署選項。請聯絡銷售取得自訂批量定價。"
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — 騰訊雲 AI 程式碼編輯器",
+		"description": "AI 驅動的程式碼編輯器，支援智慧補全、多檔案生成和設計轉程式碼流程。支援 200 多種語言和 VS Code、JetBrains、Visual Studio。"
+	}
+}

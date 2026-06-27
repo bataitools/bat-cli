@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "KI-Code-Editor, angetrieben vom Tencent-Yuanbao-Code-Large-Model",
+	"description": "Tencent Cloud CodeBuddy ist ein KI-Code-Editor der nächsten Generation. Angetrieben vom Tencent-Yuanbao-Code-Large-Model bietet er Dienste wie Code-Vervollständigung, Fehlerdiagnose, technische Q&A und Leistungsoptimierung. Er unterstützt 200+ Programmiersprachen und Frameworks wie Java, Python, Go, C/C++, JS/TS und ist in VS Code, JetBrains-IDEs, Visual Studio und WeChat-Entwicklertools integriert. CodeBuddy verbessert die Coding-Effizienz durch KI-gesteuerte Workflows und unterstützt Enterprise-Anwendungsentwicklung.",
+	"instruction": "Installieren Sie das CodeBuddy-Plugin aus dem IDE-Marktplatz (VS Code, JetBrains oder Visual Studio), melden Sie sich mit Ihrem Tencent-Cloud-Konto an und beginnen Sie mit der KI-gestützten Programmierung. Ask-Modus für technische Q&A, Craft-Modus für Code-Generierung und Multi-File-Bearbeitung, Plan-Modus für komplexe Cross-File-Entwicklung.",
+	"coreFeatures": [
+		{
+			"title": "Intelligente Code-Vervollständigung",
+			"description": "Echtzeit-Multi-Line-Code-Vervollständigung basierend auf Kontextverständnis und Bearbeitungsverhalten, die den nächsten Änderungspunkt vorhersagt und 200+ Programmiersprachen unterstützt."
+		},
+		{
+			"title": "KI-gestützter technischer Dialog",
+			"description": "Ask-Modus für technische Q&A und Konzept-Erklärung ohne Code-Änderung; Craft-Modus für Code-Generierung und lokale Modifikationen innerhalb des aktuellen Kontexts; Plan-Modus als leistungsstärkster Automatisierungsmodus für Cross-File-Modifikationen oder komplexe Feature-Entwicklung, bei dem KI einen Aufgabenplan erstellt und nach Bestätigung autonom ausführt."
+		},
+		{
+			"title": "Multi-IDE-Unterstützung",
+			"description": "Als IDE-Plugin für VS Code, JetBrains-Suite (IDEA/PyCharm), Visual Studio, WeChat-Entwicklertools und CloudStudio verfügbar, plus eine Standalone-KI-IDE und ein CLI-Tool."
+		},
+		{
+			"title": "Design-zu-Code-Pipeline",
+			"description": "Generiert hochwertige UI-Prototypen aus natürlicher Sprache oder handgezeichneten Skizzen, mit integrierter Figma-Anbindung zur direkten Konvertierung von Design-Mockups in wartbaren Frontend- und Backend-Code."
+		},
+		{
+			"title": "MCP-Ökosystem und Custom Agents",
+			"description": "Erweitert KI-Fähigkeiten durch das Model Context Protocol, um externe Tools wie Datenbanken, CI/CD-Pipelines und Sicherheitsscanner anzubinden. Erstellung von Custom Agents für spezifische Geschäftslogik."
+		},
+		{
+			"title": "Enterprise-Wissensdatenbank",
+			"description": "Aufbau organisations-spezifischer RAG-Wissensdatenbanken für präzise, kontextbewusste Antworten. Unterstützung benutzerdefinierter Regeln, Präferenz-Memorie und teamweite Coding-Standards."
+		}
+	],
+	"useCases": [
+		"Enterprise-Anwendungsentwicklung mit KI-gestützter Programmierung und automatisierter Code-Review",
+		"Rapid Prototyping von natürlichsprachlichen PRDs bis zu deploybaren Anwendungen",
+		"Programmieren lehren und lernen mit KI-Tutoring und sofortigen Code-Erklärungen",
+		"Refactoring und Wartung von Legacy-Code mit Multi-File-Analyse und kontextbewussten Vorschlägen",
+		"UI/UX-Design-Handoff mit automatisierter Konvertierung von Figma-Mockups in Produktivcode"
+	],
+	"pricing": [
+		{
+			"name": "Kostenlos",
+			"chargeType": "free",
+			"priceNote": "Kostenlos",
+			"features": [
+				"500 Credits pro Monat",
+				"Grundlegende Code-Vervollständigung",
+				"Technische Q&A mit Ratenlimits",
+				"Community-Support"
+			]
+		},
+		{
+			"name": "Pro (monatlich)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /Monat",
+			"features": [
+				"1.000 Credits pro Monat",
+				"Alle Premium-Modelle (Hunyuan, DeepSeek)",
+				"Unbegrenzte BuddyTab",
+				"Unbegrenzte BuddyNES",
+				"Prioritäts-Support"
+			]
+		},
+		{
+			"name": "Pro (jährlich)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /Jahr",
+			"features": [
+				"1.000 Credits pro Monat",
+				"Alle Premium-Modelle (Hunyuan, DeepSeek)",
+				"Unbegrenzte BuddyTab",
+				"Unbegrenzte BuddyNES",
+				"Prioritäts-Support",
+				"Ersparnis gegenüber monatlicher Zahlung"
+			]
+		},
+		{
+			"name": "Team (monatlich)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /Sitz /Monat",
+			"features": [
+				"1.000 Credits pro Sitz pro Monat",
+				"Gemeinsamer Team-Credit-Pool",
+				"Admin-Konsole",
+				"Einheitliche Rechnungsverwaltung",
+				"IDE/CLI/Plugin-Support",
+				"Enterprise-Wissensdatenbank"
+			]
+		},
+		{
+			"name": "Team (jährlich)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /Sitz /Jahr",
+			"features": [
+				"1.000 Credits pro Sitz pro Monat",
+				"Gemeinsamer Team-Credit-Pool",
+				"Admin-Konsole",
+				"Einheitliche Rechnungsverwaltung",
+				"IDE/CLI/Plugin-Support",
+				"Enterprise-Wissensdatenbank",
+				"Ersparnis gegenüber monatlicher Zahlung"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Welche IDEs werden von CodeBuddy unterstützt?",
+			"answer": "CodeBuddy unterstützt VS Code, JetBrains-Suite (IntelliJ IDEA, PyCharm usw.), Visual Studio, WeChat-Entwicklertools, CloudStudio und Vim. Es ist auch als Standalone-KI-IDE und als CLI-Tool für DevOps-Workflows verfügbar."
+		},
+		{
+			"question": "Welche Programmiersprachen unterstützt CodeBuddy?",
+			"answer": "CodeBuddy unterstützt 200+ Programmiersprachen und Frameworks, darunter Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala und mehr."
+		},
+		{
+			"question": "Was ist der Unterschied zwischen Ask-, Craft- und Plan-Modus?",
+			"answer": "Ask-Modus ist für technische Q&A und Konzept-Erklärung ohne Code-Änderung. Craft-Modus ist für Code-Generierung und lokale Modifikationen innerhalb des aktuellen Kontexts. Plan-Modus ist der leistungsstärkste Automatisierungsmodus für Cross-File-Modifikationen oder komplexe Feature-Entwicklung, bei dem KI einen Aufgabenplan erstellt und nach Bestätigung autonom ausführt."
+		},
+		{
+			"question": "Wie funktioniert das Credit-System?",
+			"answer": "Bei Verwendung von KI-Funktionen werden Credits verbraucht. Die kostenlose Version umfasst 500 Credits pro Monat. Pro-Pläne umfassen 1.000 Credits pro Monat. Team-Pläne umfassen 1.000 Credits pro Sitz pro Monat mit einem gemeinsamen Pool. Zusätzliche Credits können als Add-on-Packs gekauft werden."
+		},
+		{
+			"question": "Unterstützt CodeBuddy Enterprise-Deployment?",
+			"answer": "Ja, CodeBuddy bietet SaaS Enterprise- und Private Cloud Enterprise-Editionen mit dediziertem Support, SLA, Custom-Wissensdatenbanken und Private-Deployment-Optionen. Kontaktieren Sie den Vertrieb für individuelle Volumenpreise."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — KI-Code-Editor von Tencent Cloud",
+		"description": "KI-gestützter Code-Editor mit intelligenter Vervollständigung, Multi-File-Generierung und Design-zu-Code-Pipeline. Unterstützt 200+ Sprachen und VS Code, JetBrains, Visual Studio."
+	}
+}

@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "Editor Kode AI yang didukung oleh Model Kode Besar Tencent Yuanbao",
+	"description": "Tencent Cloud CodeBuddy adalah editor kode AI generasi berikutnya. Didukung oleh Model Kode Besar Tencent Yuanbao, ia menyediakan layanan seperti penyelesaian kode, diagnosis kesalahan, tanya jawab teknis, dan optimasi kinerja. Mendukung 200+ bahasa dan framework pemrograman termasuk Java, Python, Go, C/C++, JS/TS, dan terintegrasi dengan VS Code, JetBrains IDE, Visual Studio, dan alat pengembangan WeChat. CodeBuddy meningkatkan efisiensi pengkodean melalui alur kerja yang didorong oleh AI dan mendukung pengembangan aplikasi perusahaan.",
+	"instruction": "Instal plugin CodeBuddy dari marketplace IDE (VS Code, JetBrains, atau Visual Studio), masuk dengan akun Tencent Cloud Anda, dan mulai membuat kode dengan bantuan AI. Mode Ask untuk tanya jawab teknis, mode Craft untuk pembuatan kode dan pengeditan multi-file, dan mode Plan untuk pengembangan fitur lintas file yang kompleks.",
+	"coreFeatures": [
+		{
+			"title": "Penyelesaian Kode Cerdas",
+			"description": "Penyelesaian kode multi-baris real-time berdasarkan pemahaman konteks dan perilaku pengeditan, memprediksi titik modifikasi berikutnya dengan dukungan untuk 200+ bahasa pemrograman."
+		},
+		{
+			"title": "Dialog Teknis Berbasis AI",
+			"description": "Mode Ask untuk tanya jawab teknis dan penjelasan konsep tanpa mengubah kode. Mode Craft untuk pembuatan kode dan modifikasi lokal dalam konteks saat ini. Mode Plan adalah mode otomatisasi paling kuat untuk modifikasi lintas file atau pengembangan fitur kompleks, di mana AI membuat rencana tugas dan menjalankannya secara otonom setelah konfirmasi."
+		},
+		{
+			"title": "Dukungan Multi-IDE",
+			"description": "Tersedia sebagai plugin IDE untuk VS Code, rangkaian JetBrains (IDEA/PyCharm), Visual Studio, alat pengembangan WeChat, dan CloudStudio, ditambah IDE AI mandiri dan alat CLI."
+		},
+		{
+			"title": "Pipeline Desain ke Kode",
+			"description": "Hasilkan prototipe UI berkualitas tinggi dari bahasa alami atau sketsa tangan, dengan integrasi Figma untuk mengonversi mockup desain langsung menjadi kode front-end dan back-end yang dapat dipelihara."
+		},
+		{
+			"title": "Ekosistem MCP dan Agen Kustom",
+			"description": "Perluas kemampuan AI melalui Protokol Konteks Model untuk menghubungkan alat eksternal seperti basis data, pipeline CI/CD, dan pemindai keamanan. Buat agen kustom untuk logika bisnis spesifik."
+		},
+		{
+			"title": "Basis Pengetahuan Perusahaan",
+			"description": "Bangun basis pengetahuan RAG khusus organisasi untuk jawaban yang akurat dan menyadari konteks. Mendukung aturan kustom, memori preferensi, dan standar pengkodean tim."
+		}
+	],
+	"useCases": [
+		"Pengembangan aplikasi perusahaan dengan pengkodean berbantuan AI dan tinjauan kode otomatis",
+		"Prototyping cepat dari PRD bahasa alami ke aplikasi yang dapat diterapkan",
+		"Mengajar dan mempelajari pemrograman dengan tutor AI dan penjelasan kode instan",
+		"Refaktor dan pemeliharaan kode lama dengan analisis multi-file dan saran yang menyadari konteks",
+		"Penyerahan desain UI/UX dengan konversi otomatis dari mockup Figma ke kode produksi"
+	],
+	"pricing": [
+		{
+			"name": "Gratis",
+			"chargeType": "free",
+			"priceNote": "Gratis",
+			"features": [
+				"500 Kredit per bulan",
+				"Penyelesaian kode dasar",
+				"Tanya jawab teknis dengan batasan tarif",
+				"Dukungan komunitas"
+			]
+		},
+		{
+			"name": "Pro (bulanan)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /bulan",
+			"features": [
+				"1.000 Kredit per bulan",
+				"Semua model premium (Hunyuan, DeepSeek)",
+				"BuddyTab tak terbatas",
+				"BuddyNES tak terbatas",
+				"Dukungan prioritas"
+			]
+		},
+		{
+			"name": "Pro (tahunan)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /tahun",
+			"features": [
+				"1.000 Kredit per bulan",
+				"Semua model premium (Hunyuan, DeepSeek)",
+				"BuddyTab tak terbatas",
+				"BuddyNES tak terbatas",
+				"Dukungan prioritas",
+				"Hemat vs pembayaran bulanan"
+			]
+		},
+		{
+			"name": "Team (bulanan)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /kursi /bulan",
+			"features": [
+				"1.000 Kredit per kursi per bulan",
+				"Pool kredit tim bersama",
+				"Konsol admin",
+				"Manajemen penagihan terpadu",
+				"Dukungan IDE/CLI/Plugin",
+				"Basis pengetahuan perusahaan"
+			]
+		},
+		{
+			"name": "Team (tahunan)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /kursi /tahun",
+			"features": [
+				"1.000 Kredit per kursi per bulan",
+				"Pool kredit tim bersama",
+				"Konsol admin",
+				"Manajemen penagihan terpadu",
+				"Dukungan IDE/CLI/Plugin",
+				"Basis pengetahuan perusahaan",
+				"Hemat vs pembayaran bulanan"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "IDE apa yang didukung oleh CodeBuddy?",
+			"answer": "CodeBuddy mendukung VS Code, rangkaian JetBrains (IntelliJ IDEA, PyCharm, dll.), Visual Studio, alat pengembangan WeChat, CloudStudio, dan Vim. Ia juga tersedia sebagai IDE AI mandiri dan alat CLI untuk alur kerja DevOps."
+		},
+		{
+			"question": "Bahasa pemrograman apa yang didukung oleh CodeBuddy?",
+			"answer": "CodeBuddy mendukung 200+ bahasa dan framework pemrograman, termasuk Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala, dan banyak lagi."
+		},
+		{
+			"question": "Apa perbedaan antara mode Ask, Craft, dan Plan?",
+			"answer": "Mode Ask adalah untuk tanya jawab teknis dan penjelasan konsep tanpa mengubah kode. Mode Craft adalah untuk pembuatan kode dan modifikasi lokal dalam konteks saat ini. Mode Plan adalah mode otomatisasi paling kuat untuk modifikasi lintas file atau pengembangan fitur kompleks, di mana AI membuat rencana tugas dan menjalankannya secara otonom setelah konfirmasi Anda."
+		},
+		{
+			"question": "Bagaimana cara kerja sistem kredit?",
+			"answer": "Kredit dikonsumsi saat menggunakan fitur AI. Paket Gratis mencakup 500 kredit per bulan. Paket Pro mencakup 1.000 kredit per bulan. Paket Team mencakup 1.000 kredit per kursi per bulan dengan pool bersama. Kredit tambahan dapat dibeli sebagai paket tambahan."
+		},
+		{
+			"question": "Apakah CodeBuddy mendukung deployment perusahaan?",
+			"answer": "Ya, CodeBuddy menawarkan edisi SaaS Enterprise dan Private Cloud Enterprise dengan dukungan khusus, SLA, basis pengetahuan kustom, dan opsi deployment pribadi. Hubungi penjualan untuk harga volume kustom."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Editor Kode AI oleh Tencent Cloud",
+		"description": "Editor kode berbasis AI dengan penyelesaian cerdas, pembuatan multi-file, dan pipeline desain ke kode. Mendukung 200+ bahasa dan VS Code, JetBrains, Visual Studio."
+	}
+}

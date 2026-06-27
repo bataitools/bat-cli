@@ -1,0 +1,130 @@
+{
+	"name": "CodeBuddy",
+	"tagline": "AI-koodieditori, jota Tencent Yuanbao Code Large Model -malli pyörittää",
+	"description": "Tencent Cloud CodeBuddy on seuraavan sukupolven AI-koodieditori. Tencent Yuanbao Code Large Model -mallin pyörittämänä se tarjoaa palveluita, kuten koodin täydennyksen, virheiden diagnostiikan, teknisen Q&A:n ja suorituskyvyn optimoinnin. Tukee 200+ ohjelmointikieltä ja kehystä, mukaan lukien Java, Python, Go, C/C++, JS/TS, ja integroituu VS Code:n, JetBrains IDE:n, Visual Studion ja WeChat-kehitystyökalujen kanssa. CodeBuddy parantaa koodaustehokkuutta AI-ohjattujen työnkulkujen avulla ja tukee yrityssovellusten kehitystä.",
+	"instruction": "Asenna CodeBuddy-laajennus IDE-kaupasta (VS Code, JetBrains tai Visual Studio), kirjaudu sisään Tencent Cloud -tililläsi ja aloita koodaaminen AI-avustuksella. Ask-tila tekniseen Q&A:han, Craft-tila koodin generointiin ja monitiedoston muokkaamiseen, ja Plan-tila monimutkaiseen ristitiedostotoiminnon kehitykseen.",
+	"coreFeatures": [
+		{
+			"title": "Älykäs koodin täydennys",
+			"description": "Reaaliaikainen monirivinen koodin täydennys kontekstin ymmärrykseen ja muokkauskäyttäytymiseen perustuen, ennustaa seuraavan muutospisteen ja tukee 200+ ohjelmointikieltä."
+		},
+		{
+			"title": "AI-ohjattu tekninen dialogi",
+			"description": "Ask-tila tekniseen Q&A:han ja konseptien selittämiseen ilman koodin muokkausta. Craft-tila koodin generointiin ja paikallisiin muokkauksiin nykyisessä kontekstissa. Plan-tila on tehokkain automaatiotila ristitiedostomuutoksiin tai monimutkaiseen toiminnon kehitykseen, jossa AI luo tehtäväsuunnitelman ja suorittaa sen itsenäisesti vahvistuksen jälkeen."
+		},
+		{
+			"title": "Monen IDE:n tuki",
+			"description": "Saatavilla IDE-laajennuksena VS Code:lle, JetBrains-sarjalle (IDEA/PyCharm), Visual Studiolle, WeChat-kehitystyökaluille ja CloudStudio:lle, sekä itsenäisenä AI IDE:nä ja CLI-työkaluna."
+		},
+		{
+			"title": "Suunnittelusta koodiin -putki",
+			"description": "Luo korkealaatuisia UI-prototyyppejä luonnollisesta kielestä tai käsin piirretyistä luonnoksista, sisäänrakennetulla Figma-integraatiolla suunnittelumockupsien suoraan muuntamiseksi ylläpidettäväksi front-end- ja back-end-koodiksi."
+		},
+		{
+			"title": "MCP-ekosysteemi ja mukautetut agentit",
+			"description": "Laajenna AI-kyvykkyyksiä Model Context Protocolin avulla yhdistämällä ulkoiset työkalut, kuten tietokannat, CI/CD-putket ja turvallisuusskannerit. Luo mukautettuja agentteja tiettyyn liiketoimintalogiikkaan."
+		},
+		{
+			"title": "Yritystietämyskanta",
+			"description": "Rakenna organisaatiokohtaisia RAG-tietämyskantoja tarkkoja ja kontekstitietoisia vastauksia varten. Tukee mukautettuja sääntöjä, mieltymyksien muistia ja tiiminlaajuisia koodausstandardeja."
+		}
+	],
+	"useCases": [
+		"Yrityssovellusten kehitys AI-avusteisella koodauksella ja automaattisella koodin tarkastuksella",
+		"Nopea prototypointi luonnollisen kielen PRD:stä käyttöönotettaville sovelluksille",
+		"Ohjelmoinnin opettaminen ja oppiminen AI-tutoroinnilla ja välittömillä koodiselityksillä",
+		"Legacy-koodin refaktorointi ja ylläpito monitiedostoanalyysillä ja kontekstitietoisilla ehdotuksilla",
+		"UI/UX-suunnittelun luovutus automaattisella Figma-mockupsien muunnoksella tuotantokoodiksi"
+	],
+	"pricing": [
+		{
+			"name": "Ilmainen",
+			"chargeType": "free",
+			"priceNote": "Ilmainen",
+			"features": [
+				"500 käyttöoikeutta kuukaudessa",
+				"Perustason koodin täydennys",
+				"Tekninen Q&A nopeusrajoituksin",
+				"Yhteisön tuki"
+			]
+		},
+		{
+			"name": "Pro (kuukausittain)",
+			"chargeType": "recurring",
+			"priceNote": "$9.95 /kuukausi",
+			"features": [
+				"1 000 käyttöoikeutta kuukaudessa",
+				"Kaikki premium-mallit (Hunyuan, DeepSeek)",
+				"Rajoittamaton BuddyTab",
+				"Rajoittamaton BuddyNES",
+				"Etusijajärjestyksessä tuki"
+			]
+		},
+		{
+			"name": "Pro (vuosittain)",
+			"chargeType": "recurring",
+			"priceNote": "$119.40 /vuosi",
+			"features": [
+				"1 000 käyttöoikeutta kuukaudessa",
+				"Kaikki premium-mallit (Hunyuan, DeepSeek)",
+				"Rajoittamaton BuddyTab",
+				"Rajoittamaton BuddyNES",
+				"Etusijajärjestyksessä tuki",
+				"Säästö verrattuna kuukausisuunnitelmaan"
+			]
+		},
+		{
+			"name": "Team (kuukausittain)",
+			"chargeType": "recurring",
+			"priceNote": "$40.00 /paikka /kuukausi",
+			"features": [
+				"1 000 käyttöoikeutta paikkaa kohti kuukaudessa",
+				"Jaettu tiimin käyttöoikeuspooli",
+				"Ylläpitokonsoli",
+				"Yhtenäinen laskutuksen hallinta",
+				"IDE/CLI/Laajennustuki",
+				"Yritystietämyskanta"
+			]
+		},
+		{
+			"name": "Team (vuosittain)",
+			"chargeType": "recurring",
+			"priceNote": "$480.00 /paikka /vuosi",
+			"features": [
+				"1 000 käyttöoikeutta paikkaa kohti kuukaudessa",
+				"Jaettu tiimin käyttöoikeuspooli",
+				"Ylläpitokonsoli",
+				"Yhtenäinen laskutuksen hallinta",
+				"IDE/CLI/Laajennustuki",
+				"Yritystietämyskanta",
+				"Säästö verrattuna kuukausisuunnitelmaan"
+			]
+		}
+	],
+	"faqs": [
+		{
+			"question": "Mitä IDE:itä CodeBuddy tukee?",
+			"answer": "CodeBuddy tukee VS Code:a, JetBrains-sarjaa (IntelliJ IDEA, PyCharm, jne.), Visual Studio:a, WeChat-kehitystyökaluja, CloudStudio:a ja Vim:iä. Se on saatavilla myös itsenäisenä AI IDE:nä ja CLI-työkaluna DevOps-työnkulkuihin."
+		},
+		{
+			"question": "Mitä ohjelmointikieliä CodeBuddy tukee?",
+			"answer": "CodeBuddy tukee 200+ ohjelmointikieltä ja kehystä, mukaan lukien Java, Python, Go, C/C++, JavaScript, TypeScript, HTML, PHP, Ruby, Rust, Swift, Scala ja muut."
+		},
+		{
+			"question": "Mikä on ero Ask-, Craft- ja Plan-tilojen välillä?",
+			"answer": "Ask-tila on tekniseen Q&A:han ja konseptien selittämiseen ilman koodin muokkausta. Craft-tila on koodin generointiin ja paikallisiin muokkauksiin nykyisessä kontekstissa. Plan-tila on tehokkain automaatiotila ristitiedostomuutoksiin tai monimutkaiseen toiminnon kehitykseen, jossa AI luo tehtäväsuunnitelman ja suorittaa sen itsenäisesti vahvistuksesi jälkeen."
+		},
+		{
+			"question": "Miten käyttöoikeusjärjestelmä toimii?",
+			"answer": "Käyttöoikeuksia kulutetaan AI-ominaisuuksia käytettäessä. Ilmainen suunnitelma sisältää 500 käyttöoikeutta kuukaudessa. Pro-suunnitelmat sisältävät 1 000 käyttöoikeutta kuukaudessa. Team-suunnitelmat sisältävät 1 000 käyttöoikeutta paikkaa kohti kuukaudessa jaetulla poolilla. Lisäkäyttöoikeuksia voidaan ostaa lisäpaketteina."
+		},
+		{
+			"question": "Tukeeko CodeBuddy yritysten käyttöönottoa?",
+			"answer": "Kyllä, CodeBuddy tarjoaa SaaS Enterprise- ja Private Cloud Enterprise -versiot, joihin sisältyy dedikoitu tuki, SLA, mukautetut tietämyskannat ja yksityiset käyttöönottoasetukset. Ota yhteyttä myyntiin mukautettuja volyymihintoja varten."
+		}
+	],
+	"seo": {
+		"title": "CodeBuddy — Tencent Cloudin AI-koodieditori",
+		"description": "AI-pohjainen koodieditori älykkäällä täydennyksellä, monitiedostogeneroinnilla ja suunnittelusta koodiin -putkella. Tukee 200+ kieltä ja VS Code:a, JetBrains:ia, Visual Studio:a."
+	}
+}

@@ -6,7 +6,7 @@ import { calculateAgentSubmitSignature } from '../src/shared';
 
 // 测试配置常量，方便切换不同的测试数据
 const TEST_DOMAIN = 'imagetostl.me';
-const TEST_MOCK_DIR = resolve(import.meta.dirname, `./mock/${TEST_DOMAIN}`);
+const SAMPLE_DIR = resolve(import.meta.dirname, `../samples/${TEST_DOMAIN}`);
 const EXPECTED_WEBSITE = 'https://imagetostl.me';
 const EXPECTED_LOGO = 'https://static.bataitools.com/upload/toos/logo/imagetostl.me/f0c0c9695807b30d.webp';
 
@@ -220,7 +220,7 @@ describe('BAT CLI E2E Tests', () => {
 	it('should pack a directory into bundle file', async () => {
 		const tempOutJson = join(tmpdir(), `packed-bundle-${Date.now()}.json`);
 		try {
-			const proc = await runCli(['pack', TEST_MOCK_DIR, '-o', tempOutJson]);
+			const proc = await runCli(['pack', SAMPLE_DIR, '-o', tempOutJson]);
 			expect(proc.success).toBe(true);
 			expect(existsSync(tempOutJson)).toBe(true);
 			const bundle = JSON.parse(readFileSync(tempOutJson, 'utf-8'));
@@ -234,7 +234,7 @@ describe('BAT CLI E2E Tests', () => {
 	});
 
 	it('should execute validate-phase1 successfully', async () => {
-		const proc = await runCli(['validate-phase1', TEST_MOCK_DIR]);
+		const proc = await runCli(['validate-phase1', SAMPLE_DIR]);
 		expect(proc.success).toBe(true);
 		const data = JSON.parse(proc.stdout);
 		expect(data.ok).toBe(true);
@@ -256,7 +256,7 @@ describe('BAT CLI E2E Tests', () => {
 		// 确保沙箱已登录
 		await runCli(['login-guest']);
 
-		const proc = await runCli(['submit', '--dir', TEST_MOCK_DIR]);
+		const proc = await runCli(['submit', '--dir', SAMPLE_DIR]);
 		expect(proc.success).toBe(true);
 		const data = JSON.parse(proc.stdout);
 		expect(data.submitId).toBe(888);

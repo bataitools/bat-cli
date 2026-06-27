@@ -13,11 +13,13 @@
 	"main": "./dist/cli.js",
 	"files": [
 		"dist",
-		"examples"
+		"templates"
 	],
 	"scripts": {
 		"build": "bun build ./src/cli.ts --outdir ./dist --target node --external playwright",
 		"dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 bun run src/cli.ts --dev",
+		"dev:push-samples": "NODE_TLS_REJECT_UNAUTHORIZED=0 bun run scripts/push-samples.ts --env dev",
+		"prod:push-samples": "bun run scripts/push-samples.ts --env prod",
 		"typecheck": "tsc --noEmit",
 		"test": "bun test",
 		"release": "release-it",

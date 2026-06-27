@@ -1,0 +1,46 @@
+{
+	"website": "https://www.codebuddy.ai",
+	"developerName": "Tencent Cloud",
+	"developerType": "company",
+	"developerCountry": "",
+	"developerProvince": "",
+	"pricingUrl": "https://www.codebuddy.ai/pricing",
+	"docsUrl": "https://www.codebuddy.ai/docs",
+	"categorys": ["coding-development"],
+	"tags": [
+		"free",
+		"freemium",
+		"web-app",
+		"vscode-extension",
+		"desktop-app",
+		"no-code",
+		"low-code",
+		"for-developers",
+		"for-enterprise",
+		"team-collaboration",
+		"multi-language",
+		"cloud-based",
+		"ai-agent-ready",
+		"highly-customizable",
+		"secure-data"
+	],
+	"audiences": ["developers", "product-managers", "project-managers", "small-business-owners", "freelancers"],
+	"logo": "https://static.bataitools.com/upload/toos/logo/codebuddy.ai/1848f1e4a09cad60.webp",
+	"websiteScreenshot": "https://static.bataitools.com/upload/toos/screenshot/codebuddy.ai/d4331d310cd71a53.png",
+	"social": {
+		"email": "codebuddy_ai@tencent.com",
+		"twitter": "",
+		"facebook": "",
+		"linkedin": "",
+		"instagram": "",
+		"youtube": "",
+		"tiktok": "",
+		"github": ""
+	},
+	"productMedia": [
+		{
+			"type": "image",
+			"url": "https://codebuddy-1328495429.cos.accelerate.myqcloud.com/web/ide/logo.svg"
+		}
+	]
+}

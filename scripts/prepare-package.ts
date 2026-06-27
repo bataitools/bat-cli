@@ -1,10 +1,13 @@
-import { writeFileSync, readFileSync, copyFileSync, mkdirSync, cpSync } from 'node:fs';
+import { writeFileSync, readFileSync, copyFileSync, mkdirSync, cpSync, rmSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = join(import.meta.dir, '..');
 const PKG_DIR = join(ROOT, 'pkg');
 
-// 1. 创建发布临时目录 pkg/
+// 1. 清空并重建发布临时目录 pkg/
+if (existsSync(PKG_DIR)) {
+	rmSync(PKG_DIR, { recursive: true, force: true });
+}
 mkdirSync(PKG_DIR, { recursive: true });
 
 // 2. 读取并剥离依赖，生成发布 Manifest
@@ -34,7 +37,7 @@ for (const file of filesToCopy) {
 	copyFileSync(join(ROOT, file), join(PKG_DIR, file));
 }
 
-const dirsToCopy = ['dist', 'examples'];
+const dirsToCopy = ['dist', 'templates'];
 for (const dir of dirsToCopy) {
 	cpSync(join(ROOT, dir), join(PKG_DIR, dir), { recursive: true });
 }

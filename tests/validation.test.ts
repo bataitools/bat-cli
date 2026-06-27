@@ -7,12 +7,12 @@ import { validateAgentSubmitBundle } from '../src/shared';
 
 // 测试配置常量，方便切换不同的测试数据
 const TEST_DOMAIN = 'imagetostl.me';
-const TEST_MOCK_DIR = resolve(import.meta.dirname, `./mock/${TEST_DOMAIN}`);
+const SAMPLE_DIR = resolve(import.meta.dirname, `../samples/${TEST_DOMAIN}`);
 const EXPECTED_WEBSITE = 'https://imagetostl.me';
 const EXPECTED_LOGO = 'https://static.bataitools.com/upload/toos/logo/imagetostl.me/f0c0c9695807b30d.webp';
 
 describe('BAT CLI Automated Tests - Validation', () => {
-	const sampleDir = TEST_MOCK_DIR;
+	const sampleDir = SAMPLE_DIR;
 	let consoleErrorSpy: any;
 
 	beforeAll(() => {
