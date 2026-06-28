@@ -11,7 +11,8 @@
  */
 import { existsSync, readdirSync, statSync } from 'node:fs';
 import { basename, join, resolve } from 'node:path';
-import { BAT_API_URL_DEVELOPMENT, BAT_API_URL_PRODUCTION, autoLogin } from '../src/config';
+import { BAT_API_URL_DEVELOPMENT, BAT_API_URL_PRODUCTION, ensureToken } from '../src/config';
+import { shortCliErrorLabel, printIndentedCliError } from '../src/api-error';
 import { submitBundle } from '../src/client';
 import { packSubmitDirectory } from '../src/pack';
 import { validateAgentSubmitBundle } from '../src/shared';
@@ -117,9 +118,9 @@ async function pushOneSample(dir: string, dryRun: boolean): Promise<{ ok: boolea
 		);
 		return { ok: true, website: bundle.website };
 	} catch (e) {
-		const message = e instanceof Error ? e.message : String(e);
-		console.error(`${LOG} failed ${label}: ${message}`);
-		return { ok: false, error: message };
+		console.error(`${LOG} failed ${label}:`);
+		printIndentedCliError(e);
+		return { ok: false, error: shortCliErrorLabel(e) };
 	}
 }
 
@@ -142,8 +143,7 @@ async function main() {
 	}
 
 	if (!options.dryRun) {
-		console.log(`${LOG} guest login → ${apiUrl}`);
-		await autoLogin(apiUrl);
+		await ensureToken();
 	}
 
 	console.log(`${LOG} target=${options.env} api=${apiUrl} dryRun=${options.dryRun} samples=${sampleDirs.length}`);
@@ -171,6 +171,7 @@ async function main() {
 }
 
 main().catch((e) => {
-	console.error(`${LOG} error:`, e instanceof Error ? e.message : e);
+	console.error(`${LOG} error:`);
+	printIndentedCliError(e);
 	process.exit(1);
 });

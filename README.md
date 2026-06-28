@@ -34,7 +34,7 @@ bat-cli login
 bat-cli login <your-api-key>
 
 # Anonymous guest account (no browser required)
-bat-cli login-guest
+bat-cli login guest
 ```
 
 If no credentials exist locally, the first `submit` or `publish` command will trigger an automatic guest login.

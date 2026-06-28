@@ -1,23 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
+import { signAgentRequest } from './agent-sign';
+import { AgentApiEnvelope, throwAgentApiError } from './api-error';
 import { ensureToken, getApiUrl } from './config';
-
-interface ApiEnvelope<T> {
-	success: boolean;
-	data?: T;
-	errorMsg?: string;
-}
-
-import { calculateAgentSubmitSignature } from './shared';
-
-async function signRequest(method: string, path: string, bodyOrQuery: string): Promise<Record<string, string>> {
-	const timestamp = Math.floor(Date.now() / 1000);
-	const payload = `${method}:${path}:${bodyOrQuery}`;
-	const signature = await calculateAgentSubmitSignature(payload, timestamp);
-	return {
-		'x-bat-timestamp': String(timestamp),
-		'x-bat-signature': signature,
-	};
-}
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 	const base = getApiUrl();
@@ -35,7 +19,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 		bodyOrQuery = queryStr;
 	}
 
-	const signHeaders = await signRequest(method, cleanPath, bodyOrQuery);
+	const signHeaders = await signAgentRequest(method, cleanPath, bodyOrQuery);
 
 	const res = await fetch(`${base}${path}`, {
 		...options,
@@ -46,9 +30,9 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 			...(options.headers ?? {}),
 		},
 	});
-	const body = (await res.json()) as ApiEnvelope<T>;
+	const body = (await res.json()) as AgentApiEnvelope<T>;
 	if (!res.ok || !body.success) {
-		throw new Error(body.errorMsg ?? `Request failed: ${res.status}`);
+		throwAgentApiError(res.status, body);
 	}
 	if (body.data === undefined) {
 		throw new Error('API response missing data');
@@ -68,7 +52,7 @@ async function postAgentAsset(
 	const base = getApiUrl();
 	const token = await ensureToken();
 	const qs = new URLSearchParams({ website });
-	const signHeaders = await signRequest('POST', apiPath, qs.toString());
+	const signHeaders = await signAgentRequest('POST', apiPath, qs.toString());
 
 	let body: BodyInit | undefined;
 	if (file) {
@@ -85,9 +69,9 @@ async function postAgentAsset(
 		},
 		body,
 	});
-	const json = (await res.json()) as ApiEnvelope<{ path: string; website: string }>;
+	const json = (await res.json()) as AgentApiEnvelope<{ path: string; website: string }>;
 	if (!res.ok || !json.success || !json.data?.path) {
-		throw new Error(json.errorMsg ?? `Asset request failed: ${res.status}`);
+		throwAgentApiError(res.status, json);
 	}
 	return json.data;
 }

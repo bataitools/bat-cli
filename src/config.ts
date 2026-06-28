@@ -1,6 +1,8 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, unlinkSync } from 'node:fs';
 import { homedir } from 'node:os';
 import { join } from 'node:path';
+import { AgentApiEnvelope, throwAgentApiError } from './api-error';
+import { signAgentRequest } from './agent-sign';
 
 /** 生产环境 API（与 bataitools.com 官网配套，普通用户无需配置） */
 export const BAT_API_URL_PRODUCTION = 'https://api.bataitools.com';
@@ -21,6 +23,8 @@ try {
 
 const CREDENTIALS_FILE = join(CONFIG_DIR, 'credentials.json');
 
+export const ALREADY_LOGGED_IN_MSG = 'Already logged in. Run `bat-cli logout` before logging in again.';
+
 export interface CredentialsFile {
 	token?: string;
 	/** 可选：持久化开发/自定义 API 地址，优先级低于 BAT_API_URL 环境变量 */
@@ -34,12 +38,6 @@ interface AutoLoginResponse {
 	lastUsedAt: string | null;
 	userId: number;
 	accountType: 'guest';
-}
-
-interface ApiEnvelope<T> {
-	success: boolean;
-	data?: T;
-	errorMsg?: string;
 }
 
 function readCredentialsFile(): CredentialsFile {
@@ -69,7 +67,28 @@ export function getApiUrl(): string {
 	return BAT_API_URL_PRODUCTION;
 }
 
+export function isLoggedIn(): boolean {
+	return Boolean(loadToken());
+}
+
+/** 已登录时拒绝再次 login / saveToken，须先 logout */
+export function assertNotLoggedIn(): void {
+	if (isLoggedIn()) {
+		throw new Error(ALREADY_LOGGED_IN_MSG);
+	}
+}
+
+export function logout(): void {
+	if (existsSync(CREDENTIALS_FILE)) {
+		unlinkSync(CREDENTIALS_FILE);
+		console.log(`[bat-cli] logged out (removed ${CREDENTIALS_FILE})`);
+		return;
+	}
+	console.log('[bat-cli] not logged in');
+}
+
 export function saveToken(token: string, apiUrl?: string) {
+	assertNotLoggedIn();
 	const normalizedApiUrl = apiUrl?.trim().replace(/\/+$/, '');
 	const newCreds: CredentialsFile = {
 		token,
@@ -91,33 +110,28 @@ export function loadToken(): string | null {
 export function requireToken(): string {
 	const token = loadToken();
 	if (!token) {
-		throw new Error('Not logged in. Run: bat-cli login-guest (device account) or bat-cli login (formal account)');
+		throw new Error('Not logged in. Run: bat-cli login guest (guest) or bat-cli login (formal account)');
 	}
 	return token;
 }
 
-import { calculateAgentSubmitSignature } from './shared';
-
 /** 无本地凭证时自动创建设备 guest 账号并登录 */
 export async function autoLogin(apiUrl?: string): Promise<string> {
+	assertNotLoggedIn();
 	const started = performance.now();
 	const base = apiUrl?.trim() ? apiUrl.trim().replace(/\/+$/, '') : getApiUrl();
 	console.log(`[bat-cli] auto-login requesting guest account from ${base}`);
 
 	const path = '/bat/agent/auto-login';
-	const timestamp = Math.floor(Date.now() / 1000);
-	const signature = await calculateAgentSubmitSignature(`POST:${path}:`, timestamp);
+	const signHeaders = await signAgentRequest('POST', path, '');
 
 	const res = await fetch(`${base}${path}`, {
 		method: 'POST',
-		headers: {
-			'x-bat-timestamp': String(timestamp),
-			'x-bat-signature': signature,
-		},
+		headers: signHeaders,
 	});
-	const body = (await res.json()) as ApiEnvelope<AutoLoginResponse>;
+	const body = (await res.json()) as AgentApiEnvelope<AutoLoginResponse>;
 	if (!res.ok || !body.success || !body.data?.key) {
-		throw new Error(body.errorMsg ?? `Auto-login failed: ${res.status}`);
+		throwAgentApiError(res.status, body);
 	}
 
 	saveToken(body.data.key, apiUrl);

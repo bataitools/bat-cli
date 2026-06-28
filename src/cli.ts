@@ -4,9 +4,18 @@ import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import readline from 'node:readline';
 import { validateAgentSubmitBundle, AGENT_REQUIRED_LANGUAGE_CODES } from './shared';
+import { printCliError } from './api-error';
 import { fetchSchema, getSubmitStatus, publishSubmit, submitBundle, uploadScreenshot, listSubmits } from './client';
-import { BAT_API_URL_PRODUCTION, BAT_API_URL_DEVELOPMENT, autoLogin, saveToken, getApiUrl } from './config';
+import {
+	BAT_API_URL_PRODUCTION,
+	BAT_API_URL_DEVELOPMENT,
+	autoLogin,
+	getApiUrl,
+	logout,
+	assertNotLoggedIn,
+} from './config';
 import { formalLogin, openBrowser } from './login-flow';
+import { loginWithFormalApiKey } from './verify-api-key';
 import { packSubmitDirectory, validatePhase1Directory } from './pack';
 import { captureWebsiteScreenshot } from './screenshot';
 import { submitDirForWebsite } from './site-dir';
@@ -35,12 +44,14 @@ async function main() {
 	try {
 		switch (command) {
 			case 'login': {
+				assertNotLoggedIn();
 				let token = args[0];
 				const apiUrl = parseApiUrl(args);
 				const keyFlag = readFlag(args, '--key');
 
 				if (keyFlag) {
-					token = keyFlag;
+					await loginWithFormalApiKey(keyFlag, apiUrl);
+					break;
 				}
 
 				if (token === 'guest') {
@@ -48,36 +59,37 @@ async function main() {
 					break;
 				}
 				if (token?.startsWith('bat_') || token?.startsWith('bat-')) {
-					saveToken(token, apiUrl);
-					console.log('✅ Saved formal account API key successfully.');
+					await loginWithFormalApiKey(token, apiUrl);
 					break;
 				}
 				if (!token) {
 					console.log('Welcome to BAT AI Tools CLI login!');
 					console.log('You can log in using either your API key or OAuth device flow.');
-					const inputKey = await askQuestion(
-						'👉 Please enter your API key (leave empty to login via browser OAuth): ',
-					);
+					const rl = readline.createInterface({
+						input: process.stdin,
+						output: process.stdout,
+					});
+					const inputKey = await new Promise<string>((resolve) => {
+						rl.question('👉 Please enter your API key (leave empty to login via browser OAuth): ', (ans) =>
+							resolve(ans.trim()),
+						);
+					});
+					rl.close();
+					process.stdin.resume();
 					if (inputKey) {
-						if (inputKey.startsWith('bat_') || inputKey.startsWith('bat-') || inputKey.length > 20) {
-							saveToken(inputKey, apiUrl);
-							console.log('✅ Saved formal account API key successfully.');
-							break;
-						} else {
-							throw new Error('Invalid API key format. Key should typically start with "bat_".');
-						}
+						await loginWithFormalApiKey(inputKey, apiUrl);
+						break;
 					}
 					await formalLogin(apiUrl);
 					break;
 				}
 				throw new Error(
 					'Usage: bat-cli login [--key <api-key>] [--api <url>] [--env dev|prod]\n' +
-						'       bat-cli login guest | bat-cli login-guest',
+						'       bat-cli login guest',
 				);
 			}
-			case 'login-guest': {
-				const apiUrl = parseApiUrl(args);
-				await autoLogin(apiUrl);
+			case 'logout': {
+				logout();
 				break;
 			}
 			case 'schema': {
@@ -341,7 +353,7 @@ async function main() {
 		}
 		console.error(`[bat-cli] ${command} completed in ${(performance.now() - started).toFixed(0)}ms`);
 	} catch (e) {
-		console.error(`[bat-cli] error:`, e instanceof Error ? e.message : e);
+		printCliError(e);
 		process.exit(1);
 	}
 }
@@ -469,7 +481,8 @@ function printHelp() {
 Commands:
   login [--api URL]              OAuth device login (opens browser, like gh auth login)
   login <api-key> [--api URL]    Save API key directly (CI / advanced)
-  login guest | login-guest      Anonymous device guest account
+  login guest [--env dev|prod]   Anonymous guest account (no browser)
+  logout                         Remove saved credentials (~/.bat-cli/credentials.json)
   schema [lang]         Fetch taxonomy + API schema (default lang: en)
   validate -f <file>    Validate full submit bundle locally
   validate-phase1 <dir> Validate base.json + i18n/en.json only (before translate)
@@ -538,4 +551,7 @@ function getStatusText(status: number | string): string {
 	}
 }
 
-main();
+main().catch((e) => {
+	printCliError(e);
+	process.exit(1);
+});

@@ -194,13 +194,29 @@ describe('BAT CLI E2E Tests', () => {
 	});
 
 	it('should perform guest login successfully', async () => {
-		const proc = await runCli(['login-guest']);
+		const proc = await runCli(['login', 'guest']);
 		expect(proc.success).toBe(true);
 
 		const credPath = join(tempHome, '.bat-cli/credentials.json');
 		expect(existsSync(credPath)).toBe(true);
 		const creds = JSON.parse(readFileSync(credPath, 'utf-8'));
 		expect(creds.token).toBe('mock-guest-token');
+	});
+
+	it('should reject login when already logged in', async () => {
+		const proc = await runCli(['login', 'guest']);
+		expect(proc.success).toBe(false);
+		expect(proc.stderr).toContain('Already logged in');
+		expect(proc.stderr).toContain('logout');
+	});
+
+	it('should logout and allow login again', async () => {
+		const logoutProc = await runCli(['logout']);
+		expect(logoutProc.success).toBe(true);
+		expect(existsSync(join(tempHome, '.bat-cli/credentials.json'))).toBe(false);
+
+		const loginProc = await runCli(['login', 'guest']);
+		expect(loginProc.success).toBe(true);
 	});
 
 	it('should fetch taxonomy schema', async () => {
@@ -268,9 +284,6 @@ describe('BAT CLI E2E Tests', () => {
 	});
 
 	it('should list submits in json format', async () => {
-		// 确保沙箱已登录
-		await runCli(['login-guest']);
-
 		const proc = await runCli(['list', '--format', 'json']);
 		expect(proc.success).toBe(true);
 		const list = JSON.parse(proc.stdout);
@@ -280,9 +293,6 @@ describe('BAT CLI E2E Tests', () => {
 	});
 
 	it('should submit a packed bundle directory', async () => {
-		// 确保沙箱已登录
-		await runCli(['login-guest']);
-
 		const proc = await runCli(['submit', '--dir', SAMPLE_DIR]);
 		expect(proc.success).toBe(true);
 		const data = JSON.parse(proc.stdout);

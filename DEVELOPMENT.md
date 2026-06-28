@@ -50,7 +50,7 @@
 | dev  | `https://api-dev.bataitools.com` | `bun run dev ...`（自动注入 `--dev`）或 `dev:push-samples` |
 | prod | `https://api.bataitools.com`     | 默认；`prod:push-samples` 或 `BAT_API_URL` 环境变量        |
 
-本地凭据保存在 `~/.bat-cli/credentials.json`。`push-samples` 执行前会自动 guest 登录到目标 API，**会覆盖当前凭据中的 token 与 apiUrl**。
+本地凭据保存在 `~/.bat-cli/credentials.json`。**已登录时不会覆盖凭据**；换账号须先 `logout`。`push-samples` 与 `submit` 等命令会复用现有登录状态；无凭据时才会自动 guest 登录。
 
 ---
 
@@ -143,14 +143,25 @@ bun run dev --help
 
 ### 登录与凭据
 
-```bash
-# Guest 匿名账号（无需浏览器）
-bun run dev login-guest
+凭据文件：`~/.bat-cli/credentials.json`
 
-# 正式账号 OAuth 或 API Key
-bun run dev login
-bun run dev login <api-key>
+**规则：已登录时，`login` / `login guest` 不会覆盖现有凭据，必须先退出。**
+
+```bash
+# 正式账号（OAuth 或 API Key，dev 环境）
+bun run dev login --env dev
+bun run dev login --key bat_xxx --env dev
+
+# Guest 匿名账号（仅在没有登录时可用）
+bun run dev login guest
+
+# 退出（删除本地凭据，之后才能重新 login）
+bun run dev logout
 ```
+
+换环境（dev ↔ prod）时：先 `logout`，再 `login --env dev|prod`。
+
+`submit`、`pack`、`dev:push-samples` 等命令通过 `ensureToken()` **复用**当前凭据；若无凭据才会自动 guest 登录。
 
 ### 初始化提交目录（使用 templates/）
 
