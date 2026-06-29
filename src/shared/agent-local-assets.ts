@@ -2,7 +2,7 @@
 export const AGENT_LOCAL_LOGO_FILENAME = 'logo.webp';
 
 /** Agent 提交目录内本地官网截图文件名（与 base.json 同级） */
-export const AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME = 'website-screenshot.png';
+export const AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME = 'website-screenshot.webp';
 
 /** 是否为已上传或可直链的远程资源 URL（http/https） */
 export function isRemoteAgentAssetUrl(value: string): boolean {

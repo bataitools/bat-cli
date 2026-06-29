@@ -111,7 +111,7 @@ describe('BAT CLI E2E Tests', () => {
 					return Response.json({
 						success: true,
 						data: {
-							path: `${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.png`,
+							path: `${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.webp`,
 							website,
 						},
 					});
@@ -269,7 +269,7 @@ describe('BAT CLI E2E Tests', () => {
 			const bundle = JSON.parse(readFileSync(tempOutJson, 'utf-8'));
 			expect(bundle.website).toBe(EXPECTED_WEBSITE);
 			expect(bundle.logo).toBe(`${MOCK_STATIC_BASE}/upload/toos/logo/imagetostl.me/mock.webp`);
-			expect(bundle.websiteScreenshot).toBe(`${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.png`);
+			expect(bundle.websiteScreenshot).toBe(`${MOCK_STATIC_BASE}/upload/toos/screenshot/imagetostl.me/mock.webp`);
 		} finally {
 			if (existsSync(tempOutJson)) {
 				rmSync(tempOutJson, { recursive: true, force: true });

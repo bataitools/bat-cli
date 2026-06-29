@@ -58,7 +58,33 @@ function jsonLen(value: unknown): number {
 	return 0;
 }
 
+function hasTodoPlaceholder(val: unknown): string | null {
+	if (typeof val === 'string') {
+		if (/\[TODO:\s*TRANSLATE/i.test(val)) {
+			return val;
+		}
+		return null;
+	}
+	if (Array.isArray(val)) {
+		for (const item of val) {
+			const found = hasTodoPlaceholder(item);
+			if (found) return found;
+		}
+	}
+	if (typeof val === 'object' && val !== null) {
+		for (const key of Object.keys(val)) {
+			const found = hasTodoPlaceholder((val as Record<string, unknown>)[key]);
+			if (found) return found;
+		}
+	}
+	return null;
+}
+
 function validateI18nEntry(lang: string, entry: AgentI18nEntry, enEntry: AgentI18nEntry): string | null {
+	const placeholder = hasTodoPlaceholder(entry);
+	if (placeholder) {
+		return `${lang}: contains pending placeholder "[TODO: TRANSLATE]" (${placeholder})`;
+	}
 	if (!entry.name || entry.name.length < 2) {
 		return `${lang}: name must be at least 2 characters`;
 	}

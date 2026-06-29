@@ -16,7 +16,7 @@
 		"templates"
 	],
 	"scripts": {
-		"build": "bun build ./src/cli.ts --outdir ./dist --target node --external playwright",
+		"build": "bun build ./src/cli.ts --outdir ./dist --target node",
 		"dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 bun run src/cli.ts --dev",
 		"dev:push-samples": "NODE_TLS_REJECT_UNAUTHORIZED=0 bun run scripts/push-samples.ts --env dev",
 		"prod:push-samples": "bun run scripts/push-samples.ts --env prod",
@@ -27,11 +27,7 @@
 		"build:pkg": "bun run build && bun run prepare:pkg",
 		"prepare": "husky"
 	},
-	"dependencies": {
-		"decode-ico": "^0.4.1",
-		"playwright": "^1.49.1",
-		"sharp": "^0.34.5"
-	},
+	"dependencies": {},
 	"devDependencies": {
 		"@release-it/conventional-changelog": "^11.0.1",
 		"@types/node": "^22.10.0",

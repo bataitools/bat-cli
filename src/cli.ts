@@ -25,10 +25,8 @@ import {
 import { formalLogin, openBrowser } from './login-flow';
 import { loginWithFormalApiKey } from './verify-api-key';
 import { packSubmitDirectory, validatePhase1Directory } from './pack';
-import { captureWebsiteScreenshot } from './screenshot';
 import { submitDirForWebsite } from './site-dir';
 import { AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, ensureSubmitAssetsUploaded, localLogoPath } from './submit-assets';
-import { downloadAndProcessLogo } from './logo-process';
 
 async function main() {
 	// 如果命令行中带有 --dev 标志，则自动将其剔除并切换 API 基址为本地开发服务器
@@ -249,47 +247,6 @@ async function main() {
 				}
 				break;
 			}
-			case 'capture-screenshot': {
-				const opts = parseCaptureArgs(args);
-				const buffer = await captureWebsiteScreenshot(opts.url);
-				if (opts.dir) {
-					const resolvedDir = resolve(opts.dir);
-					mkdirSync(resolvedDir, { recursive: true });
-					const outPath = join(resolvedDir, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME);
-					writeFileSync(outPath, buffer);
-					console.log(`[bat-cli] wrote local screenshot ${outPath}`);
-					break;
-				}
-				if (opts.mergeFile) {
-					const tmpFile = join(tmpdir(), `bat-cli-upload-${Date.now()}.png`);
-					writeFileSync(tmpFile, buffer);
-					const data = await uploadScreenshot({
-						filePath: tmpFile,
-						website: opts.website,
-					});
-					console.log(JSON.stringify(data, null, 2));
-					mergeScreenshotIntoFile(opts.mergeFile, data.path);
-					break;
-				}
-				throw new Error(
-					'Usage: bat-cli capture-screenshot --website <url> --dir <submit-dir> [--url <capture-url>]',
-				);
-			}
-			case 'fetch-logo': {
-				const url = readFlag(args, '--url');
-				const dir = readFlag(args, '--dir');
-				const format = readFlag(args, '--format') ?? 'webp';
-				if (!url || !dir) {
-					throw new Error(
-						'Usage: bat-cli fetch-logo --url <logo-url> --dir <submit-dir> [--format webp|png]',
-					);
-				}
-				const resolvedDir = resolve(dir);
-				const outPath = join(resolvedDir, `logo.${format}`);
-				await downloadAndProcessLogo(url, outPath, format as 'webp' | 'png');
-				console.log(`[bat-cli] wrote local logo ${outPath}`);
-				break;
-			}
 			case 'pack': {
 				let dir = args[0];
 				const out = readFlag(args, '-o') ?? readFlag(args, '--out');
@@ -304,50 +261,6 @@ async function main() {
 					console.log(`[bat-cli] wrote ${resolvedOut} (${Object.keys(bundle.i18n).length} languages)`);
 				} else {
 					console.log(json);
-				}
-				break;
-			}
-			case 'translate-template': {
-				const dir = readFlag(args, '--dir') ?? args[0];
-				const from = readFlag(args, '--from') ?? 'en';
-				const to = readFlag(args, '--to') ?? 'all';
-				if (!dir) {
-					throw new Error(
-						'Usage: bat-cli translate-template <submit-dir> [--from en] [--to all|zh,tw,ja,...]',
-					);
-				}
-				const resolvedDir = resolve(dir);
-				const fromPath = join(resolvedDir, `i18n/${from}.json`);
-				if (!existsSync(fromPath)) {
-					throw new Error(`Source translation file not found: ${fromPath}`);
-				}
-				const fromData = JSON.parse(readFileSync(fromPath, 'utf-8'));
-
-				let targetLangs: string[] = [];
-				if (to === 'all') {
-					targetLangs = AGENT_REQUIRED_LANGUAGE_CODES.filter((lang: string) => lang !== from);
-				} else {
-					targetLangs = to
-						.split(',')
-						.map((s) => s.trim())
-						.filter(Boolean);
-				}
-
-				mkdirSync(join(resolvedDir, 'i18n'), { recursive: true });
-
-				for (const lang of targetLangs) {
-					const targetPath = join(resolvedDir, `i18n/${lang}.json`);
-					let targetData: any = {};
-					if (existsSync(targetPath)) {
-						try {
-							targetData = JSON.parse(readFileSync(targetPath, 'utf-8'));
-						} catch {
-							targetData = {};
-						}
-					}
-					const template = generateTranslationTemplate(fromData, targetData);
-					writeFileSync(targetPath, JSON.stringify(template, null, 2), 'utf-8');
-					console.log(`✅ Created/updated translation template: i18n/${lang}.json`);
 				}
 				break;
 			}
@@ -432,17 +345,6 @@ function parseLogoArgs(args: string[]) {
 	return { file, website, mergeFile };
 }
 
-function parseCaptureArgs(args: string[]) {
-	const website = readFlag(args, '--website');
-	const url = readFlag(args, '--url') ?? website;
-	const dir = readFlag(args, '--dir');
-	const mergeFile = readFlag(args, '--merge');
-	if (!website || !url) {
-		throw new Error('Usage: bat-cli capture-screenshot --website <url> --dir <submit-dir> [--url <capture-url>]');
-	}
-	return { website, url, dir, mergeFile };
-}
-
 function scaffoldSubmitDirectory(dir: string) {
 	const basePath = join(dir, 'base.json');
 	const enPath = join(dir, 'i18n/en.json');
@@ -496,36 +398,6 @@ function printSchemaTable(schema: any) {
 	}
 }
 
-function generateTranslationTemplate(source: any, existing: any): any {
-	if (typeof source === 'string') {
-		if (typeof existing === 'string' && existing.trim() !== '' && !existing.includes('[TODO:')) {
-			return existing;
-		}
-		return `[TODO: TRANSLATE] ${source}`;
-	}
-	if (Array.isArray(source)) {
-		const result = [];
-		const existArr = Array.isArray(existing) ? existing : [];
-		for (let i = 0; i < source.length; i++) {
-			result.push(generateTranslationTemplate(source[i], existArr[i]));
-		}
-		return result;
-	}
-	if (typeof source === 'object' && source !== null) {
-		const result: Record<string, any> = {};
-		const existObj = typeof existing === 'object' && existing !== null ? existing : {};
-		for (const key of Object.keys(source)) {
-			if (key === 'chargeType' || key === 'recommend' || key === 'url' || key === 'type') {
-				result[key] = source[key];
-			} else {
-				result[key] = generateTranslationTemplate(source[key], existObj[key]);
-			}
-		}
-		return result;
-	}
-	return source;
-}
-
 function printHelp() {
 	console.log(`bat-cli — BAT AI Tools Skill/CLI submit tool
 
@@ -546,15 +418,8 @@ Commands:
   init-site --website <url>    Scaffold ./submits/<host>/base.json + i18n/en.json
   init <submit-dir>            Scaffold base.json + i18n/en.json
   pack <dir> [-o file]  Merge base.json + i18n/*.json → bundle (uploads local logo/screenshot if needed)
-  translate-template <dir> [--from en] [--to all|zh,tw,...]
-                        Generate/merge multi-language translation JSON templates with placeholders
-  fetch-logo --url <url> --dir <dir>  Download logo → local logo.webp (256×256 webp)
   upload-screenshot -f <file> --website <url> [--merge base.json]
   upload-logo -f <file> --website <url> [--merge base.json]
-  capture-screenshot --website <url> --dir <submit-dir> [--url <page>]
-                        Playwright capture → local website-screenshot.png (install: bunx playwright install chromium)
-  capture-screenshot --website <url> --merge base.json
-                        Legacy: capture + upload immediately and set websiteScreenshot in base.json
 
 API endpoint:
   default             ${BAT_API_URL_PRODUCTION} (override via BAT_API_URL env or login --api)

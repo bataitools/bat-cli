@@ -362,4 +362,65 @@ describe('BAT CLI Automated Tests - Validation', () => {
 		const signature2 = await calculateAgentSubmitSignature(payload, timestamp);
 		expect(signature2).toBe(signature);
 	});
+
+	it('should enforce size and format restrictions on assets', async () => {
+		const { ensureLogoUploaded, ensureWebsiteScreenshotUploaded } = require('../src/submit-assets');
+		const fs = require('node:fs');
+		const path = require('node:path');
+
+		const tempDir = path.join(import.meta.dirname, 'temp-assets-test');
+		if (!fs.existsSync(tempDir)) {
+			fs.mkdirSync(tempDir, { recursive: true });
+		}
+
+		// 准备基础的 base.json
+		fs.writeFileSync(path.join(tempDir, 'base.json'), JSON.stringify({ website: 'https://example.com' }));
+
+		// 1. 测试 logo 超过 50KB
+		fs.writeFileSync(path.join(tempDir, 'logo.webp'), Buffer.alloc(60 * 1024)); // 60KB
+		expect(ensureLogoUploaded(tempDir)).rejects.toThrow('exceeds 50KB limit');
+
+		// 清理 logo，放个合规的 logo
+		fs.unlinkSync(path.join(tempDir, 'logo.webp'));
+
+		// 2. 测试 screenshot 超过 200KB
+		fs.writeFileSync(path.join(tempDir, 'website-screenshot.webp'), Buffer.alloc(250 * 1024)); // 250KB WebP
+		expect(ensureWebsiteScreenshotUploaded(tempDir)).rejects.toThrow('exceeds 200KB limit');
+
+		// 清理
+		fs.rmSync(tempDir, { recursive: true, force: true });
+	});
+
+	it('should fail validation when any translation field contains pending placeholders', () => {
+		const { validateAgentSubmitBundle } = require('../src/shared/agent-submit-validation');
+		const { AGENT_REQUIRED_LANGUAGE_CODES } = require('../src/shared/product-languages');
+
+		const mockI18n: any = {};
+		for (const code of AGENT_REQUIRED_LANGUAGE_CODES) {
+			mockI18n[code] = {
+				name: `Name ${code}`,
+				tagline: `This is a unique tagline for code ${code}.`,
+				description: `This is a long unique description for code ${code} that has at least fifty characters.`,
+				coreFeatures: [{ title: `Feature for ${code}`, description: `Description for ${code}` }],
+			};
+		}
+
+		// 在中文包中塞入未翻译占位符
+		mockI18n.zh.description =
+			'[TODO: TRANSLATE_ZH] This is a long unique description for code zh that has at least fifty characters.';
+
+		const bundle = {
+			website: 'https://example.com',
+			logo: 'https://example.com/logo.png',
+			websiteScreenshot: 'https://example.com/screenshot.png',
+			categorys: ['ai-3d-generator'],
+			tags: ['freemium'],
+			audiences: ['developers'],
+			i18n: mockI18n,
+		};
+
+		const res = validateAgentSubmitBundle(bundle);
+		expect(res.ok).toBe(false);
+		expect(res.languageErrors?.zh).toContain('contains pending placeholder');
+	});
 });
