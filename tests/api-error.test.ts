@@ -24,6 +24,20 @@ describe('Agent API error formatting', () => {
 		expect(text).not.toContain('bataitools.com');
 	});
 
+	it('formats known NO_CHANGES_DETECTED with title, summary and steps', () => {
+		const error = AgentApiError.fromResponse(400, {
+			success: false,
+			errorCode: 'NO_CHANGES_DETECTED',
+			errorMsg: 'No changes detected. The submitted content is identical to the listed product information.',
+		});
+		const text = formatAgentApiError(error);
+
+		expect(text).toContain('✗ No changes detected (NO_CHANGES_DETECTED)');
+		expect(text).toContain('The submitted content is identical to the listed product information.');
+		expect(text).toContain('What to do:');
+		expect(text).toContain('1. Modify base.json or i18n translation files');
+	});
+
 	it('falls back to server message for unknown error codes', () => {
 		const error = AgentApiError.fromResponse(400, {
 			success: false,

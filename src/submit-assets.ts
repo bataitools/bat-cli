@@ -1,5 +1,6 @@
-import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync } from 'node:fs';
-import { join } from 'node:path';
+import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync, mkdirSync } from 'node:fs';
+import { join, basename } from 'node:path';
+import { tmpdir } from 'node:os';
 import sharp from 'sharp';
 import { AGENT_LOCAL_LOGO_FILENAME, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, type AgentSubmitBase } from './shared';
 import { uploadLogo, uploadScreenshot } from './client';
@@ -65,19 +66,18 @@ async function prepareLogoUploadPath(submitDir: string, localPath: string): Prom
 		return localPath;
 	}
 
-	const logoWebpPath = join(submitDir, 'logo.webp');
+	const tempDir = join(tmpdir(), 'bat-cli-assets');
+	if (!existsSync(tempDir)) {
+		mkdirSync(tempDir, { recursive: true });
+	}
+	const logoWebpPath = join(tempDir, `${basename(submitDir)}-logo.webp`);
 	try {
 		const buffer = readFileSync(localPath);
 		const pipeline = await sharpFromBuffer(buffer);
-		const tempPath = logoWebpPath + '.tmp';
 		await pipeline
 			.resize(COMPRESS_LOGO_MAX_WIDTH, COMPRESS_LOGO_MAX_HEIGHT, { fit: 'fill' })
 			.webp({ quality: COMPRESS_LOGO_QUALITY })
-			.toFile(tempPath);
-		if (existsSync(logoWebpPath)) {
-			unlinkSync(logoWebpPath);
-		}
-		renameSync(tempPath, logoWebpPath);
+			.toFile(logoWebpPath);
 		return logoWebpPath;
 	} catch (err) {
 		console.error(`[bat-cli:Logo] compression failed for ${localPath}, falling back to original:`, err);
@@ -86,17 +86,16 @@ async function prepareLogoUploadPath(submitDir: string, localPath: string): Prom
 }
 
 async function prepareScreenshotUploadPath(submitDir: string, localPath: string): Promise<string> {
-	const screenshotWebpPath = join(submitDir, 'website-screenshot.webp');
+	const tempDir = join(tmpdir(), 'bat-cli-assets');
+	if (!existsSync(tempDir)) {
+		mkdirSync(tempDir, { recursive: true });
+	}
+	const screenshotWebpPath = join(tempDir, `${basename(submitDir)}-screenshot.webp`);
 	try {
-		const tempPath = screenshotWebpPath + '.tmp';
 		await sharp(localPath)
 			.resize({ width: COMPRESS_SCREENSHOT_MAX_WIDTH, withoutEnlargement: true })
 			.webp({ quality: COMPRESS_SCREENSHOT_QUALITY })
-			.toFile(tempPath);
-		if (existsSync(screenshotWebpPath)) {
-			unlinkSync(screenshotWebpPath);
-		}
-		renameSync(tempPath, screenshotWebpPath);
+			.toFile(screenshotWebpPath);
 		return screenshotWebpPath;
 	} catch (err) {
 		console.error(`[bat-cli:Screenshot] compression failed for ${localPath}, falling back to original:`, err);

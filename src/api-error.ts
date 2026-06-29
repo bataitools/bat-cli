@@ -19,6 +19,14 @@ interface AgentErrorDefinition {
 
 /** Agent API 已知错误码 → CLI 友好展示（errorCode 由后端返回，文案由 CLI 维护） */
 const AGENT_ERROR_CATALOG: Record<string, AgentErrorDefinition> = {
+	NO_CHANGES_DETECTED: {
+		title: 'No changes detected',
+		summary: 'The submitted content is identical to the listed product information.',
+		steps: [
+			'Modify base.json or i18n translation files in your submit directory to update the agent',
+			'Make sure you have saved the files before submitting again',
+		],
+	},
 	PRODUCT_UPDATE_FORBIDDEN: {
 		title: 'Cannot update this product',
 		summary: 'Guest accounts can only update unowned products they submitted in the same guest session.',
