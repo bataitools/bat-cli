@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.12.0](https://github.com/bataitools/bat-cli/compare/v1.11.0...v1.12.0) (2026-06-29)
+
+
+### Features
+
+* add upload-logo CLI command, optimize image processing, and update screenshot capture logic ([a3588d0](https://github.com/bataitools/bat-cli/commit/a3588d0e81ad384f01128d23f2b24b970a50024d))
+
 # [1.11.0](https://github.com/bataitools/bat-cli/compare/v1.10.0...v1.11.0) (2026-06-29)
 
 
