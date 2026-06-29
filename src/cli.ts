@@ -37,6 +37,17 @@ async function main() {
 
 	const [command, ...args] = process.argv.slice(2);
 
+	if (command === 'version' || command === '--version' || command === '-v') {
+		try {
+			const pkgPath = resolve(import.meta.dirname, '../package.json');
+			const pkg = JSON.parse(readFileSync(pkgPath, 'utf-8'));
+			console.log(pkg.version);
+		} catch {
+			console.log('1.10.0');
+		}
+		return;
+	}
+
 	if (!command || command === 'help' || command === '--help') {
 		printHelp();
 		return;
