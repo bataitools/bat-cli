@@ -563,40 +563,14 @@ export function validateAgentSubmitPhase1(
 	const enErr = validateI18nEntry('en', enEntry, enEntry);
 	if (enErr) languageErrors.en = enErr;
 
-	const hasRemoteScreenshot = Boolean(resolveWebsiteScreenshot(b));
-	const hasLocalScreenshot = context?.localWebsiteScreenshot === true;
-	if (!hasRemoteScreenshot && !hasLocalScreenshot) {
-		return {
-			ok: false,
-			items: [],
-			errors: {
-				websiteScreenshot:
-					'websiteScreenshot URL in base.json or local website-screenshot.png is required (run capture-screenshot first)',
-			},
-			languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
-			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
-		};
-	}
-
-	const hasRemoteLogo = Boolean(resolveRemoteLogo(b));
-	const hasLocalLogo = context?.localLogo === true;
-	if (!hasRemoteLogo && !hasLocalLogo) {
-		return {
-			ok: false,
-			items: [],
-			errors: {
-				logo: 'logo URL in base.json or local logo file (svg/webp/png/jpg) is required (run fetch-logo first)',
-			},
-			languageErrors: Object.keys(languageErrors).length > 0 ? languageErrors : undefined,
-			warnings: Object.keys(warnings).length > 0 ? warnings : undefined,
-		};
-	}
-
 	normalizeProductMediaList(b.productMedia);
 
 	const postForChecklist = agentBundleToEnPost(b);
-	if (!resolveRemoteLogo(b) && context?.localLogo) {
+	if (!resolveRemoteLogo(b)) {
 		postForChecklist.logo = 'local://logo.webp';
+	}
+	if (!resolveWebsiteScreenshot(b)) {
+		postForChecklist.websiteScreenshot = 'local://website-screenshot.png';
 	}
 
 	const baseResult = buildSubmitChecklistFromPost(postForChecklist, {

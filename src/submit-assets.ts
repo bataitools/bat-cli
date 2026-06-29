@@ -1,7 +1,13 @@
-import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, renameSync, unlinkSync, mkdirSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import { tmpdir } from 'node:os';
 import sharp from 'sharp';
+try {
+	sharp.cache(false);
+	sharp.concurrency(1);
+} catch {
+	// ignore
+}
 import { AGENT_LOCAL_LOGO_FILENAME, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, type AgentSubmitBase } from './shared';
 import { uploadLogo, uploadScreenshot } from './client';
 import { sharpFromBuffer } from './logo-process';
@@ -66,6 +72,19 @@ async function prepareLogoUploadPath(submitDir: string, localPath: string): Prom
 		return localPath;
 	}
 
+	try {
+		const stats = statSync(localPath);
+		const ext = localPath.split('.').pop()?.toLowerCase() || '';
+		if (stats.size < 200 * 1024 && ['webp', 'png', 'jpg', 'jpeg'].includes(ext)) {
+			console.error(
+				`[bat-cli:Logo] file size is ${stats.size} bytes (< 200KB), skipping sharp compression to prevent OOM.`,
+			);
+			return localPath;
+		}
+	} catch {
+		// ignore stat error
+	}
+
 	const tempDir = join(tmpdir(), 'bat-cli-assets');
 	if (!existsSync(tempDir)) {
 		mkdirSync(tempDir, { recursive: true });
@@ -86,6 +105,19 @@ async function prepareLogoUploadPath(submitDir: string, localPath: string): Prom
 }
 
 async function prepareScreenshotUploadPath(submitDir: string, localPath: string): Promise<string> {
+	try {
+		const stats = statSync(localPath);
+		const ext = localPath.split('.').pop()?.toLowerCase() || '';
+		if (stats.size < 1024 * 1024 && ['webp', 'png', 'jpg', 'jpeg'].includes(ext)) {
+			console.error(
+				`[bat-cli:Screenshot] file size is ${stats.size} bytes (< 1MB), skipping sharp compression to prevent OOM.`,
+			);
+			return localPath;
+		}
+	} catch {
+		// ignore stat error
+	}
+
 	const tempDir = join(tmpdir(), 'bat-cli-assets');
 	if (!existsSync(tempDir)) {
 		mkdirSync(tempDir, { recursive: true });

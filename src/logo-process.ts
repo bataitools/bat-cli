@@ -2,6 +2,12 @@ import { mkdirSync } from 'node:fs';
 import { dirname } from 'node:path';
 import decodeIco from 'decode-ico';
 import sharp from 'sharp';
+try {
+	sharp.cache(false);
+	sharp.concurrency(1);
+} catch {
+	// ignore
+}
 
 const LOGO_USER_AGENT =
 	'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36';

@@ -44,7 +44,8 @@ export async function captureWebsiteScreenshot(url: string): Promise<Buffer> {
 		console.log(`📸 Capturing screenshot for ${target}...`);
 		try {
 			const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
-			await page.goto(target, { waitUntil: 'networkidle', timeout: 60_000 });
+			await page.goto(target, { waitUntil: 'load', timeout: 30_000 });
+			await page.waitForTimeout(2000);
 			await page.screenshot({ path: tmpPath, fullPage: false, type: 'png' });
 		} finally {
 			await browser.close();

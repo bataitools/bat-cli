@@ -5,7 +5,15 @@ import { join, resolve } from 'node:path';
 import readline from 'node:readline';
 import { validateAgentSubmitBundle, AGENT_REQUIRED_LANGUAGE_CODES } from './shared';
 import { printCliError } from './api-error';
-import { fetchSchema, getSubmitStatus, publishSubmit, submitBundle, uploadScreenshot, listSubmits } from './client';
+import {
+	fetchSchema,
+	getSubmitStatus,
+	publishSubmit,
+	submitBundle,
+	uploadScreenshot,
+	uploadLogo,
+	listSubmits,
+} from './client';
 import {
 	BAT_API_URL_PRODUCTION,
 	BAT_API_URL_DEVELOPMENT,
@@ -229,6 +237,18 @@ async function main() {
 				}
 				break;
 			}
+			case 'upload-logo': {
+				const opts = parseLogoArgs(args);
+				const data = await uploadLogo({
+					filePath: opts.file,
+					website: opts.website,
+				});
+				console.log(JSON.stringify(data, null, 2));
+				if (opts.mergeFile) {
+					mergeLogoIntoFile(opts.mergeFile, data.path);
+				}
+				break;
+			}
 			case 'capture-screenshot': {
 				const opts = parseCaptureArgs(args);
 				const buffer = await captureWebsiteScreenshot(opts.url);
@@ -402,6 +422,16 @@ function parseScreenshotArgs(args: string[]) {
 	return { file, website, mergeFile };
 }
 
+function parseLogoArgs(args: string[]) {
+	const file = readFlag(args, '-f') ?? readFlag(args, '--file');
+	const website = readFlag(args, '--website');
+	const mergeFile = readFlag(args, '--merge');
+	if (!file || !website) {
+		throw new Error('Usage: bat-cli upload-logo -f <file.png> --website <url> [--merge base.json]');
+	}
+	return { file, website, mergeFile };
+}
+
 function parseCaptureArgs(args: string[]) {
 	const website = readFlag(args, '--website');
 	const url = readFlag(args, '--url') ?? website;
@@ -431,6 +461,13 @@ function mergeScreenshotIntoFile(file: string, path: string) {
 	delete bundle.screenshots;
 	writeFileSync(file, JSON.stringify(bundle, null, 2));
 	console.log(`[bat-cli] merged websiteScreenshot into ${file}`);
+}
+
+function mergeLogoIntoFile(file: string, path: string) {
+	const bundle = JSON.parse(readFileSync(file, 'utf-8')) as Record<string, unknown>;
+	bundle.logo = path;
+	writeFileSync(file, JSON.stringify(bundle, null, 2));
+	console.log(`[bat-cli] merged logo into ${file}`);
 }
 
 function printSchemaTable(schema: any) {
@@ -513,6 +550,7 @@ Commands:
                         Generate/merge multi-language translation JSON templates with placeholders
   fetch-logo --url <url> --dir <dir>  Download logo → local logo.webp (256×256 webp)
   upload-screenshot -f <file> --website <url> [--merge base.json]
+  upload-logo -f <file> --website <url> [--merge base.json]
   capture-screenshot --website <url> --dir <submit-dir> [--url <page>]
                         Playwright capture → local website-screenshot.png (install: bunx playwright install chromium)
   capture-screenshot --website <url> --merge base.json
