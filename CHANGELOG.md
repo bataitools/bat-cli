@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.11.0](https://github.com/bataitools/bat-cli/compare/v1.10.0...v1.11.0) (2026-06-29)
+
+
+### Features
+
+* add i18n support for CodeBuddy samples and implement push-samples utility script ([c458d8e](https://github.com/bataitools/bat-cli/commit/c458d8e50c337673e4268040f748aa680ae6b08d))
+* add internationalized website samples and infrastructure for documentation syncing ([54a7308](https://github.com/bataitools/bat-cli/commit/54a73080b8ed059c9e2fe121efaec1695ed8a296))
+* add version command, update sample metadata assets, and include cleanup utility script ([adfab7c](https://github.com/bataitools/bat-cli/commit/adfab7cb5c1f6ca84950f0f8a7b3ecc34ad31e82))
+* handle NO_CHANGES_DETECTED API errors, optimize asset compression to use system temp directory, and update sample assets ([07931b8](https://github.com/bataitools/bat-cli/commit/07931b8ec59561aaf25659f8aec840e37e0baf91))
+* implement agent API error handling, request signing, and update sample metadata files ([bb518a2](https://github.com/bataitools/bat-cli/commit/bb518a276596de4970e17ee986847d14609ab2d7))
+* isolate credentials by environment and update sample assets ([ae6c6a2](https://github.com/bataitools/bat-cli/commit/ae6c6a2a78d93f2ce783b4b16bfb8643f5033ecc))
+
 # [1.10.0](https://github.com/bataitools/bat-cli/compare/v1.9.1...v1.10.0) (2026-06-26)
 
 
