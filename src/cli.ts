@@ -30,6 +30,9 @@ async function main() {
 		if (!process.env.BAT_API_URL) {
 			process.env.BAT_API_URL = BAT_API_URL_DEVELOPMENT;
 		}
+		if (!process.env.BAT_ENV) {
+			process.env.BAT_ENV = 'dev';
+		}
 	}
 
 	const [command, ...args] = process.argv.slice(2);

@@ -136,6 +136,7 @@ async function main() {
 	}
 
 	process.env.BAT_API_URL = apiUrl;
+	process.env.BAT_ENV = options.env;
 
 	const sampleDirs = discoverSampleDirs(options.only);
 	if (sampleDirs.length === 0) {

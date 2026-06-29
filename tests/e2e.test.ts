@@ -167,6 +167,7 @@ describe('BAT CLI E2E Tests', () => {
 				HOME: tempHome,
 				USERPROFILE: tempHome,
 				BAT_API_URL: 'http://localhost:6665',
+				BAT_ENV: 'test',
 			},
 			stdout: 'pipe',
 			stderr: 'pipe',
@@ -197,7 +198,7 @@ describe('BAT CLI E2E Tests', () => {
 		const proc = await runCli(['login', 'guest']);
 		expect(proc.success).toBe(true);
 
-		const credPath = join(tempHome, '.bat-cli/credentials.json');
+		const credPath = join(tempHome, '.bat-cli/credentials-dev.json');
 		expect(existsSync(credPath)).toBe(true);
 		const creds = JSON.parse(readFileSync(credPath, 'utf-8'));
 		expect(creds.token).toBe('mock-guest-token');
@@ -213,7 +214,7 @@ describe('BAT CLI E2E Tests', () => {
 	it('should logout and allow login again', async () => {
 		const logoutProc = await runCli(['logout']);
 		expect(logoutProc.success).toBe(true);
-		expect(existsSync(join(tempHome, '.bat-cli/credentials.json'))).toBe(false);
+		expect(existsSync(join(tempHome, '.bat-cli/credentials-dev.json'))).toBe(false);
 
 		const loginProc = await runCli(['login', 'guest']);
 		expect(loginProc.success).toBe(true);

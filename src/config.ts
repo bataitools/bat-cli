@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, unlinkSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join } from 'node:path';
+import { join, basename } from 'node:path';
 import { AgentApiEnvelope, throwAgentApiError } from './api-error';
 import { signAgentRequest } from './agent-sign';
 
@@ -21,7 +21,13 @@ try {
 	// 静默失败
 }
 
-const CREDENTIALS_FILE = join(CONFIG_DIR, 'credentials.json');
+export function getCredentialsFile(): string {
+	const env = (process.env.BAT_ENV || process.env.APP_ENV || process.env.NODE_ENV || '').trim().toLowerCase();
+	if (env === 'dev' || env === 'development' || env === 'test') {
+		return join(CONFIG_DIR, 'credentials-dev.json');
+	}
+	return join(CONFIG_DIR, 'credentials.json');
+}
 
 export const ALREADY_LOGGED_IN_MSG = 'Already logged in. Run `bat-cli logout` before logging in again.';
 
@@ -41,9 +47,10 @@ interface AutoLoginResponse {
 }
 
 function readCredentialsFile(): CredentialsFile {
-	if (!existsSync(CREDENTIALS_FILE)) return {};
+	const file = getCredentialsFile();
+	if (!existsSync(file)) return {};
 	try {
-		return JSON.parse(readFileSync(CREDENTIALS_FILE, 'utf-8')) as CredentialsFile;
+		return JSON.parse(readFileSync(file, 'utf-8')) as CredentialsFile;
 	} catch {
 		return {};
 	}
@@ -53,7 +60,8 @@ function writeCredentialsFile(data: CredentialsFile) {
 	if (!existsSync(CONFIG_DIR)) {
 		mkdirSync(CONFIG_DIR, { recursive: true });
 	}
-	writeFileSync(CREDENTIALS_FILE, JSON.stringify(data, null, 2), 'utf-8');
+	const file = getCredentialsFile();
+	writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 /** 解析 API 基址：BAT_API_URL 环境变量 > credentials.apiUrl > 生产默认 */
@@ -79,9 +87,10 @@ export function assertNotLoggedIn(): void {
 }
 
 export function logout(): void {
-	if (existsSync(CREDENTIALS_FILE)) {
-		unlinkSync(CREDENTIALS_FILE);
-		console.log(`[bat-cli] logged out (removed ${CREDENTIALS_FILE})`);
+	const file = getCredentialsFile();
+	if (existsSync(file)) {
+		unlinkSync(file);
+		console.log(`[bat-cli] logged out (removed ${file})`);
 		return;
 	}
 	console.log('[bat-cli] not logged in');
@@ -98,7 +107,8 @@ export function saveToken(token: string, apiUrl?: string) {
 	}
 
 	writeCredentialsFile(newCreds);
-	console.log(`[bat-cli] credentials saved to ${CREDENTIALS_FILE}`);
+	const file = getCredentialsFile();
+	console.log(`[bat-cli] credentials saved to ${file}`);
 	console.log(`[bat-cli] api: ${getApiUrl()}`);
 }
 
@@ -138,8 +148,9 @@ export async function autoLogin(apiUrl?: string): Promise<string> {
 	console.log(
 		`[bat-cli] auto-login guest userId=${body.data.userId} completed in ${(performance.now() - started).toFixed(0)}ms`,
 	);
+	const file = getCredentialsFile();
 	console.log(
-		'[bat-cli] tip: credentials saved to ~/.bat-cli/credentials.json — use bat-cli login for a formal account on other devices',
+		`[bat-cli] tip: credentials saved to ~/.bat-cli/${basename(file)} — use bat-cli login for a formal account on other devices`,
 	);
 	return body.data.key;
 }
