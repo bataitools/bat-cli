@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync, renameSync, unlinkSync } from 'node:fs';
 import { homedir } from 'node:os';
-import { join, basename } from 'node:path';
+import { join, basename, resolve } from 'node:path';
 import { AgentApiEnvelope, throwAgentApiError } from './api-error';
 import { signAgentRequest } from './agent-sign';
 
@@ -8,7 +8,42 @@ import { signAgentRequest } from './agent-sign';
 export const BAT_API_URL_PRODUCTION = 'https://api.bataitools.com';
 export const BAT_API_URL_DEVELOPMENT = 'https://api-dev.bataitools.com';
 
-const CONFIG_DIR = join(homedir(), '.bat-cli');
+function isDirectoryWritable(dir: string): boolean {
+	try {
+		if (!existsSync(dir)) {
+			mkdirSync(dir, { recursive: true });
+		}
+		const testFile = join(dir, `.write-test-${Date.now()}`);
+		writeFileSync(testFile, 'test', 'utf-8');
+		unlinkSync(testFile);
+		return true;
+	} catch {
+		return false;
+	}
+}
+
+function resolveConfigDir(): string {
+	// 1. 首选: Home 目录
+	const homePath = join(homedir(), '.bat-cli');
+	if (isDirectoryWritable(homePath)) {
+		return homePath;
+	}
+
+	// 2. 次选: CLI 所在目录 (根目录下)
+	try {
+		const cliRootPath = resolve(import.meta.dirname, '..', '.bat-cli');
+		if (isDirectoryWritable(cliRootPath)) {
+			return cliRootPath;
+		}
+	} catch {
+		// ignore
+	}
+
+	// 3. 备选: 默认 HomePath
+	return homePath;
+}
+
+const CONFIG_DIR = resolveConfigDir();
 const OLD_CONFIG_DIR = join(homedir(), '.bat-agent');
 
 // 自动迁移老凭证目录
@@ -46,6 +81,9 @@ interface AutoLoginResponse {
 	accountType: 'guest';
 }
 
+let memoryToken: string | null = null;
+let memoryApiUrl: string | null = null;
+
 function readCredentialsFile(): CredentialsFile {
 	const file = getCredentialsFile();
 	if (!existsSync(file)) return {};
@@ -57,17 +95,27 @@ function readCredentialsFile(): CredentialsFile {
 }
 
 function writeCredentialsFile(data: CredentialsFile) {
-	if (!existsSync(CONFIG_DIR)) {
-		mkdirSync(CONFIG_DIR, { recursive: true });
+	try {
+		if (!existsSync(CONFIG_DIR)) {
+			mkdirSync(CONFIG_DIR, { recursive: true });
+		}
+		const file = getCredentialsFile();
+		writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
+	} catch (err) {
+		console.warn(
+			`[bat-cli] Warning: Failed to write credentials file to disk. Falling back to memory state. Error: ${String(err)}`,
+		);
+		if (data.token) memoryToken = data.token;
+		if (data.apiUrl) memoryApiUrl = data.apiUrl;
 	}
-	const file = getCredentialsFile();
-	writeFileSync(file, JSON.stringify(data, null, 2), 'utf-8');
 }
 
 /** 解析 API 基址：BAT_API_URL 环境变量 > credentials.apiUrl > 生产默认 */
 export function getApiUrl(): string {
 	const fromEnv = process.env.BAT_API_URL?.trim();
 	if (fromEnv) return fromEnv.replace(/\/+$/, '');
+
+	if (memoryApiUrl) return memoryApiUrl.replace(/\/+$/, '');
 
 	const fromFile = readCredentialsFile().apiUrl?.trim();
 	if (fromFile) return fromFile.replace(/\/+$/, '');
@@ -113,6 +161,11 @@ export function saveToken(token: string, apiUrl?: string) {
 }
 
 export function loadToken(): string | null {
+	const fromEnv = (process.env.BAT_TOKEN || process.env.BAT_API_KEY || '').trim();
+	if (fromEnv) return fromEnv;
+
+	if (memoryToken) return memoryToken;
+
 	const token = readCredentialsFile().token?.trim();
 	return token || null;
 }
