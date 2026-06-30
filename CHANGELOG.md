@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.2](https://github.com/bataitools/bat-cli/compare/v1.12.1...v1.12.2) (2026-06-30)
+
+
+### Bug Fixes
+
+* ensure FormData body is defined in client requests and add explicit type annotation for pricing iteration ([0c6cdfd](https://github.com/bataitools/bat-cli/commit/0c6cdfd7ee71e78da2c5e03dcd8d1127dbca8af2))
+
 ## [1.12.1](https://github.com/bataitools/bat-cli/compare/v1.12.0...v1.12.1) (2026-06-30)
 
 
