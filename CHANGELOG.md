@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.13.0](https://github.com/bataitools/bat-cli/compare/v1.12.2...v1.13.0) (2026-06-30)
+
+
+### Features
+
+* add asset management CLI tools for capturing website screenshots and fetching/compressing logos with automated optimization during upload ([57012ca](https://github.com/bataitools/bat-cli/commit/57012caa925f25399bf962e21950f9acfafdffbf))
+
 ## [1.12.2](https://github.com/bataitools/bat-cli/compare/v1.12.1...v1.12.2) (2026-06-30)
 
 
