@@ -95,7 +95,7 @@ export function loadSubmitDirectory(dir: string): AgentSubmitBundle {
 			}
 
 			if (Array.isArray(entry.pricing)) {
-				entry.pricing.forEach((item, i) => {
+				entry.pricing.forEach((item: any, i) => {
 					if (item && Array.isArray(item.features) && item.features.length > 20) {
 						console.warn(
 							`\x1b[33m[WARNING]\x1b[0m Too many features (${item.features.length}) in i18n/${lang}.json pricing[${i}], automatically keeping the first 20.`,

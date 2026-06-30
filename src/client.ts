@@ -54,11 +54,13 @@ async function postAgentAsset(
 	const qs = new URLSearchParams({ website });
 	const signHeaders = await signAgentRequest('POST', apiPath, qs.toString());
 
-	let body: BodyInit | undefined;
+	let body: BodyInit;
 	if (file) {
 		const form = new FormData();
-		form.append('file', new Blob([file.buffer], { type: file.mime }), file.filename);
+		form.append('file', new Blob([new Uint8Array(file.buffer)], { type: file.mime }), file.filename);
 		body = form;
+	} else {
+		body = new FormData();
 	}
 
 	const res = await fetch(`${base}${apiPath}?${qs.toString()}`, {
