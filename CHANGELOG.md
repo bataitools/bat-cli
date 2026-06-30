@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.1](https://github.com/bataitools/bat-cli/compare/v1.12.0...v1.12.1) (2026-06-30)
+
+
+### Bug Fixes
+
+* override error summary with server message, simplify environment credential lookup, and update base config formatting ([1b90d01](https://github.com/bataitools/bat-cli/commit/1b90d0197e40ca5fdfa731af81b2387a11409349))
+
 # [1.12.0](https://github.com/bataitools/bat-cli/compare/v1.11.0...v1.12.0) (2026-06-29)
 
 
