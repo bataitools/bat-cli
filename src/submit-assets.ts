@@ -2,6 +2,8 @@ import { existsSync, readFileSync, writeFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { AGENT_LOCAL_LOGO_FILENAME, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, type AgentSubmitBase } from './shared';
 import { uploadLogo, uploadScreenshot } from './client';
+import { compressLogoToWebp } from './fetch-logo';
+import { compressPngToWebp } from './screenshot';
 
 export { AGENT_LOCAL_LOGO_FILENAME, AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME };
 
@@ -43,25 +45,51 @@ function writeBaseJson(submitDir: string, base: AgentSubmitBase & Record<string,
 	writeFileSync(basePath, `${JSON.stringify(base, null, 2)}\n`, 'utf-8');
 }
 
-function prepareLogoUploadPath(submitDir: string, localPath: string): string {
+async function prepareLogoUploadPath(submitDir: string, localPath: string): Promise<string> {
 	const stats = statSync(localPath);
-	if (stats.size > 50 * 1024) {
+	const ext = localPath.split('.').pop()?.toLowerCase() || '';
+	if ((stats.size > 20 * 1024 && ext !== 'svg') || (ext !== 'webp' && ext !== 'svg')) {
+		const destPath = join(submitDir, 'logo.webp');
+		console.error(
+			`[bat-cli] Local logo size (${(stats.size / 1024).toFixed(1)} KB) or format (.${ext}) requires optimization. Compressing...`,
+		);
+		const ok = await compressLogoToWebp(localPath, destPath, 128);
+		if (ok && existsSync(destPath)) {
+			return destPath;
+		}
+	}
+	const finalStats = statSync(localPath);
+	if (finalStats.size > 50 * 1024) {
 		throw new Error(
-			`Logo file size (${(stats.size / 1024).toFixed(1)} KB) exceeds 50KB limit. Please compress it first.`,
+			`Logo file size (${(finalStats.size / 1024).toFixed(1)} KB) exceeds 50KB limit. Please compress it first.`,
 		);
 	}
 	return localPath;
 }
 
-function prepareScreenshotUploadPath(submitDir: string, localPath: string): string {
+async function prepareScreenshotUploadPath(submitDir: string, localPath: string): Promise<string> {
 	const stats = statSync(localPath);
 	const ext = localPath.split('.').pop()?.toLowerCase() || '';
-	if (ext !== 'webp') {
-		throw new Error(`Website screenshot must be in WebP format (found .${ext}). Please convert it to WebP first.`);
+	if (ext !== 'webp' || stats.size > 100 * 1024) {
+		const destPath = join(submitDir, 'website-screenshot.webp');
+		console.error(
+			`[bat-cli] Local screenshot size (${(stats.size / 1024).toFixed(1)} KB) or format (.${ext}) requires optimization. Compressing...`,
+		);
+		const ok = await compressPngToWebp(localPath, destPath, 75);
+		if (ok && existsSync(destPath)) {
+			return destPath;
+		}
 	}
-	if (stats.size > 200 * 1024) {
+	const finalStats = statSync(localPath);
+	const finalExt = localPath.split('.').pop()?.toLowerCase() || '';
+	if (finalExt !== 'webp') {
 		throw new Error(
-			`Website screenshot file size (${(stats.size / 1024).toFixed(1)} KB) exceeds 200KB limit. Please compress it first.`,
+			`Website screenshot must be in WebP format (found .${finalExt}). Please convert it to WebP first.`,
+		);
+	}
+	if (finalStats.size > 200 * 1024) {
+		throw new Error(
+			`Website screenshot file size (${(finalStats.size / 1024).toFixed(1)} KB) exceeds 200KB limit. Please compress it first.`,
 		);
 	}
 	return localPath;
@@ -80,7 +108,7 @@ export async function ensureLogoUploaded(submitDir: string): Promise<string> {
 	let data: { path: string; website: string };
 
 	if (existsSync(localPath)) {
-		const uploadPath = prepareLogoUploadPath(submitDir, localPath);
+		const uploadPath = await prepareLogoUploadPath(submitDir, localPath);
 		data = await uploadLogo({ filePath: uploadPath, website: base.website });
 		console.error(
 			`[bat-cli:Logo] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,
@@ -110,7 +138,7 @@ export async function ensureWebsiteScreenshotUploaded(submitDir: string): Promis
 	let data: { path: string; website: string };
 
 	if (existsSync(localPath)) {
-		const uploadPath = prepareScreenshotUploadPath(submitDir, localPath);
+		const uploadPath = await prepareScreenshotUploadPath(submitDir, localPath);
 		data = await uploadScreenshot({ filePath: uploadPath, website: base.website });
 		console.error(
 			`[bat-cli:Screenshot] uploaded ${uploadPath} → ${data.path} in ${(performance.now() - started).toFixed(0)}ms`,

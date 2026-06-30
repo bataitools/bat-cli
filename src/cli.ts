@@ -27,6 +27,8 @@ import { loginWithFormalApiKey } from './verify-api-key';
 import { packSubmitDirectory, validatePhase1Directory } from './pack';
 import { submitDirForWebsite } from './site-dir';
 import { AGENT_LOCAL_WEBSITE_SCREENSHOT_FILENAME, ensureSubmitAssetsUploaded, localLogoPath } from './submit-assets';
+import { captureWebsiteScreenshot } from './screenshot';
+import { downloadAndCompressLogo } from './fetch-logo';
 
 async function main() {
 	// 如果命令行中带有 --dev 标志，则自动将其剔除并切换 API 基址为本地开发服务器
@@ -247,6 +249,26 @@ async function main() {
 				}
 				break;
 			}
+			case 'capture-screenshot': {
+				const website = readFlag(args, '--website') ?? args[0];
+				const dir = readFlag(args, '--dir') ?? args[1] ?? '.';
+				if (!website) {
+					throw new Error('Usage: bat-cli capture-screenshot --website <url> --dir <submit-dir>');
+				}
+				const dest = join(resolve(dir), 'website-screenshot.webp');
+				await captureWebsiteScreenshot(website, dest);
+				break;
+			}
+			case 'fetch-logo': {
+				const url = readFlag(args, '--url') ?? args[0];
+				const dir = readFlag(args, '--dir') ?? args[1] ?? '.';
+				if (!url) {
+					throw new Error('Usage: bat-cli fetch-logo --url <logo-url> --dir <submit-dir>');
+				}
+				const dest = join(resolve(dir), 'logo.webp');
+				await downloadAndCompressLogo(url, dest);
+				break;
+			}
 			case 'pack': {
 				let dir = args[0];
 				const out = readFlag(args, '-o') ?? readFlag(args, '--out');
@@ -418,6 +440,8 @@ Commands:
   init-site --website <url>    Scaffold ./submits/<host>/base.json + i18n/en.json
   init <submit-dir>            Scaffold base.json + i18n/en.json
   pack <dir> [-o file]  Merge base.json + i18n/*.json → bundle (uploads local logo/screenshot if needed)
+  capture-screenshot --website <url> [--dir dir]  Capture 1080p WebP screenshot of website
+  fetch-logo --url <url> [--dir dir]             Download and compress remote logo to logo.webp
   upload-screenshot -f <file> --website <url> [--merge base.json]
   upload-logo -f <file> --website <url> [--merge base.json]
 
