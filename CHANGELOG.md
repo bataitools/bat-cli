@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.14.0](https://github.com/bataitools/bat-cli/compare/v1.13.0...v1.14.0) (2026-06-30)
+
+
+### Features
+
+* add resilient config directory resolution and memory-based fallback for credentials ([62884b5](https://github.com/bataitools/bat-cli/commit/62884b5d4a37e6d27e1351c12db3c7666037f14c))
+
 # [1.13.0](https://github.com/bataitools/bat-cli/compare/v1.12.2...v1.13.0) (2026-06-30)
 
 
