@@ -113,6 +113,12 @@ export class AgentApiError extends Error {
 function resolveAgentErrorPresentation(code: string, serverMessage?: string): AgentErrorPresentation {
 	const known = AGENT_ERROR_CATALOG[code];
 	if (known) {
+		if (serverMessage?.trim()) {
+			return {
+				...known,
+				summary: serverMessage.trim(),
+			};
+		}
 		return known;
 	}
 	if (code === '401' && serverMessage === 'Unauthorized') {

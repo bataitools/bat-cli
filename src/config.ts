@@ -22,7 +22,7 @@ try {
 }
 
 export function getCredentialsFile(): string {
-	const env = (process.env.BAT_ENV || process.env.APP_ENV || process.env.NODE_ENV || '').trim().toLowerCase();
+	const env = (process.env.BAT_ENV || '').trim().toLowerCase();
 	if (env === 'dev' || env === 'development' || env === 'test') {
 		return join(CONFIG_DIR, 'credentials-dev.json');
 	}
